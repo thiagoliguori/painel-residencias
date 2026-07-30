@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel das Residências Caveo</title>
+<meta name="description" content="Painel das Residências Caveo powered by Turi Saúde: todos os concursos de residência médica do ciclo 2026/2027 em um só lugar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#3d4a5c;
+  --slate-dark:#2c3847;
+  --slate-mid:#5a6b80;
+  --grad-a:#8be09a;
+  --grad-b:#4fd4e8;
+  --grad:linear-gradient(120deg,#8be09a,#4fd4e8);
+  --teal-ink:#0f4c43;
+  --bg:#f4f8fa;
+  --card:#ffffff;
+  --line:#e3ebf1;
+  --ok:#1a9d5c;
+  --ok-bg:#e3f7ec;
+  --warn:#b96a00;
+  --warn-bg:#fdf1de;
+  --info:#2563a8;
+  --info-bg:#e6f0fb;
+  --muted:#8494a7;
+  --muted-bg:#eef2f6;
+  --danger:#c0392b;
+  --danger-bg:#fdeaea;
+  --radius:14px;
+  --shadow:0 1px 3px rgba(44,56,71,.07),0 6px 18px rgba(44,56,71,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--slate-dark);font-size:15px;line-height:1.55}
+h1,h2,h3,.brand{font-family:'Nunito',system-ui,sans-serif}
+
+/* ---------- Header (navy oficial Caveo) ---------- */
+header{background:#0a243e;position:sticky;top:0;z-index:50}
+.header-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo-caveo{display:flex;align-items:center}
+.logo-caveo img{height:44px;width:auto;display:block}
+.powered{display:flex;align-items:center;gap:9px;padding-left:16px;border-left:1px solid rgba(255,255,255,.22)}
+.powered small{font-size:10.5px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.logo-turi{display:flex;align-items:center;color:#fff}
+.logo-turi svg{height:16px;width:auto;display:block}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.pill-cycle{background:rgba(255,255,255,.12);color:#fff;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:99px}
+
+/* ---------- Hero ---------- */
+.hero{max-width:1180px;margin:0 auto;padding:34px 24px 8px}
+.hero h1{font-size:30px;font-weight:900;color:var(--slate-dark);letter-spacing:-.4px}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--slate-mid);margin-top:6px;max-width:640px}
+.stats{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 18px;box-shadow:var(--shadow);min-width:130px}
+.stat b{font-size:22px;font-family:'Nunito';font-weight:900;display:block}
+.stat span{font-size:12px;color:var(--muted);font-weight:500}
+.stat.accent b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- Tabs ---------- */
+.tabs{max-width:1180px;margin:26px auto 0;padding:0 24px;display:flex;gap:6px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:none;font-family:'Nunito';font-weight:800;font-size:15px;color:var(--muted);padding:10px 16px 12px;cursor:pointer;border-bottom:3px solid transparent;transition:.15s}
+.tab:hover{color:var(--slate)}
+.tab.active{color:var(--slate-dark);border-image:var(--grad) 1;border-bottom:3px solid;border-image-slice:1}
+.tab .count{background:var(--muted-bg);border-radius:99px;font-size:11.5px;padding:2px 8px;margin-left:5px;font-family:'Inter';font-weight:600}
+.tab.active .count{background:var(--grad);color:#fff}
+
+main{max-width:1180px;margin:0 auto;padding:22px 24px 80px}
+
+/* ---------- Filters ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--slate-dark)}
+.search input:focus{outline:2px solid var(--grad-b);border-color:transparent}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+select{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--slate-dark);cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}
+.chip{border:1px solid var(--line);background:#fff;color:var(--slate-mid);font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--grad-b)}
+.chip.on{background:var(--slate-dark);border-color:var(--slate-dark);color:#fff}
+.result-note{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+/* ---------- Cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px;position:relative;transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(44,56,71,.08),0 12px 28px rgba(44,56,71,.1)}
+.card-top{display:flex;align-items:flex-start;gap:10px}
+.card-top h3{font-size:17px;font-weight:800;letter-spacing:-.2px}
+.card-top .sub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.uf{margin-left:auto;flex-shrink:0;background:var(--muted-bg);color:var(--slate-mid);font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:7px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;width:fit-content}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-open{background:var(--ok-bg);color:var(--ok)}
+.b-soon{background:var(--info-bg);color:var(--info)}
+.b-closed{background:var(--muted-bg);color:var(--slate-mid)}
+.b-wait{background:var(--warn-bg);color:var(--warn)}
+.rows{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.row{display:flex;gap:8px;align-items:baseline}
+.row .lbl{color:var(--muted);width:88px;flex-shrink:0;font-size:12.5px;font-weight:500}
+.row .val{font-weight:600}
+.row .val small{font-weight:500;color:var(--muted)}
+.countdown{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--info-bg);color:var(--info);margin-left:6px;white-space:nowrap}
+.countdown.hot{background:var(--danger-bg);color:var(--danger)}
+.conflict{background:var(--danger-bg);color:var(--danger);border-radius:9px;font-size:12.5px;font-weight:600;padding:8px 11px;display:flex;gap:7px;align-items:flex-start}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:600;color:var(--slate-mid);background:var(--muted-bg);padding:3px 9px;border-radius:6px}
+.card-actions{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.btn{font:inherit;font-weight:700;font-size:13.5px;border-radius:9px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--slate);transition:.15s;flex:1;text-align:center;text-decoration:none}
+.btn:hover{border-color:var(--slate-mid)}
+.btn-follow.on{background:var(--slate-dark);color:#fff;border-color:var(--slate-dark)}
+.btn-primary{background:var(--grad);border:none;color:#0e3d36}
+.btn-primary:hover{filter:brightness(1.05)}
+
+/* ---------- Calendar ---------- */
+.month{margin-bottom:26px}
+.month h2{font-size:17px;font-weight:900;color:var(--slate-dark);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.month h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.events{display:flex;flex-direction:column;gap:8px}
+.event{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 14px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
+.event .date{font-family:'Nunito';font-weight:900;font-size:15px;width:64px;flex-shrink:0;text-align:center;color:var(--slate-dark)}
+.event .date small{display:block;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.event .what{flex:1}
+.event .what b{font-weight:700}
+.event .what span{color:var(--slate-mid);font-size:13px}
+.etype{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;flex-shrink:0}
+.e-prova{background:var(--danger-bg);color:var(--danger)}
+.e-insc{background:var(--ok-bg);color:var(--ok)}
+.e-fim{background:var(--warn-bg);color:var(--warn)}
+.e-edital{background:var(--info-bg);color:var(--info)}
+.event.previsto{border-style:dashed;opacity:.85}
+.event.clash{border-color:#f3b6b0;background:#fffafa}
+.alert-conflitos{background:#fff;border:1px solid #f3b6b0;border-left:4px solid var(--danger);border-radius:11px;padding:14px 16px;margin-bottom:22px}
+.alert-conflitos h3{font-size:14.5px;color:var(--danger);margin-bottom:6px}
+.alert-conflitos p{font-size:13.5px;color:var(--slate-mid)}
+
+/* ---------- Meu plano ---------- */
+.plan-empty{background:#fff;border:1px dashed var(--line);border-radius:var(--radius);padding:44px 24px;text-align:center;color:var(--slate-mid)}
+.plan-empty h3{font-size:18px;color:var(--slate-dark);margin-bottom:6px}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.plan-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.plan-card h3{font-size:16px;margin-bottom:2px}
+.plan-card .next{font-size:12.5px;color:var(--info);font-weight:600;margin-bottom:10px}
+.progress{height:7px;background:var(--muted-bg);border-radius:99px;overflow:hidden;margin:10px 0 14px}
+.progress i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:.3s}
+.check{display:flex;align-items:center;gap:9px;padding:6px 4px;border-radius:8px;cursor:pointer;font-size:13.5px;user-select:none}
+.check:hover{background:var(--bg)}
+.check input{accent-color:#28b98c;width:16px;height:16px;cursor:pointer}
+.check.done{color:var(--muted);text-decoration:line-through}
+.plan-note{font-size:12px;color:var(--muted);margin-top:14px;background:var(--muted-bg);border-radius:8px;padding:8px 11px}
+
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;background:rgba(30,40,52,.45);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:100;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:640px;width:100%;padding:26px;position:relative}
+.modal .close{position:absolute;top:14px;right:14px;background:var(--muted-bg);border:none;width:32px;height:32px;border-radius:8px;font-size:16px;cursor:pointer;color:var(--slate-mid)}
+.modal h2{font-size:21px;margin-bottom:2px}
+.modal .sub{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+.modal .rows{margin:14px 0}
+.modal .row .lbl{width:150px}
+.modal .obs{font-size:13px;color:var(--slate-mid);background:var(--bg);border-radius:10px;padding:11px 13px;margin-top:12px}
+
+footer{border-top:1px solid var(--line);background:#fff;padding:22px 24px;text-align:center;font-size:12.5px;color:var(--muted)}
+footer b{color:var(--slate-mid)}
+.view{display:none}
+.view.active{display:block}
+@media(max-width:640px){
+  .hero h1{font-size:24px}
+  .logo-caveo .word{font-size:25px}
+  .logo-caveo svg{margin-left:47px}
+  .tabs{overflow-x:auto}
+  .row .lbl{width:80px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo-caveo" href="https://lp.caveo.com.br/" target="_blank" rel="noopener" aria-label="Caveo">
+      <img src="assets/caveo-logo.png" alt="Caveo">
+    </a>
+    <div class="powered">
+      <small>powered by</small>
+      <a class="logo-turi" href="https://turisaude.com.br/" target="_blank" rel="noopener" aria-label="Turi Saúde">
+        <svg viewBox="0 0 160 25" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Turi Saúde">
+<path d="M33.363 18.5494C33.5756 19.1959 33.9187 19.7438 34.4035 20.1994C34.9419 20.7053 35.5773 21.034 36.2935 21.2094C36.8369 21.3424 37.3903 21.3974 37.9476 21.3983C38.4974 21.3992 39.0472 21.3796 39.597 21.369C39.6098 21.3687 39.6226 21.3688 39.6354 21.3688C40.2433 21.3667 40.8511 21.3643 41.459 21.363C41.5084 21.3629 41.5578 21.3704 41.6045 21.3741C41.6282 21.5268 41.6331 23.5869 41.6109 23.8069C41.5765 23.8109 41.54 23.819 41.5035 23.819C40.1852 23.8197 38.8667 23.8294 37.5486 23.8166C36.4309 23.8057 35.3504 23.592 34.3262 23.1331C32.8042 22.4513 31.7464 21.3233 31.1285 19.7794C30.8802 19.1588 30.7236 18.5144 30.6604 17.8486C30.6423 17.658 30.6291 17.4661 30.6286 17.2747C30.6259 16.0272 30.6264 14.7796 30.6275 13.532C30.6282 12.7004 30.6316 11.8687 30.6333 11.0371C30.6334 10.9683 30.6296 10.8995 30.6273 10.8205C30.3355 10.8043 30.0554 10.8146 29.7756 10.8128C29.4876 10.8109 29.1996 10.8123 28.9116 10.8123C28.63 10.8123 28.3485 10.8123 28.0669 10.8123C27.7853 10.8123 27.5037 10.8123 27.2221 10.8123C26.9342 10.8123 26.6462 10.8123 26.3582 10.8123C26.0769 10.8123 25.7957 10.8123 25.5066 10.8123C25.4996 10.7751 25.4891 10.7454 25.489 10.7157C25.4881 9.95432 25.4882 9.19298 25.4885 8.43164C25.4886 8.4008 25.4932 8.36996 25.496 8.33472C25.5688 8.30395 25.6398 8.31755 25.7081 8.3175C27.0648 8.31651 28.4215 8.31685 29.7782 8.31652C29.855 8.31651 29.9318 8.31512 30.0084 8.31087C30.3244 8.29334 30.624 8.01258 30.6396 7.67309C30.6426 7.60924 30.6418 7.54519 30.6418 7.48124C30.6419 6.18888 30.6417 4.89651 30.6421 3.60415C30.6421 3.5354 30.6458 3.46664 30.648 3.39039C30.6904 3.38471 30.7209 3.37792 30.7515 3.37695C31.3697 3.35734 32.9636 3.36915 33.14 3.39574C33.1649 3.45796 33.1527 3.5286 33.1528 3.59657C33.1537 4.70979 33.1534 5.82301 33.1534 6.93623C33.1534 7.3265 33.1534 7.71676 33.1534 8.10703C33.1534 8.1698 33.1534 8.23256 33.1534 8.30678C33.2215 8.31057 33.2771 8.31631 33.3328 8.31636C34.0175 8.31697 34.7023 8.31676 35.387 8.31676C37.3901 8.31676 39.3932 8.3167 41.3963 8.31701C41.4654 8.31702 41.5344 8.32064 41.6004 8.3225C41.6322 8.48564 41.6433 10.269 41.6176 10.7947C41.5838 10.8003 41.5481 10.8094 41.512 10.8115C41.4609 10.8145 41.4096 10.8123 41.3584 10.8123C38.6962 10.8123 36.0339 10.8123 33.3717 10.8125C33.2961 10.8125 33.2206 10.8154 33.1334 10.8172C33.1295 10.8636 33.1237 10.9 33.1237 10.9364C33.1233 12.3695 33.1224 13.8026 33.124 15.2357C33.1244 15.5874 33.1267 15.9393 33.1394 16.2906C33.1569 16.7757 33.1813 17.2607 33.2104 17.7453C33.2265 18.0137 33.2756 18.2779 33.363 18.5494Z" fill="currentColor"></path>
+<path d="M55.2911 23.6251C55.2911 22.8964 55.2913 22.1863 55.2908 21.4761C55.2907 21.4187 55.2915 21.3604 55.2823 21.3041C55.2694 21.2251 55.1964 21.1822 55.1237 21.2174C55.0684 21.2442 55.0125 21.2843 54.9763 21.3329C54.9157 21.4143 54.8624 21.5035 54.8203 21.5958C54.2175 22.9169 52.9149 23.8719 51.4574 24.1208C50.9834 24.2017 50.506 24.2181 50.0244 24.1794C49.0685 24.1026 48.1679 23.8412 47.3149 23.4079C46.7693 23.1307 46.2731 22.7833 45.841 22.3494C45.3583 21.8646 44.9784 21.3064 44.686 20.6882C44.3669 20.0135 44.1583 19.3051 44.0335 18.5704C43.9293 17.9576 43.8808 17.341 43.8813 16.7191C43.8838 14.0001 43.8823 11.2811 43.8828 8.56211C43.8828 8.48695 43.8745 8.41058 43.8923 8.33898C44.058 8.31207 46.1465 8.31116 46.3211 8.33824C46.3244 8.37857 46.3309 8.42166 46.3309 8.46476C46.3315 9.33484 46.3426 10.2051 46.329 11.075C46.3021 12.7956 46.317 14.5163 46.3205 16.2369C46.3216 16.7984 46.3298 17.3618 46.3851 17.9221C46.4304 18.3811 46.5063 18.8341 46.6703 19.2683C46.9819 20.093 47.5343 20.7071 48.3013 21.1327C48.7526 21.3831 49.2369 21.5401 49.7426 21.6361C50.2678 21.7357 50.7972 21.7567 51.3277 21.7067C52.0548 21.6383 52.7465 21.4466 53.3799 21.0718C54.2123 20.5792 54.7551 19.8645 55.0131 18.9336C55.1209 18.5443 55.1757 18.1459 55.2102 17.744C55.2508 17.272 55.2505 16.7989 55.2518 16.326C55.2568 14.554 55.2595 12.782 55.2604 11.0099C55.2609 10.1911 55.2555 9.37238 55.2528 8.55361C55.2525 8.48407 55.2527 8.41454 55.2527 8.33635C55.2929 8.32928 55.3227 8.31949 55.3525 8.31946C56.1074 8.31869 56.8623 8.3189 57.6173 8.31933C57.636 8.31935 57.6547 8.32395 57.6849 8.3279C57.6908 8.36154 57.7005 8.39692 57.7027 8.43276C57.7059 8.48375 57.7036 8.53507 57.7036 8.58626C57.7036 10.0961 57.7028 11.606 57.7038 13.1158C57.7052 15.4317 57.7073 17.7475 57.7102 20.0634C57.7116 21.2405 57.7154 22.4175 57.7181 23.5945C57.7183 23.6638 57.7181 23.7331 57.7181 23.7909C57.6987 23.8059 57.694 23.8104 57.6885 23.8135C57.6832 23.8165 57.6772 23.8201 57.6715 23.8201C56.9038 23.8211 56.1361 23.8219 55.3684 23.822C55.3502 23.822 55.3321 23.8153 55.3012 23.8091C55.2979 23.7545 55.2945 23.6991 55.2911 23.6251Z" fill="currentColor"></path>
+<path d="M126.635 23.6251C126.635 22.8964 126.635 22.1863 126.635 21.4761C126.634 21.4187 126.635 21.3604 126.626 21.3041C126.613 21.2251 126.54 21.1822 126.467 21.2174C126.412 21.2442 126.356 21.2843 126.32 21.3329C126.259 21.4143 126.206 21.5035 126.164 21.5958C125.561 22.9169 124.259 23.8719 122.801 24.1208C122.327 24.2017 121.85 24.2181 121.368 24.1794C120.412 24.1026 119.512 23.8412 118.659 23.4079C118.113 23.1307 117.617 22.7833 117.185 22.3494C116.702 21.8646 116.322 21.3064 116.03 20.6882C115.711 20.0135 115.502 19.3051 115.377 18.5704C115.273 17.9576 115.225 17.341 115.225 16.7191C115.228 14.0001 115.226 11.2811 115.227 8.56211C115.227 8.48695 115.218 8.41058 115.236 8.33898C115.402 8.31207 117.49 8.31116 117.665 8.33824C117.668 8.37857 117.675 8.42166 117.675 8.46476C117.675 9.33484 117.686 10.2051 117.673 11.075C117.646 12.7956 117.661 14.5163 117.664 16.2369C117.665 16.7984 117.674 17.3618 117.729 17.9221C117.774 18.3811 117.85 18.8341 118.014 19.2683C118.326 20.093 118.878 20.7071 119.645 21.1327C120.096 21.3831 120.581 21.5401 121.086 21.6361C121.612 21.7357 122.141 21.7567 122.671 21.7067C123.399 21.6383 124.09 21.4466 124.724 21.0718C125.556 20.5792 126.099 19.8645 126.357 18.9336C126.465 18.5443 126.519 18.1459 126.554 17.744C126.595 17.272 126.594 16.7989 126.596 16.326C126.601 14.554 126.603 12.782 126.604 11.0099C126.605 10.1911 126.599 9.37238 126.597 8.55361C126.596 8.48407 126.596 8.41454 126.596 8.33635C126.637 8.32928 126.666 8.31949 126.696 8.31946C127.451 8.31869 128.206 8.3189 128.961 8.31933C128.98 8.31935 128.998 8.32395 129.029 8.3279C129.035 8.36154 129.044 8.39692 129.046 8.43276C129.05 8.48375 129.047 8.53507 129.047 8.58626C129.047 10.0961 129.047 11.606 129.048 13.1158C129.049 15.4317 129.051 17.7475 129.054 20.0634C129.055 21.2405 129.059 22.4175 129.062 23.5945C129.062 23.6638 129.062 23.7331 129.062 23.7909C129.042 23.8059 129.038 23.8104 129.032 23.8135C129.027 23.8165 129.021 23.8201 129.015 23.8201C128.248 23.8211 127.48 23.8219 126.712 23.822C126.694 23.822 126.676 23.8153 126.645 23.8091C126.642 23.7545 126.638 23.6991 126.635 23.6251Z" fill="currentColor"></path>
+<path d="M66.0202 11.8111C66.0202 15.8213 66.0202 19.8123 66.0202 23.7889C66.0023 23.8079 65.9985 23.8135 65.9933 23.8169C65.9883 23.8201 65.9818 23.8228 65.9759 23.8228C65.1763 23.8237 64.3767 23.8244 63.5771 23.8244C63.566 23.8244 63.5548 23.8153 63.5338 23.806C63.5313 23.7876 63.5258 23.7637 63.5253 23.7397C63.5239 23.6757 63.5245 23.6117 63.5245 23.5477C63.5245 19.7731 63.5247 15.9985 63.5241 12.2239C63.5241 11.8849 63.5202 11.5459 63.5159 11.207C63.513 10.9751 63.3854 10.8401 63.1535 10.8207C63.1026 10.8164 63.0512 10.8192 63 10.8191C62.0659 10.8191 61.1317 10.8191 60.1976 10.819C60.1282 10.819 60.0589 10.8179 59.9996 10.8174C59.9862 10.7985 59.9821 10.7935 59.979 10.788C59.9759 10.7826 59.9718 10.7767 59.9717 10.771C59.9705 9.99695 59.9694 9.22286 59.9688 8.44878C59.9687 8.41729 59.9723 8.3858 59.9748 8.343C60.0121 8.33624 60.0474 8.32431 60.0828 8.32422C60.6011 8.32301 61.1198 8.31008 61.6374 8.32701C62.1799 8.34475 62.6379 8.57057 63.0058 8.97009C63.3305 9.32268 63.4911 9.74582 63.5238 10.2205C63.526 10.2524 63.5234 10.2846 63.5252 10.3165C63.5311 10.4249 63.5904 10.494 63.6898 10.5296C63.7885 10.5649 63.8951 10.5328 63.9635 10.4447C63.9986 10.3995 64.0265 10.3486 64.0569 10.2997C64.332 9.85655 64.6598 9.45773 65.0581 9.11941C65.4379 8.79682 65.8601 8.55141 66.3453 8.4222C66.5812 8.35937 66.8201 8.32305 67.0647 8.3231C69.0353 8.32352 71.0059 8.32329 72.9766 8.32352C73.0458 8.32353 73.1149 8.32627 73.1703 8.32745C73.1882 8.34326 73.1943 8.34669 73.1973 8.3519C73.2003 8.35716 73.2015 8.36418 73.2016 8.37044C73.2033 9.13802 73.2049 9.90561 73.2061 10.6732C73.2062 10.7114 73.2034 10.7497 73.2008 10.7878C73.2004 10.7927 73.1925 10.7971 73.1744 10.8162C73.0434 10.8231 72.8975 10.818 72.752 10.8189C72.5985 10.8198 72.4449 10.8191 72.2913 10.8191C72.1442 10.8191 71.997 10.8191 71.8499 10.8191C71.7027 10.8191 71.5555 10.8191 71.4084 10.8191C71.2548 10.8191 71.1013 10.8191 70.9477 10.8191C70.8006 10.8191 70.6534 10.8191 70.5063 10.8191C70.3591 10.8191 70.2119 10.8191 70.0648 10.8191C69.9112 10.8191 69.7577 10.8191 69.6041 10.8191C69.457 10.8191 69.3098 10.8191 69.1626 10.8191C69.0155 10.8191 68.8683 10.8191 68.7212 10.8191C68.574 10.8191 68.4269 10.8191 68.2797 10.8191C68.1262 10.8191 67.9726 10.8191 67.819 10.8191C67.6719 10.8191 67.5247 10.8191 67.3776 10.8191C67.2304 10.8191 67.0833 10.8191 66.9361 10.8191C66.7825 10.8191 66.629 10.8187 66.4754 10.8192C66.3299 10.8197 66.1841 10.8167 66.0471 10.8215C66.0342 10.8489 66.0245 10.8599 66.0244 10.871C66.0225 11.1779 66.0214 11.4849 66.0202 11.8111Z" fill="currentColor"></path>
+<path d="M75.4557 15.2236C75.4569 12.9266 75.458 10.6489 75.4598 8.37109C75.4598 8.36003 75.4694 8.34897 75.4745 8.33792C75.4792 8.33353 75.4832 8.32787 75.4886 8.3251C75.4941 8.32234 75.5009 8.32152 75.5072 8.32151C76.2908 8.32026 77.0744 8.31912 77.858 8.31836C77.8766 8.31834 77.8954 8.32204 77.9138 8.32549C77.9195 8.32655 77.9242 8.33257 77.9374 8.34216C77.9404 8.35923 77.9483 8.38334 77.9483 8.40745C77.9488 13.5384 77.9488 18.6694 77.9488 23.808C77.9105 23.8144 77.8806 23.8237 77.8506 23.8238C77.0861 23.8246 76.3215 23.8245 75.5569 23.8242C75.532 23.8242 75.5071 23.8202 75.4717 23.8171C75.4663 23.7799 75.4583 23.744 75.4565 23.7079C75.4538 23.6568 75.4557 23.6055 75.4557 23.5544C75.4557 20.7838 75.4557 18.0133 75.4557 15.2236Z" fill="currentColor"></path>
+<path d="M76.4507 6.06567C76.267 6.06656 76.103 6.06202 75.9416 6.01545C75.3828 5.8542 75.0121 5.33653 75.045 4.74297C75.0813 4.08865 75.5729 3.66019 76.0585 3.58482C76.1523 3.57027 76.2475 3.55957 76.3423 3.55811C76.5838 3.55438 76.8255 3.55256 77.0669 3.55871C77.1869 3.56176 77.3097 3.57055 77.4255 3.59988C78.0008 3.74565 78.3514 4.27336 78.3614 4.78728C78.3729 5.37037 77.9666 5.89901 77.4189 6.02581C77.3085 6.05137 77.1928 6.06066 77.0792 6.06399C76.876 6.06995 76.6724 6.06567 76.4507 6.06567Z" fill="currentColor"></path>
+<path d="M120.549 4.50815L124.415 0.199219L126.249 1.96843L122.143 6.0679L120.549 4.50815Z" fill="currentColor"></path>
+<path d="M146.535 19.3453V12.7771C146.535 9.7916 148.035 8.29883 151.035 8.29883H154.935C157.935 8.29883 159.435 9.7916 159.435 12.7771V17.5237H149.01V19.6439C149.01 21.0371 149.635 21.3487 151.035 21.3487H158.835V23.8236H157.635H151.035C148.035 23.8236 146.535 22.3309 146.535 19.3453ZM149.01 15.0462H156.96V12.4786C156.96 11.0853 156.344 10.7738 154.944 10.7738H151.044C149.644 10.7738 149.01 11.0853 149.01 12.4786V15.0462Z" fill="currentColor"></path>
+<path d="M131.311 19.2857V12.6858C131.311 9.68584 132.809 8.27961 135.807 8.27961H140.903C141.4 8.27961 141.803 7.87667 141.803 7.37962V1.58594L144.285 1.62344V23.8232H135.807C132.809 23.8232 131.311 22.2857 131.311 19.2857ZM133.784 19.5763C133.784 20.9763 134.408 21.3107 135.807 21.3107H141.803V10.7358L135.807 10.764C134.408 10.764 133.784 10.9764 133.784 12.3764V19.5763Z" fill="currentColor"></path>
+<path d="M105.137 23.8244C102.137 23.8244 100.637 22.3235 100.637 19.3217C100.637 16.3199 102.137 14.819 105.137 14.819H110.462C110.482 14.819 110.499 14.8022 110.499 14.7815V12.4931C110.499 11.1015 109.895 10.784 108.504 10.784H102.164C102.144 10.784 102.127 10.7672 102.127 10.7465V8.35586C102.127 8.33515 102.144 8.31836 102.164 8.31836H103.319H108.504C111.484 8.31836 112.974 9.80933 112.974 12.7913V23.7869C112.974 23.8076 112.957 23.8244 112.937 23.8244H110.537C110.516 23.8244 110.499 23.8076 110.499 23.7869V22.5317C110.499 22.3875 110.315 22.3264 110.229 22.4419L109.693 23.1588C109.693 23.1588 109.262 23.8244 109.055 23.8244C107.92 23.8244 105.137 23.8244 105.137 23.8244ZM103.112 19.6432C103.112 21.0348 103.716 21.7371 105.107 21.7371H110.462C110.482 21.7371 110.499 21.7203 110.499 21.6996V19.2472V16.7947C110.499 16.774 110.482 16.7572 110.462 16.7572H105.107C103.716 16.7572 103.112 17.4465 103.112 18.8381V19.6432Z" fill="currentColor"></path>
+<path d="M87.0234 23.8244V21.3495H93.9124C95.2843 21.3495 95.9108 21.0535 95.9108 19.662C95.9108 18.2505 95.4234 17.4431 94.3299 17.2642L90.7811 16.6678C88.276 16.2503 87.0234 14.8886 87.0234 12.5825C87.0234 9.73975 88.5146 8.31836 91.4968 8.31836H96.4772H97.6701V10.7933H91.467C90.0753 10.7933 89.4984 11.191 89.4984 12.5825C89.4984 13.8349 89.9659 14.4711 91.1389 14.6699L94.6878 15.2663C97.1531 15.6639 98.3858 17.0852 98.3858 19.5304C98.3858 22.3931 96.8748 23.8244 93.8528 23.8244H88.2163H87.0234Z" fill="currentColor"></path>
+<path d="M8.5715 15.6692C8.81842 15.4857 9.05525 15.3115 9.28954 15.134C9.6427 14.8663 9.8766 14.5184 9.99436 14.0898C10.2005 13.3393 9.91651 12.5298 9.31344 12.0681C9.06991 11.8816 8.82167 11.7013 8.57541 11.5185C8.08285 11.1527 7.58884 10.7888 7.09792 10.4209C6.57586 10.0296 5.99058 9.79036 5.34847 9.69061C4.95467 9.62943 4.55883 9.63472 4.1643 9.69033C3.44569 9.79163 2.77824 9.64782 2.16607 9.26227C1.46015 8.81767 0.957947 8.20693 0.699214 7.40735C0.581847 7.04465 0.548516 6.67279 0.579044 6.29171C0.630608 5.64806 0.851577 5.07167 1.25436 4.57004C1.81791 3.86821 2.54972 3.46454 3.44901 3.38217C4.34723 3.2999 5.14272 3.55678 5.82475 4.14517C6.40773 4.64812 6.75871 5.28543 6.88331 6.04734C7.05706 7.10986 7.56007 7.97459 8.4219 8.63039C9.16027 9.19225 9.96148 9.63319 10.839 9.93397C11.3961 10.1249 11.9667 10.2602 12.5507 10.3381C12.8421 10.377 13.1344 10.3997 13.4279 10.4188C14.9157 10.5154 16.0824 11.5912 16.3477 12.9547C16.6848 14.6864 15.6511 16.1346 14.2528 16.6044C13.8983 16.7235 13.5334 16.7755 13.16 16.7729C12.3934 16.7677 11.6461 16.8875 10.9182 17.1262C10.2329 17.3509 9.60004 17.6778 9.02245 18.1107C8.81279 18.2678 8.60073 18.4218 8.39193 18.5801C7.59828 19.1817 7.11971 19.9802 6.91703 20.95C6.88047 21.125 6.85396 21.3025 6.80873 21.4752C6.52624 22.5533 5.65927 23.4454 4.53023 23.7186C3.38192 23.9964 2.36107 23.7199 1.50953 22.8994C0.956377 22.3664 0.653097 21.7001 0.582677 20.9306C0.494682 19.9692 0.832688 19.1655 1.48407 18.4769C1.80894 18.1335 2.18874 17.8689 2.62498 17.685C3.12701 17.4734 3.6478 17.4261 4.18407 17.4956C5.2511 17.6339 6.22714 17.4059 7.09779 16.7626C7.58611 16.4019 8.07283 16.0389 8.5715 15.6692Z" fill="currentColor"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="header-right"><span class="pill-cycle">Ciclo 2026/2027</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Painel das <span>Residências</span></h1>
+  <p>Todos os processos seletivos de residência médica em um só lugar: datas, inscrições, valores e etapas transformados em um plano de ação para a sua aprovação.</p>
+  <div class="stats" id="stats"></div>
+</section>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-view="lista" role="tab">Concursos <span class="count" id="countLista"></span></button>
+  <button class="tab" data-view="calendario" role="tab">Calendário</button>
+  <button class="tab" data-view="plano" role="tab">Meu plano <span class="count" id="countPlano">0</span></button>
+</nav>
+
+<main>
+  <!-- LISTA -->
+  <section class="view active" id="view-lista">
+    <div class="filters">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Buscar por instituição, sigla ou cidade…">
+      </div>
+      <select id="fUf"><option value="">Todos os estados</option></select>
+      <select id="fRegiao">
+        <option value="">Todas as regiões</option>
+        <option>Nacional</option><option>Sudeste</option><option>Sul</option><option>Centro-Oeste</option><option>Nordeste</option><option>Norte</option>
+      </select>
+      <select id="fFase">
+        <option value="">Todas as etapas</option>
+        <option value="curricular">Com análise curricular</option>
+        <option value="pratica">Com prova prática</option>
+        <option value="so-objetiva">Só prova objetiva</option>
+      </select>
+    </div>
+    <div class="chips" id="statusChips">
+      <button class="chip on" data-status="">Todos</button>
+      <button class="chip" data-status="open">Inscrições abertas</button>
+      <button class="chip" data-status="soon">Edital publicado</button>
+      <button class="chip" data-status="closed">Inscrições encerradas</button>
+      <button class="chip" data-status="wait">Edital previsto</button>
+    </div>
+    <p class="result-note" id="resultNote"></p>
+    <div class="grid" id="cards"></div>
+  </section>
+
+  <!-- CALENDÁRIO -->
+  <section class="view" id="view-calendario">
+    <div class="alert-conflitos" id="conflitos"></div>
+    <div id="calendar"></div>
+  </section>
+
+  <!-- MEU PLANO -->
+  <section class="view" id="view-plano">
+    <div id="planContent"></div>
+  </section>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+</div>
+
+<footer>
+  <b>Painel das Residências Caveo</b> · powered by Turi Saúde<br>
+  Dados compilados de editais e fontes públicas em julho/2026. Datas previstas podem mudar.<br><br>
+  <span style="display:inline-block;max-width:640px">Essa é uma base de referência, mas podem existir provas de residência que não estão nessa base. Sempre consulte os dados oficiais do hospital ou instituição responsável.</span>
+</footer>
+
+<script>
+/* ================= DADOS — ciclo 2026/2027 (compilado em 28/07/2026) ================= */
+const CHECKLIST = ["Ler edital","Realizar inscrição","Efetuar pagamento","Atualizar currículo","Separar documentação","Confirmar local da prova","Acompanhar resultado","Confirmar interesse","Realizar matrícula"];
+
+const PROGRAMAS = [
+{id:"enare",sigla:"ENARE",nome:"Exame Nacional de Residência",orgao:"EBSERH / FGV (nota ENAMED)",uf:"BR",regiao:"Nacional",cidades:"Capitais de todo o Brasil",
+ inscIni:"2026-06-15",inscFim:"2026-07-05",taxa:330,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ vagas:"≈ 8.200 vagas · 240+ instituições",fases:["objetiva"],
+ obs:"Inscrições de acesso direto encerradas em 05/07 (prorrogadas); pré-requisito até 15/07. A nota da prova ENAMED de 13/09 será usada na classificação. Maior processo seletivo do país.",
+ link:"https://enare.ebserh.gov.br"},
+{id:"usp",sigla:"USP-SP",nome:"FMUSP / Hospital das Clínicas",orgao:"Fuvest",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:"2026-10-06",inscFim:"2026-10-26",taxa:620,prova:"2026-12-06",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para 18/09/2026",
+ vagas:"≈ 834 vagas (ref. 2026)",fases:["objetiva","curricular"],
+ obs:"Cronograma preliminar divulgado pela Fuvest: edital em 18/09, inscrições de 06 a 26/10 e prova em 06/12/2026. Valores e vagas com base na edição anterior.",
+ link:"https://www.fuvest.br"},
+{id:"unifesp",sigla:"UNIFESP",nome:"Universidade Federal de São Paulo",orgao:"COREME UNIFESP",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"previsto",editalPrev:"Edital previsto para agosto/2026",
+ vagas:"A definir (ref.: ~260 vagas)",fases:["objetiva","pratica","curricular"],
+ obs:"COREME confirmou previsão de edital para agosto/2026. Referência do ciclo anterior: inscrições de meados de setembro a meados de outubro e prova teórica no fim de novembro. Processo com 3 fases: teórica, prática e análise curricular.",
+ link:"https://www.unifesp.br"},
+{id:"unicamp",sigla:"UNICAMP",nome:"FCM UNICAMP",orgao:"COREME UNICAMP",uf:"SP",regiao:"Sudeste",cidades:"Campinas",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"previsto",editalPrev:"Edital previsto para setembro/2026",
+ vagas:"A definir (ref.: 344 vagas)",fases:["objetiva","curricular"],
+ obs:"Estimativa de edital para meados de setembro/2026. Referência do ciclo anterior: inscrições de 1º a 15/10 e prova objetiva seguida de análise curricular.",
+ link:"https://portal.fcm.unicamp.br/residencias-em-saude/residencia-medica/"},
+{id:"unesp",sigla:"UNESP",nome:"FMB UNESP Botucatu",orgao:"Vunesp",uf:"SP",regiao:"Sudeste",cidades:"Botucatu, São Paulo e Brasília",
+ inscIni:null,inscFim:null,taxa:618,prova:null,provaPrev:"2026-11",edital:"previsto",editalPrev:"Edital previsto para setembro/2026",
+ vagas:"A definir (ref.: 196 vagas)",fases:["objetiva","curricular"],
+ obs:"Referência do ciclo anterior: inscrições de 09 a 20/10, prova no fim de novembro aplicada pela Vunesp em três cidades (Botucatu, SP e Brasília) e taxa de R$ 618.",
+ link:"https://www.vunesp.com.br"},
+{id:"sussp",sigla:"SUS-SP",nome:"Secretaria de Estado da Saúde de SP",orgao:"SES-SP",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:null,inscFim:null,taxa:120,prova:null,provaPrev:"2026-12",edital:"previsto",editalPrev:"Edital previsto para outubro/2026",
+ vagas:"A definir (uma das maiores ofertas de SP)",fases:["objetiva"],
+ obs:"Fase única: prova objetiva de 100 questões (5 grandes áreas), aplicada só na capital. Referência do ciclo anterior: inscrições de 16/10 a 04/11, taxa de R$ 120 e prova em meados de dezembro. Melhor custo-benefício de taxa do estado.",
+ link:"https://www.saude.sp.gov.br"},
+{id:"sirio",sigla:"HSL",nome:"Hospital Sírio-Libanês",orgao:"IEP Sírio-Libanês",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:"2026-06-01",inscFim:"2026-08-14",taxa:680,prova:"2026-09-27",provaPrev:null,edital:"publicado",
+ vagas:"83 vagas",fases:["objetiva","curricular","pratica"],
+ obs:"Inscrições abertas até 14/08. Prova objetiva em 27/09/2026, mesma data da FELUMA (MG). 2ª fase com análise curricular ou prova prática, conforme o programa.",
+ link:"https://iep.hospitalsiriolibanes.org.br"},
+{id:"einstein",sigla:"Einstein",nome:"Hospital Israelita Albert Einstein",orgao:"Ensino Einstein",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-10",edital:"aguardando",
+ vagas:"A definir",fases:["objetiva","curricular"],
+ obs:"Edital 2026/2027 ainda não publicado. Historicamente as inscrições abrem no 2º semestre com prova entre outubro e novembro.",
+ link:"https://ensino.einstein.br"},
+{id:"santacasa",sigla:"SCSP",nome:"Santa Casa de São Paulo",orgao:"FCM Santa Casa SP",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"aguardando",
+ vagas:"A definir",fases:["objetiva","curricular"],
+ obs:"Edital 2026/2027 ainda não publicado. Referência: prova entre novembro e dezembro.",
+ link:"https://fcmsantacasasp.edu.br"},
+{id:"iamspe",sigla:"IAMSPE",nome:"Instituto de Assistência Médica ao Servidor Público Estadual",orgao:"IAMSPE",uf:"SP",regiao:"Sudeste",cidades:"São Paulo",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-12",edital:"previsto",editalPrev:"Edital previsto para outubro/2026",
+ vagas:"A definir",fases:["objetiva"],
+ obs:"Referência do ciclo anterior: prova em 20/12. Uma das últimas provas do calendário, boa opção de plano B.",
+ link:"https://www.iamspe.sp.gov.br"},
+{id:"psumg",sigla:"PSU-MG",nome:"Processo Seletivo Unificado de Minas Gerais",orgao:"AREMG",uf:"MG",regiao:"Sudeste",cidades:"Belo Horizonte e polos",
+ inscIni:null,inscFim:null,taxa:null,prova:"2026-11-22",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para setembro/2026",
+ vagas:"≈ 1.300 vagas · 91 instituições",fases:["objetiva","curricular"],
+ obs:"AREMG já confirmou a prova para 22/11/2026, mesma data da AMRIGS (RS). Um único exame dá acesso a dezenas de instituições mineiras.",
+ link:"https://www.aremg.org.br"},
+{id:"feluma",sigla:"FELUMA",nome:"Fundação Educacional Lucas Machado (Ciências Médicas MG)",orgao:"FELUMA",uf:"MG",regiao:"Sudeste",cidades:"Belo Horizonte",
+ inscIni:"2026-07-20",inscFim:"2026-08-26",taxa:620,prova:"2026-09-27",provaPrev:null,edital:"publicado",
+ vagas:"76 vagas · HUCM, Centro Oftalmológico e Biocor",fases:["objetiva","curricular"],
+ obs:"Inscrições abertas de 20/07 a 26/08 (até 17h do último dia), com taxa de R$ 620 e sem isenção. Prova objetiva em 27/09/2026 com até 75 questões e nota mínima de 50% para avançar à análise curricular. Atenção: mesma data do Sírio-Libanês (SP), é preciso escolher. Resultado final em 18/12/2026.",
+ link:"https://www.feluma.org.br"},
+{id:"amrigs",sigla:"AMRIGS",nome:"Associação Médica do Rio Grande do Sul",orgao:"AMRIGS",uf:"RS",regiao:"Sul",cidades:"Porto Alegre e polos",
+ inscIni:null,inscFim:null,taxa:null,prova:"2026-11-22",provaPrev:null,edital:"aguardando",
+ vagas:"A definir",fases:["objetiva","curricular"],
+ obs:"Prova em 22/11/2026, mesma data do PSU-MG. Porta de entrada unificada para a maioria dos programas gaúchos.",
+ link:"https://www.amrigs.org.br"},
+{id:"uel",sigla:"UEL",nome:"Universidade Estadual de Londrina",orgao:"COPS-UEL",uf:"PR",regiao:"Sul",cidades:"Londrina",
+ inscIni:"2026-09-22",inscFim:"2026-10-14",taxa:null,prova:"2026-11-08",provaPrev:null,edital:"publicado",
+ vagas:"107 vagas",fases:["objetiva","curricular"],
+ obs:"Edital publicado. Inscrições para ações afirmativas de 18 a 25/08; ampla concorrência de 22/09 a 14/10. Prova em 08/11/2026.",
+ link:"https://www.cops.uel.br"},
+{id:"smscuritiba",sigla:"SMS-Curitiba",nome:"Secretaria Municipal de Saúde de Curitiba",orgao:"SMS Curitiba",uf:"PR",regiao:"Sul",cidades:"Curitiba",
+ inscIni:"2026-07-21",inscFim:"2026-08-19",taxa:null,prova:"2026-09-20",provaPrev:null,edital:"publicado",
+ vagas:"41 vagas",fases:["objetiva","curricular"],
+ obs:"Inscrições abertas de 21/07 a 19/08. Prova em 20/09/2026, uma semana após o ENAMED; atenção ao planejamento de estudos.",
+ link:"https://saude.curitiba.pr.gov.br"},
+{id:"psugo",sigla:"PSU-GO",nome:"Processo Seletivo Unificado de Goiás",orgao:"SES-GO / CEREM-GO",uf:"GO",regiao:"Centro-Oeste",cidades:"Goiânia",
+ inscIni:null,inscFim:null,taxa:null,prova:"2026-11-29",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para setembro/2026",
+ vagas:"A definir",fases:["objetiva","curricular"],
+ obs:"Prova confirmada para 29/11/2026. Acesso unificado aos principais hospitais de Goiás.",
+ link:"https://www.saude.go.gov.br"},
+{id:"sesdf",sigla:"SES-DF",nome:"Secretaria de Saúde do Distrito Federal",orgao:"SES-DF / IGES",uf:"DF",regiao:"Centro-Oeste",cidades:"Brasília",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"aguardando",
+ vagas:"A definir",fases:["objetiva"],
+ obs:"Edital 2026/2027 ainda não publicado. Historicamente uma das maiores ofertas do Centro-Oeste, com prova entre novembro e dezembro.",
+ link:"https://www.saude.df.gov.br"},
+{id:"surce",sigla:"SURCE",nome:"Seleção Unificada para Residências do Ceará",orgao:"ESP-CE",uf:"CE",regiao:"Nordeste",cidades:"Fortaleza",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"aguardando",
+ vagas:"A definir",fases:["objetiva","curricular"],
+ obs:"Edital 2026/2027 ainda não publicado. Seleção unificada dos programas cearenses; prova historicamente em novembro.",
+ link:"https://www.esp.ce.gov.br"},
+{id:"susba",sigla:"SUS-BA",nome:"Secretaria de Saúde da Bahia",orgao:"SESAB",uf:"BA",regiao:"Nordeste",cidades:"Salvador",
+ inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"aguardando",
+ vagas:"A definir",fases:["objetiva"],
+ obs:"Edital 2026/2027 ainda não publicado. Referência: prova entre novembro e dezembro em Salvador.",
+ link:"https://www.saude.ba.gov.br"},
+{id:"cesupa",sigla:"CESUPA",nome:"Centro Universitário do Estado do Pará",orgao:"CESUPA",uf:"PA",regiao:"Norte",cidades:"Belém",
+ inscIni:"2026-07-10",inscFim:"2026-09-30",taxa:500,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ vagas:"38 vagas",fases:["objetiva","curricular","pratica"],
+ obs:"Inscrições abertas de 10/07 a 30/09, com taxa de R$ 500. O acesso direto usa a nota do ENAMED de 13/09/2026 (não é uma prova extra); pré-requisito tem prova em 08/11/2026. Terceira etapa de habilidades clínicas em estações simuladas em 24/01/2027. Destaques: 10 vagas de Clínica Médica e 10 de Medicina de Família. Início em março/2027.",
+ link:"https://www.cesupa.br"}
+];
+
+/* ================= ESTADO (sessão apenas — sem persistência) ================= */
+const state={q:"",uf:"",regiao:"",fase:"",status:"",followed:new Set(),checks:{}};
+
+/* ================= HELPERS ================= */
+const TODAY=new Date();TODAY.setHours(0,0,0,0);
+const fmt=d=>{const[y,m,dd]=d.split("-");return `${dd}/${m}/${y.slice(2)}`};
+const fmtLong=d=>new Date(d+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"short"});
+const MESES={"09":"Setembro","10":"Outubro","11":"Novembro","12":"Dezembro","01":"Janeiro","06":"Junho","07":"Julho","08":"Agosto"};
+const mesNome=ym=>MESES[ym.split("-")[1]]+" de "+ym.split("-")[0];
+const daysTo=d=>Math.round((new Date(d+"T12:00:00")-TODAY)/864e5);
+const money=v=>v==null?"A definir":"R$ "+v.toLocaleString("pt-BR");
+const FASE_LBL={objetiva:"Prova objetiva",curricular:"Análise curricular",pratica:"Prova prática"};
+
+function statusOf(p){
+  if(p.inscIni&&p.inscFim){
+    const ini=new Date(p.inscIni+"T00:00:00"),fim=new Date(p.inscFim+"T23:59:59");
+    if(TODAY>=ini&&TODAY<=fim)return"open";
+    if(TODAY<ini)return"soon";
+    return"closed";
+  }
+  return p.edital==="publicado"?"soon":"wait";
+}
+const STATUS_META={
+  open:{cls:"b-open",lbl:"Inscrições abertas"},
+  soon:{cls:"b-soon",lbl:"Edital publicado"},
+  closed:{cls:"b-closed",lbl:"Inscrições encerradas"},
+  wait:{cls:"b-wait",lbl:"Edital previsto"}
+};
+
+/* conflitos: mesma data de prova (programas que usam a nota do ENAMED compartilham a mesma prova e não conflitam entre si) */
+const conflicts={};
+PROGRAMAS.forEach(p=>{if(p.prova){(conflicts[p.prova]=conflicts[p.prova]||[]).push(p)}});
+const conflictDates=Object.entries(conflicts).filter(([,l])=>l.length>1&&!l.every(x=>x.enamed));
+function conflictOf(p){
+  if(!p.prova||!conflicts[p.prova]||conflicts[p.prova].length<2)return null;
+  const others=conflicts[p.prova].filter(o=>o.id!==p.id&&!(p.enamed&&o.enamed));
+  return others.length?others:null;
+}
+
+/* ================= STATS ================= */
+function renderStats(){
+  const open=PROGRAMAS.filter(p=>statusOf(p)==="open").length;
+  const pub=PROGRAMAS.filter(p=>p.edital==="publicado").length;
+  const next=PROGRAMAS.filter(p=>p.prova&&daysTo(p.prova)>=0).sort((a,b)=>a.prova.localeCompare(b.prova))[0];
+  document.getElementById("stats").innerHTML=`
+    <div class="stat accent"><b>${PROGRAMAS.length}</b><span>concursos monitorados</span></div>
+    <div class="stat"><b>${open}</b><span>inscrições abertas agora</span></div>
+    <div class="stat"><b>${pub}</b><span>editais publicados</span></div>
+    <div class="stat"><b>${next?fmt(next.prova):"a definir"}</b><span>próxima prova (${next?next.sigla:""})</span></div>`;
+}
+
+/* ================= LISTA ================= */
+function applyFilters(){
+  return PROGRAMAS.filter(p=>{
+    const s=statusOf(p);
+    if(state.status&&s!==state.status)return false;
+    if(state.uf&&p.uf!==state.uf)return false;
+    if(state.regiao&&p.regiao!==state.regiao)return false;
+    if(state.fase==="curricular"&&!p.fases.includes("curricular"))return false;
+    if(state.fase==="pratica"&&!p.fases.includes("pratica"))return false;
+    if(state.fase==="so-objetiva"&&p.fases.length!==1)return false;
+    if(state.q){
+      const t=(p.sigla+" "+p.nome+" "+p.orgao+" "+p.cidades+" "+p.uf).toLowerCase();
+      if(!t.includes(state.q.toLowerCase()))return false;
+    }
+    return true;
+  }).sort((a,b)=>{
+    const da=a.prova||((a.provaPrev||"2027-99")+"-99"),db=b.prova||((b.provaPrev||"2027-99")+"-99");
+    return da.localeCompare(db);
+  });
+}
+
+function cardHTML(p){
+  const s=statusOf(p),meta=STATUS_META[s],conf=conflictOf(p),fw=state.followed.has(p.id);
+  let inscRow="";
+  if(p.inscIni){
+    const dl=daysTo(p.inscFim);
+    inscRow=`<div class="row"><span class="lbl">Inscrições</span><span class="val">${fmt(p.inscIni)} – ${fmt(p.inscFim)}
+      ${s==="open"&&dl>=0?`<span class="countdown ${dl<=7?"hot":""}">${dl===0?"último dia!":`encerra em ${dl}d`}</span>`:""}</span></div>`;
+  }else{
+    inscRow=`<div class="row"><span class="lbl">Inscrições</span><span class="val"><small>${p.editalPrev||"Aguardando edital"}</small></span></div>`;
+  }
+  let provaRow;
+  if(p.prova){
+    const dp=daysTo(p.prova);
+    provaRow=`<div class="row"><span class="lbl">Prova</span><span class="val">${fmt(p.prova)}
+      ${dp>=0?`<span class="countdown ${dp<=30?"hot":""}">${dp}d</span>`:""}</span></div>`;
+  }else{
+    provaRow=`<div class="row"><span class="lbl">Prova</span><span class="val"><small>Previsão: ${p.provaPrev?mesNome(p.provaPrev).toLowerCase():"a definir"}</small></span></div>`;
+  }
+  return `<article class="card" data-id="${p.id}">
+    <div class="card-top">
+      <div><h3>${p.sigla}</h3><div class="sub">${p.nome}</div></div>
+      <span class="uf">${p.uf==="BR"?"Nacional":p.uf}</span>
+    </div>
+    <span class="badge ${meta.cls}">${meta.lbl}</span>
+    <div class="rows">
+      ${inscRow}${provaRow}
+      <div class="row"><span class="lbl">Taxa</span><span class="val">${money(p.taxa)}</span></div>
+      <div class="row"><span class="lbl">Vagas</span><span class="val">${p.vagas}</span></div>
+      <div class="row"><span class="lbl">Local prova</span><span class="val">${p.cidades}</span></div>
+    </div>
+    <div class="tags">${p.fases.map(f=>`<span class="tag">${FASE_LBL[f]}</span>`).join("")}</div>
+    ${conf?`<div class="conflict">⚠️ <div>Prova no mesmo dia que <b>${conf.map(c=>c.sigla).join(", ")}</b> (${fmt(p.prova)})</div></div>`:""}
+    <div class="card-actions">
+      <button class="btn btn-follow ${fw?"on":""}" data-follow="${p.id}">${fw?"✓ Seguindo":"+ Seguir"}</button>
+      <button class="btn" data-detail="${p.id}">Detalhes</button>
+    </div>
+  </article>`;
+}
+
+function renderCards(){
+  const list=applyFilters();
+  document.getElementById("cards").innerHTML=list.map(cardHTML).join("")||`<p style="color:var(--muted)">Nenhum concurso encontrado com esses filtros.</p>`;
+  document.getElementById("resultNote").textContent=`${list.length} de ${PROGRAMAS.length} concursos · ordenados pela data da prova`;
+  document.getElementById("countLista").textContent=PROGRAMAS.length;
+}
+
+/* ================= CALENDÁRIO ================= */
+function renderCalendar(){
+  const events=[];
+  PROGRAMAS.forEach(p=>{
+    if(p.inscIni)events.push({d:p.inscIni,type:"e-insc",lbl:"Abrem inscrições",p});
+    if(p.inscFim)events.push({d:p.inscFim,type:"e-fim",lbl:"Fim das inscrições",p});
+    if(p.prova)events.push({d:p.prova,type:"e-prova",lbl:"Prova",p});
+    if(!p.prova&&p.provaPrev)events.push({d:p.provaPrev+"-28",type:"e-prova",lbl:"Prova (previsão)",p,prev:true});
+  });
+  events.sort((a,b)=>a.d.localeCompare(b.d));
+  const byMonth={};
+  events.forEach(e=>{const ym=e.d.slice(0,7);(byMonth[ym]=byMonth[ym]||[]).push(e)});
+  document.getElementById("calendar").innerHTML=Object.entries(byMonth).map(([ym,evs])=>`
+    <div class="month"><h2>${mesNome(ym)}</h2><div class="events">
+      ${evs.map(e=>{
+        const clash=e.type==="e-prova"&&!e.prev&&conflictOf(e.p);
+        const past=daysTo(e.d)<0&&!e.prev;
+        return `<div class="event ${e.prev?"previsto":""} ${clash?"clash":""}" style="${past?"opacity:.5":""}">
+          <div class="date">${e.prev?"~":e.d.slice(8,10)}<small>${e.prev?"prev.":new Date(e.d+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"short"}).replace(".","")}</small></div>
+          <div class="what"><b>${e.p.sigla}</b> <span>· ${e.p.nome} · ${e.p.cidades}</span>
+          ${clash?`<div style="color:var(--danger);font-size:12.5px;font-weight:600">⚠️ Mesmo dia que ${clash.map(c=>c.sigla).join(", ")}, em cidades diferentes</div>`:""}</div>
+          <span class="etype ${e.type}">${e.lbl}</span>
+        </div>`}).join("")}
+    </div></div>`).join("");
+  const cd=conflictDates.map(([d,l])=>`<p>• <b>${fmt(d)}</b>: ${l.map(p=>`${p.sigla} (${p.cidades.split(" e ")[0].split(",")[0]})`).join(" × ")}</p>`).join("");
+  document.getElementById("conflitos").innerHTML=`<h3>⚠️ Conflitos de data detectados</h3>${cd||"<p>Nenhum conflito nas datas confirmadas até agora.</p>"}<p style="margin-top:6px;font-size:12.5px">Provas no mesmo dia em cidades diferentes: só é possível prestar uma. Considere isso ao montar seu plano.</p>`;
+}
+
+/* ================= MEU PLANO ================= */
+function nextStep(p){
+  const s=statusOf(p);
+  if(s==="open"&&p.inscFim)return`Inscrever-se até ${fmt(p.inscFim)} (${daysTo(p.inscFim)}d restantes)`;
+  if(s==="soon"&&p.inscIni)return`Inscrições abrem em ${fmt(p.inscIni)}`;
+  if(s==="wait")return p.editalPrev||"Aguardar publicação do edital";
+  if(p.prova&&daysTo(p.prova)>=0)return`Prova em ${fmt(p.prova)} (${daysTo(p.prova)}d)`;
+  return"Acompanhar próximas etapas";
+}
+function renderPlan(){
+  const el=document.getElementById("planContent");
+  document.getElementById("countPlano").textContent=state.followed.size;
+  if(!state.followed.size){
+    el.innerHTML=`<div class="plan-empty"><h3>Seu plano está vazio</h3>
+      <p>Vá na aba <b>Concursos</b> e clique em <b>+ Seguir</b> nos programas que pretende prestar.<br>Cada um ganhará um checklist com as etapas do edital.</p></div>`;
+    return;
+  }
+  el.innerHTML=`<div class="plan-grid">`+[...state.followed].map(id=>{
+    const p=PROGRAMAS.find(x=>x.id===id);
+    const checks=state.checks[id]||(state.checks[id]=new Array(CHECKLIST.length).fill(false));
+    const done=checks.filter(Boolean).length;
+    return`<div class="plan-card">
+      <h3>${p.sigla} <span style="font-weight:600;font-size:12.5px;color:var(--muted)">· ${p.nome}</span></h3>
+      <div class="next">→ ${nextStep(p)}</div>
+      <div class="progress"><i style="width:${done/CHECKLIST.length*100}%"></i></div>
+      ${CHECKLIST.map((c,i)=>`<label class="check ${checks[i]?"done":""}"><input type="checkbox" data-chk="${id}:${i}" ${checks[i]?"checked":""}> ${c}</label>`).join("")}
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <a class="btn btn-primary" href="${p.link}" target="_blank" rel="noopener">Site oficial ↗</a>
+        <button class="btn" data-unfollow="${id}">Remover</button>
+      </div>
+    </div>`;
+  }).join("")+`</div>
+  <p class="plan-note" style="max-width:640px;margin:18px auto 0">💡 Nesta versão o plano vale para a sessão atual: ao recarregar a página, seleções e checklists são reiniciados.</p>`;
+}
+
+/* ================= MODAL ================= */
+function openModal(id){
+  const p=PROGRAMAS.find(x=>x.id===id),meta=STATUS_META[statusOf(p)];
+  document.getElementById("modal").innerHTML=`
+    <button class="close" data-close>✕</button>
+    <h2>${p.sigla}</h2><div class="sub">${p.nome} · ${p.orgao}</div>
+    <span class="badge ${meta.cls}">${meta.lbl}</span>
+    <div class="rows">
+      <div class="row"><span class="lbl">Abrangência</span><span class="val">${p.regiao} (${p.uf==="BR"?"todo o Brasil":p.uf})</span></div>
+      <div class="row"><span class="lbl">Inscrições</span><span class="val">${p.inscIni?fmt(p.inscIni)+" – "+fmt(p.inscFim):(p.editalPrev||"Aguardando edital")}</span></div>
+      <div class="row"><span class="lbl">Prova objetiva</span><span class="val">${p.prova?fmt(p.prova):"Previsão: "+(p.provaPrev?mesNome(p.provaPrev).toLowerCase():"a definir")}</span></div>
+      <div class="row"><span class="lbl">Cidades de prova</span><span class="val">${p.cidades}</span></div>
+      <div class="row"><span class="lbl">Taxa de inscrição</span><span class="val">${money(p.taxa)}</span></div>
+      <div class="row"><span class="lbl">Vagas</span><span class="val">${p.vagas}</span></div>
+      <div class="row"><span class="lbl">Etapas</span><span class="val">${p.fases.map(f=>FASE_LBL[f]).join(" + ")}</span></div>
+    </div>
+    <div class="obs">${p.obs}</div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-follow ${state.followed.has(id)?"on":""}" data-follow="${id}">${state.followed.has(id)?"✓ Seguindo":"+ Seguir este concurso"}</button>
+      <a class="btn btn-primary" href="${p.link}" target="_blank" rel="noopener">Site oficial ↗</a>
+    </div>`;
+  document.getElementById("overlay").classList.add("open");
+}
+
+/* ================= EVENTOS ================= */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-follow],[data-detail],[data-unfollow],[data-close],.tab,.chip");
+  if(!t)return;
+  if(t.dataset.follow!==undefined&&t.dataset.follow){
+    const id=t.dataset.follow;
+    state.followed.has(id)?state.followed.delete(id):state.followed.add(id);
+    renderCards();renderPlan();
+    if(document.getElementById("overlay").classList.contains("open"))openModal(id);
+  }
+  else if(t.dataset.detail)openModal(t.dataset.detail);
+  else if(t.dataset.unfollow){state.followed.delete(t.dataset.unfollow);renderCards();renderPlan()}
+  else if(t.hasAttribute("data-close"))document.getElementById("overlay").classList.remove("open");
+  else if(t.classList.contains("tab")){
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById("view-"+t.dataset.view).classList.add("active");
+  }
+  else if(t.classList.contains("chip")){
+    document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");state.status=t.dataset.status;renderCards();
+  }
+});
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")e.target.classList.remove("open")});
+document.addEventListener("change",e=>{
+  if(e.target.dataset.chk){
+    const[id,i]=e.target.dataset.chk.split(":");
+    state.checks[id][+i]=e.target.checked;renderPlan();
+  }
+});
+document.getElementById("q").addEventListener("input",e=>{state.q=e.target.value;renderCards()});
+document.getElementById("fUf").addEventListener("change",e=>{state.uf=e.target.value;renderCards()});
+document.getElementById("fRegiao").addEventListener("change",e=>{state.regiao=e.target.value;renderCards()});
+document.getElementById("fFase").addEventListener("change",e=>{state.fase=e.target.value;renderCards()});
+
+/* UF select */
+[...new Set(PROGRAMAS.map(p=>p.uf))].sort().forEach(uf=>{
+  const o=document.createElement("option");o.value=uf;o.textContent=uf==="BR"?"Nacional (BR)":uf;
+  document.getElementById("fUf").appendChild(o);
+});
+
+renderStats();renderCards();renderCalendar();renderPlan();
+</script>
+</body>
+</html>
