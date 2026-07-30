@@ -250,6 +250,11 @@ footer b{color:var(--slate-mid)}
 
   <!-- CALENDÁRIO -->
   <section class="view" id="view-calendario">
+    <div class="filters" style="margin-bottom:16px">
+      <select id="cUf"><option value="">Todos os estados</option></select>
+      <select id="cCidade"><option value="">Todas as cidades</option></select>
+      <span style="font-size:12.5px;color:var(--muted)">Concursos nacionais (ENARE) aparecem em qualquer filtro</span>
+    </div>
     <div class="alert-conflitos" id="conflitos"></div>
     <div id="calendar"></div>
   </section>
@@ -378,7 +383,7 @@ const PROGRAMAS = [
 ];
 
 /* ================= ESTADO (sessão apenas — sem persistência) ================= */
-const state={q:"",uf:"",regiao:"",fase:"",status:"",followed:new Set(),checks:{}};
+const state={q:"",uf:"",regiao:"",fase:"",status:"",calUf:"",calCidade:"",followed:new Set(),checks:{}};
 
 /* ================= HELPERS ================= */
 const TODAY=new Date();TODAY.setHours(0,0,0,0);
@@ -482,7 +487,7 @@ function cardHTML(p){
     <div class="tags">${p.fases.map(f=>`<span class="tag">${FASE_LBL[f]}</span>`).join("")}</div>
     ${conf?`<div class="conflict">⚠️ <div>Prova no mesmo dia que <b>${conf.map(c=>c.sigla).join(", ")}</b> (${fmt(p.prova)})</div></div>`:""}
     <div class="card-actions">
-      <button class="btn btn-follow ${fw?"on":""}" data-follow="${p.id}">${fw?"✓ Seguindo":"+ Seguir"}</button>
+      <button class="btn btn-follow ${fw?"on":""}" data-follow="${p.id}">${fw?"✓ No meu plano":"+ Meu plano"}</button>
       <button class="btn" data-detail="${p.id}">Detalhes</button>
     </div>
   </article>`;
@@ -496,9 +501,16 @@ function renderCards(){
 }
 
 /* ================= CALENDÁRIO ================= */
+const cidadesDe=p=>p.cidades.split(/,| e /).map(s=>s.trim()).filter(c=>c&&c!=="polos"&&!/capitais/i.test(c));
+function calMatch(p){
+  if(p.uf==="BR")return true;
+  if(state.calUf&&p.uf!==state.calUf)return false;
+  if(state.calCidade&&!cidadesDe(p).includes(state.calCidade))return false;
+  return true;
+}
 function renderCalendar(){
   const events=[];
-  PROGRAMAS.forEach(p=>{
+  PROGRAMAS.filter(calMatch).forEach(p=>{
     if(p.inscIni)events.push({d:p.inscIni,type:"e-insc",lbl:"Abrem inscrições",p});
     if(p.inscFim)events.push({d:p.inscFim,type:"e-fim",lbl:"Fim das inscrições",p});
     if(p.prova)events.push({d:p.prova,type:"e-prova",lbl:"Prova",p});
@@ -507,7 +519,8 @@ function renderCalendar(){
   events.sort((a,b)=>a.d.localeCompare(b.d));
   const byMonth={};
   events.forEach(e=>{const ym=e.d.slice(0,7);(byMonth[ym]=byMonth[ym]||[]).push(e)});
-  document.getElementById("calendar").innerHTML=Object.entries(byMonth).map(([ym,evs])=>`
+  if(!events.length){document.getElementById("calendar").innerHTML=`<p style="color:var(--muted)">Nenhum evento encontrado com esses filtros.</p>`;}
+  else document.getElementById("calendar").innerHTML=Object.entries(byMonth).map(([ym,evs])=>`
     <div class="month"><h2>${mesNome(ym)}</h2><div class="events">
       ${evs.map(e=>{
         const clash=e.type==="e-prova"&&!e.prev&&conflictOf(e.p);
@@ -537,7 +550,7 @@ function renderPlan(){
   document.getElementById("countPlano").textContent=state.followed.size;
   if(!state.followed.size){
     el.innerHTML=`<div class="plan-empty"><h3>Seu plano está vazio</h3>
-      <p>Vá na aba <b>Concursos</b> e clique em <b>+ Seguir</b> nos programas que pretende prestar.<br>Cada um ganhará um checklist com as etapas do edital.</p></div>`;
+      <p>Vá na aba <b>Concursos</b> e clique em <b>+ Meu plano</b> nos programas que pretende prestar.<br>Cada um ganhará um checklist com as etapas do edital.</p></div>`;
     return;
   }
   el.innerHTML=`<div class="plan-grid">`+[...state.followed].map(id=>{
@@ -576,7 +589,7 @@ function openModal(id){
     </div>
     <div class="obs">${p.obs}</div>
     <div style="display:flex;gap:8px;margin-top:16px">
-      <button class="btn btn-follow ${state.followed.has(id)?"on":""}" data-follow="${id}">${state.followed.has(id)?"✓ Seguindo":"+ Seguir este concurso"}</button>
+      <button class="btn btn-follow ${state.followed.has(id)?"on":""}" data-follow="${id}">${state.followed.has(id)?"✓ No meu plano":"+ Meu plano"}</button>
       <a class="btn btn-primary" href="${p.link}" target="_blank" rel="noopener">Site oficial ↗</a>
     </div>`;
   document.getElementById("overlay").classList.add("open");
@@ -617,11 +630,20 @@ document.getElementById("q").addEventListener("input",e=>{state.q=e.target.value
 document.getElementById("fUf").addEventListener("change",e=>{state.uf=e.target.value;renderCards()});
 document.getElementById("fRegiao").addEventListener("change",e=>{state.regiao=e.target.value;renderCards()});
 document.getElementById("fFase").addEventListener("change",e=>{state.fase=e.target.value;renderCards()});
+document.getElementById("cUf").addEventListener("change",e=>{state.calUf=e.target.value;renderCalendar()});
+document.getElementById("cCidade").addEventListener("change",e=>{state.calCidade=e.target.value;renderCalendar()});
 
-/* UF select */
+/* UF selects (lista e calendário) */
 [...new Set(PROGRAMAS.map(p=>p.uf))].sort().forEach(uf=>{
-  const o=document.createElement("option");o.value=uf;o.textContent=uf==="BR"?"Nacional (BR)":uf;
-  document.getElementById("fUf").appendChild(o);
+  ["fUf","cUf"].forEach(id=>{
+    const o=document.createElement("option");o.value=uf;o.textContent=uf==="BR"?"Nacional (BR)":uf;
+    document.getElementById(id).appendChild(o);
+  });
+});
+/* Cidades (calendário) */
+[...new Set(PROGRAMAS.flatMap(cidadesDe))].sort((a,b)=>a.localeCompare(b,"pt")).forEach(c=>{
+  const o=document.createElement("option");o.value=c;o.textContent=c;
+  document.getElementById("cCidade").appendChild(o);
 });
 
 renderStats();renderCards();renderCalendar();renderPlan();
