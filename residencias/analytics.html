@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de controle · Painel das Residências</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --surface-1:#fcfcfb;
+  --page:#f9f9f7;
+  --text-primary:#0b0b0b;
+  --text-secondary:#52514e;
+  --muted:#898781;
+  --grid:#e1e0d9;
+  --baseline:#c3c2b7;
+  --border:rgba(11,11,11,.10);
+  --series-1:#2a78d6;
+  --series-2:#eb6834;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --surface-1:#1a1a19;
+    --page:#0d0d0d;
+    --text-primary:#ffffff;
+    --text-secondary:#c3c2b7;
+    --muted:#898781;
+    --grid:#2c2c2a;
+    --baseline:#383835;
+    --border:rgba(255,255,255,.10);
+    --series-1:#3987e5;
+    --series-2:#d95926;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--page);color:var(--text-primary);font-size:14.5px;line-height:1.5}
+h1,h2{font-family:'Nunito',system-ui,sans-serif}
+header{background:#0a243e;padding:14px 24px;display:flex;align-items:center;gap:14px}
+header img{height:34px}
+header .ttl{color:#fff;font-family:'Nunito';font-weight:800;font-size:17px}
+header .sub{color:rgba(255,255,255,.65);font-size:12px}
+header a.back{margin-left:auto;color:#fff;font-size:13px;font-weight:600;text-decoration:none;background:rgba(255,255,255,.12);padding:7px 13px;border-radius:99px}
+main{max-width:1080px;margin:0 auto;padding:26px 24px 70px}
+h1{font-size:24px;font-weight:900;margin-bottom:4px}
+.desc{color:var(--text-secondary);margin-bottom:20px}
+.chips{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);background:var(--surface-1);color:var(--text-secondary);font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer}
+.chip.on{background:var(--text-primary);color:var(--page);border-color:var(--text-primary)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.tile b{font-size:26px;font-weight:800;font-family:'Nunito';display:block}
+.tile span{font-size:12.5px;color:var(--text-secondary)}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.card h2{font-size:16px;font-weight:800;margin-bottom:2px}
+.card .sub{font-size:12.5px;color:var(--text-secondary);margin-bottom:12px}
+.legend{display:flex;gap:16px;font-size:12.5px;color:var(--text-secondary);margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg text{font-family:'Inter',system-ui,sans-serif}
+.tooltip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,.15);border-radius:9px;padding:8px 11px;font-size:12.5px;display:none;z-index:10;min-width:130px}
+.tooltip b{font-weight:700}
+.tooltip .row{display:flex;justify-content:space-between;gap:14px;color:var(--text-secondary)}
+.tooltip .row b{color:var(--text-primary)}
+details{margin-top:8px}
+summary{cursor:pointer;font-size:13px;color:var(--text-secondary);font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--grid);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:12px}
+.empty{color:var(--muted);text-align:center;padding:30px 0;font-size:13.5px}
+.note{font-size:12px;color:var(--muted);margin-top:20px}
+@media(max-width:560px){header .sub{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <img src="assets/caveo-logo.png" alt="Caveo">
+  <div><div class="ttl">Painel de controle</div><div class="sub">Painel das Residências · uso interno</div></div>
+  <a class="back" href="./">← Voltar ao painel</a>
+</header>
+<main>
+  <h1>Visitantes e cliques</h1>
+  <p class="desc">Dados coletados de forma anônima e agregada no site painel.turisaude.com.br/residencias.</p>
+
+  <div class="chips" id="periodChips">
+    <button class="chip" data-days="7">7 dias</button>
+    <button class="chip" data-days="14">14 dias</button>
+    <button class="chip on" data-days="30">30 dias</button>
+    <button class="chip" data-days="60">60 dias</button>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="card">
+    <h2>Visitas por dia</h2>
+    <div class="sub">Visitas são carregamentos da página; visitantes são pessoas únicas por dia (aproximado por navegador).</div>
+    <div class="legend"><span><i style="background:var(--series-1)"></i>Visitas</span><span><i style="background:var(--series-2)"></i>Visitantes</span></div>
+    <div id="lineWrap" style="position:relative"></div>
+    <details><summary>Ver dados em tabela</summary><div id="daysTable"></div></details>
+  </div>
+
+  <div class="card">
+    <h2>Onde os visitantes clicam</h2>
+    <div class="sub">Total de cliques por elemento no período selecionado, do maior para o menor.</div>
+    <div id="barsWrap" style="position:relative"></div>
+  </div>
+
+  <p class="note">Coleta via Cloudflare Worker (painel-analytics) + Workers KV, sem cookies e sem dados pessoais. Plano gratuito: até 1.000 registros de eventos por dia.</p>
+</main>
+<div class="tooltip" id="tip"></div>
+
+<script>
+const API="https://painel-analytics.turi-sa-de.workers.dev";
+let days=30;
+const $=id=>document.getElementById(id);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmtD=d=>{const[y,m,dd]=d.split("-");return dd+"/"+m};
+const fmtFull=d=>{const[y,m,dd]=d.split("-");return dd+"/"+m+"/"+y};
+
+const PRETTY={"aba":"Aba","plano-add":"+ Meu plano","plano-remove":"Remover do plano","detalhes":"Detalhes","site":"Site oficial","logo":"Logo","filtro-status":"Filtro de status","teste":"Teste"};
+function prettyId(id){
+  const i=id.indexOf(":");
+  if(i<0)return id;
+  const pre=PRETTY[id.slice(0,i)]||id.slice(0,i);
+  const alvo=id.slice(i+1).replace(/^./,c=>c.toUpperCase());
+  return pre+" · "+alvo;
+}
+
+async function load(){
+  $("tiles").innerHTML='<div class="tile"><b>…</b><span>carregando</span></div>';
+  let data;
+  try{
+    const r=await fetch(API+"/stats?days="+days);
+    data=await r.json();
+  }catch(e){
+    $("tiles").innerHTML='<div class="tile"><b>—</b><span>não foi possível carregar os dados</span></div>';
+    return;
+  }
+  render(data);
+}
+
+function render(data){
+  const ds=data.days;
+  const today=ds[ds.length-1]||{pv:0,uv:0};
+  const totPv=ds.reduce((a,x)=>a+x.pv,0), totUv=ds.reduce((a,x)=>a+x.uv,0);
+  const totClicks=Object.values(data.clicks).reduce((a,b)=>a+b,0);
+  $("tiles").innerHTML=`
+    <div class="tile"><b>${today.uv}</b><span>visitantes hoje</span></div>
+    <div class="tile"><b>${today.pv}</b><span>visitas hoje</span></div>
+    <div class="tile"><b>${totUv}</b><span>visitantes em ${days} dias</span></div>
+    <div class="tile"><b>${totPv}</b><span>visitas em ${days} dias</span></div>
+    <div class="tile"><b>${totClicks}</b><span>cliques registrados</span></div>`;
+  drawLine(ds);
+  drawBars(data.clicks);
+  $("daysTable").innerHTML="<table><tr><th>Dia</th><th>Visitas</th><th>Visitantes</th></tr>"+
+    ds.slice().reverse().map(x=>`<tr><td>${fmtFull(x.d)}</td><td>${x.pv}</td><td>${x.uv}</td></tr>`).join("")+"</table>";
+}
+
+/* ---------- Gráfico de linhas ---------- */
+function drawLine(ds){
+  const wrap=$("lineWrap");
+  if(!ds.length||ds.every(x=>x.pv===0&&x.uv===0)){wrap.innerHTML='<div class="empty">Ainda não há visitas registradas no período.</div>';return}
+  const W=Math.min(wrap.clientWidth||1000,1020),H=240,padL=36,padR=12,padT=10,padB=26;
+  const max=Math.max(4,...ds.map(x=>Math.max(x.pv,x.uv)));
+  const x=i=>padL+i*(W-padL-padR)/Math.max(1,ds.length-1);
+  const y=v=>padT+(H-padT-padB)*(1-v/max);
+  const ticks=[0,Math.round(max/2),max];
+  let g="";
+  ticks.forEach(t=>{g+=`<line x1="${padL}" x2="${W-padR}" y1="${y(t)}" y2="${y(t)}" stroke="${css('--grid')}" stroke-width="1"/><text x="${padL-8}" y="${y(t)+4}" text-anchor="end" font-size="11" fill="${css('--muted')}">${t}</text>`});
+  const step=Math.ceil(ds.length/6);
+  ds.forEach((d,i)=>{if(i%step===0||i===ds.length-1)g+=`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="11" fill="${css('--muted')}">${fmtD(d.d)}</text>`});
+  const line=(key,color)=>`<polyline fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" points="${ds.map((d,i)=>x(i)+","+y(d[key])).join(" ")}"/>`;
+  wrap.innerHTML=`<svg id="lineSvg" width="100%" viewBox="0 0 ${W} ${H}" style="display:block">
+    ${g}
+    <line x1="${padL}" x2="${W-padR}" y1="${y(0)}" y2="${y(0)}" stroke="${css('--baseline')}" stroke-width="1"/>
+    ${line("pv",css('--series-1'))}${line("uv",css('--series-2'))}
+    <line id="xhair" y1="${padT}" y2="${H-padB}" stroke="${css('--baseline')}" stroke-width="1" opacity="0"/>
+    <circle id="dot1" r="4" fill="${css('--series-1')}" stroke="${css('--surface-1')}" stroke-width="2" opacity="0"/>
+    <circle id="dot2" r="4" fill="${css('--series-2')}" stroke="${css('--surface-1')}" stroke-width="2" opacity="0"/>
+    <rect x="${padL}" y="${padT}" width="${W-padL-padR}" height="${H-padT-padB}" fill="transparent" id="hover"/>
+  </svg>`;
+  const svg=$("lineSvg"),tip=$("tip");
+  svg.addEventListener("mousemove",ev=>{
+    const r=svg.getBoundingClientRect();
+    const sx=(ev.clientX-r.left)*W/r.width;
+    const i=Math.max(0,Math.min(ds.length-1,Math.round((sx-padL)/((W-padL-padR)/Math.max(1,ds.length-1)))));
+    const d=ds[i];
+    $("xhair").setAttribute("x1",x(i));$("xhair").setAttribute("x2",x(i));$("xhair").setAttribute("opacity",1);
+    $("dot1").setAttribute("cx",x(i));$("dot1").setAttribute("cy",y(d.pv));$("dot1").setAttribute("opacity",1);
+    $("dot2").setAttribute("cx",x(i));$("dot2").setAttribute("cy",y(d.uv));$("dot2").setAttribute("opacity",1);
+    tip.style.display="block";
+    tip.innerHTML=`<b>${fmtFull(d.d)}</b><div class="row"><span>Visitas</span><b>${d.pv}</b></div><div class="row"><span>Visitantes</span><b>${d.uv}</b></div>`;
+    tip.style.left=Math.min(ev.clientX+14,innerWidth-170)+"px";
+    tip.style.top=(ev.clientY+14)+"px";
+  });
+  svg.addEventListener("mouseleave",()=>{tip.style.display="none";["xhair","dot1","dot2"].forEach(i=>$(i).setAttribute("opacity",0))});
+}
+
+/* ---------- Barras horizontais ---------- */
+function drawBars(clicks){
+  const wrap=$("barsWrap");
+  const items=Object.entries(clicks).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  if(!items.length){wrap.innerHTML='<div class="empty">Ainda não há cliques registrados no período.</div>';return}
+  const max=Math.max(...items.map(x=>x[1]));
+  const W=Math.min(wrap.clientWidth||1000,1020),rowH=30,labelW=230,padR=46,H=items.length*rowH+6;
+  let g="";
+  items.forEach(([id,v],i)=>{
+    const bw=Math.max(3,(W-labelW-padR)*v/max);
+    const yy=i*rowH+6;
+    g+=`<text x="${labelW-10}" y="${yy+13}" text-anchor="end" font-size="12" fill="${css('--text-secondary')}">${prettyId(id).slice(0,34)}</text>
+    <rect class="bar" data-id="${id}" data-v="${v}" x="${labelW}" y="${yy}" width="${bw}" height="18" rx="4" fill="${css('--series-1')}"/>
+    <text x="${labelW+bw+8}" y="${yy+13}" font-size="12" font-weight="600" fill="${css('--text-primary')}">${v}</text>`;
+  });
+  wrap.innerHTML=`<svg id="barSvg" width="100%" viewBox="0 0 ${W} ${H}" style="display:block">
+    <line x1="${labelW}" x2="${labelW}" y1="0" y2="${H}" stroke="${css('--baseline')}" stroke-width="1"/>${g}</svg>`;
+  const tip=$("tip");
+  wrap.querySelectorAll(".bar").forEach(b=>{
+    b.addEventListener("mousemove",ev=>{
+      tip.style.display="block";
+      tip.innerHTML=`<b>${prettyId(b.dataset.id)}</b><div class="row"><span>Cliques</span><b>${b.dataset.v}</b></div>`;
+      tip.style.left=Math.min(ev.clientX+14,innerWidth-170)+"px";tip.style.top=(ev.clientY+14)+"px";
+    });
+    b.addEventListener("mouseleave",()=>tip.style.display="none");
+  });
+}
+
+$("periodChips").addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(!c)return;
+  document.querySelectorAll("#periodChips .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");days=+c.dataset.days;load();
+});
+load();
+</script>
+</body>
+</html>
