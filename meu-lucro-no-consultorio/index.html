@@ -30,22 +30,31 @@
   --red-bg:#FBEAE8;
   --ok:#0F7A4D;
   --ok-bg:#E6F5EE;
-  --radius:14px;
+  --radius:18px;
   --shadow:0 1px 3px rgba(10,51,44,.06),0 8px 22px rgba(10,51,44,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55}
 
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
-.head{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:14px}
+header{position:sticky;top:12px;z-index:40;padding:0 16px}
+.head{max-width:1040px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:99px;box-shadow:var(--shadow)}
 .logo-turi{color:var(--g-700);display:flex;align-items:center}
 .logo-turi svg{height:24px;width:auto;display:block}
 .head .tag{font-size:12px;font-weight:600;color:var(--g-600);background:var(--g-100);padding:5px 12px;border-radius:99px;margin-left:auto}
 
-.hero{max-width:1080px;margin:0 auto;padding:40px 24px 10px}
-.hero h1{font-size:32px;font-weight:800;letter-spacing:-.5px;color:var(--g-900)}
-.hero h1 span{color:var(--g-500)}
-.hero p{color:var(--ink-2);margin-top:8px;max-width:660px;font-size:16px}
+.hero{position:relative;max-width:1080px;margin:0 auto;padding:64px 24px 26px;text-align:center;overflow:visible}
+.hero::before{content:"";position:absolute;inset:-80px -200px 0;background:
+  radial-gradient(560px 300px at 25% 10%,rgba(87,190,159,.16),transparent 70%),
+  radial-gradient(560px 300px at 78% 20%,rgba(18,130,104,.12),transparent 70%);
+  pointer-events:none;z-index:-1}
+.hero h1{font-size:52px;font-weight:800;letter-spacing:-1.5px;line-height:1.06;color:var(--g-950)}
+.hero h1 span{background:linear-gradient(110deg,var(--g-600) 20%,var(--g-300) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--ink-2);margin:16px auto 0;max-width:580px;font-size:17px}
+.hero .cta-hero{margin-top:26px}
+.hero .btn-main{font-size:17px;padding:16px 40px}
+.hero .chips-trust{display:flex;gap:18px;justify-content:center;margin-top:20px;flex-wrap:wrap;font-size:13.5px;color:var(--ink-2);font-weight:500}
+.hero .chips-trust span::before{content:"✓ ";color:var(--g-500);font-weight:800}
+@media(max-width:640px){.hero{padding-top:44px}.hero h1{font-size:34px;letter-spacing:-.8px}}
 
 main{max-width:1080px;margin:0 auto;padding:22px 24px 80px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -107,8 +116,20 @@ input:focus,select:focus{outline:2px solid var(--g-300);border-color:transparent
 .hl li::before{content:"✅"}
 .ll li::before{content:"⚠️"}
 .diag{font-size:14.5px;color:var(--ink-2)}
-.diag p{margin-bottom:10px}
 .diag b{color:var(--ink)}
+.diag-sec{border-radius:14px;padding:16px 18px;margin-bottom:12px;border:1px solid}
+.diag-sec h4{font-size:14px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.diag-sec ul{list-style:none}
+.diag-sec li{padding:5px 0 5px 20px;position:relative}
+.diag-sec li::before{content:"•";position:absolute;left:6px;font-weight:800}
+.ds-green{background:var(--g-50);border-color:#D3E9DF}
+.ds-green h4,.ds-green li::before{color:var(--g-700)}
+.ds-neutral{background:#F6F8F7;border-color:var(--line)}
+.ds-neutral h4,.ds-neutral li::before{color:var(--ink)}
+.ds-amber{background:var(--amber-bg);border-color:#F0DDBB}
+.ds-amber h4,.ds-amber li::before{color:var(--amber)}
+.ds-red{background:var(--red-bg);border-color:#F0C9C3}
+.ds-red h4,.ds-red li::before{color:var(--red)}
 .tooltip{position:fixed;pointer-events:none;background:#fff;border:1px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.14);border-radius:9px;padding:7px 11px;font-size:12.5px;display:none;z-index:50}
 svg text{font-family:'Inter',system-ui,sans-serif}
 
@@ -154,8 +175,10 @@ footer .disc{max-width:680px;margin:8px auto 0;display:block}
 </header>
 
 <section class="hero">
-  <h1>Meu Lucro no <span>Consultório</span></h1>
+  <h1>Seu consultório dá<br><span>lucro de verdade?</span></h1>
   <p>Preencha os números do seu consultório e receba, na hora, uma análise clara: quanto entra, quanto sai, qual é a sua margem real e o que fazer para melhorar. Sem economês.</p>
+  <div class="cta-hero"><button class="btn-main" id="ctaHero" data-track="lucro/cta-hero">Descobrir meu lucro agora ↓</button></div>
+  <div class="chips-trust"><span>Leva 2 minutos</span><span>Sem cadastro</span><span>Seus dados não saem do navegador</span></div>
 </section>
 
 <main>
@@ -166,12 +189,12 @@ footer .disc{max-width:680px;margin:8px auto 0;display:block}
       <h2><span class="num">1</span> Receita com consultas</h2>
       <div class="hint">Quanto entra no consultório num mês típico. Consideramos 4,33 semanas por mês.</div>
       <div class="row2">
-        <div><label>Valor da consulta particular</label><div class="prefix"><input type="number" id="precoPart" min="0" placeholder="300"></div></div>
         <div><label>Consultas particulares <small>por semana</small></label><input type="number" id="volPart" min="0" placeholder="12"></div>
+        <div><label>Valor da consulta particular</label><div class="prefix"><input type="number" id="precoPart" min="0" placeholder="300"></div></div>
       </div>
       <div class="row2">
-        <div><label>Valor médio recebido do convênio</label><div class="prefix"><input type="number" id="precoConv" min="0" placeholder="90"></div></div>
         <div><label>Consultas de convênio <small>por semana</small></label><input type="number" id="volConv" min="0" placeholder="20"></div>
+        <div><label>Valor médio recebido do convênio</label><div class="prefix"><input type="number" id="precoConv" min="0" placeholder="90"></div></div>
       </div>
       <div class="row2">
         <div><label>Faltas sem cobrança <small>(no-show)</small></label><div class="suffix"><input type="number" id="noshow" min="0" max="60" placeholder="10"></div></div>
@@ -422,13 +445,39 @@ function render(c){
   $("highlights").innerHTML=hi.map(x=>`<li>${x}</li>`).join("");
   $("lowlights").innerHTML=lo.length?lo.map(x=>`<li>${x}</li>`).join(""):"<li style='list-style:none'>Nenhum alerta relevante. Consultório redondo.</li>";
 
-  /* diagnóstico */
+  /* diagnóstico em seções */
   const be=Math.ceil(c.consultasBE/SEM);
   const folga=(c.consultas-c.consultasBE)/c.consultasBE;
+  const top2=c.custos.slice().sort((a,b)=>b.v-a.v).slice(0,2);
+  const ganhoConsulta=c.margVarUnit;
+  const ganhoReajuste=c.recPart*0.10*(1-c.cartao-c.imposto);
+  let acoes=[];
+  if(c.margem>=0.15){
+    acoes=[`Ocupar horários ociosos: cada consulta a mais deixa <b>${R(ganhoConsulta)}</b> líquidos no bolso.`,
+      c.perdaNoshow>0?`Reduzir faltas: hoje elas levam <b>${R(c.perdaNoshow)}/mês</b>. Confirmação automática recupera boa parte disso.`:`Manter o no-show baixo, que já é um diferencial seu.`,
+      c.recConv>0?`Revisar o mix: aumentar gradualmente a fatia de consultas particulares eleva o ticket médio sem custo novo.`:`Considerar reajuste de preço: +10% na consulta particular adicionaria <b>${R(ganhoReajuste)}/mês</b>.`];
+  }else if(c.margem>=0){
+    acoes=[`Renegociar as 2 maiores linhas de custo: <b>${top2.map(x=>x.k).join("</b> e <b>")}</b> somam ${R(top2.reduce((a,x)=>a+x.v,0))}/mês.`,
+      c.perdaNoshow>0?`Recuperar a receita perdida com faltas: <b>${R(c.perdaNoshow)}/mês</b> escapam sem cobrança.`:`Aumentar o volume: cada consulta a mais deixa ${R(ganhoConsulta)} líquidos.`,
+      `Testar reajuste de preço: +10% na consulta particular adicionaria <b>${R(ganhoReajuste)}/mês</b> direto na margem.`];
+  }else{
+    acoes=[`Cortar ou renegociar já as 2 maiores linhas de custo: <b>${top2.map(x=>x.k).join("</b> e <b>")}</b>.`,
+      `Cruzar o ponto de equilíbrio: faltam cerca de <b>${Math.max(0,Math.ceil((c.consultasBE-c.consultas)/SEM))} consultas/semana</b> para o lucro zerar.`,
+      `Rever preço e mix: cada consulta realizada hoje deixa ${R(ganhoConsulta)} líquidos; volume e ticket são as saídas mais rápidas do vermelho.`];
+  }
   $("diag").innerHTML=`
-    <p>O seu consultório fatura <b>${R(c.receita)}</b> num mês típico e gasta <b>${R(c.custoTotal)}</b> para funcionar, o que deixa <b>${R(c.lucro)}</b> de resultado (${pct(c.margem)} de margem líquida). Antes dos impostos e taxas, a operação em si tem margem de ${pct(c.margemOp)}.</p>
-    <p>Seu ponto de equilíbrio é de aproximadamente <b>${Math.ceil(c.consultasBE)} consultas/mês</b> (cerca de ${be} por semana): é a partir daí que o consultório começa a dar lucro. Hoje você realiza ${Math.round(c.consultas)} consultas/mês, ou seja, opera ${folga>=0?`com <b>${pct(folga)} de folga</b> acima`:`<b>${pct(-folga)} abaixo</b>`} do equilíbrio.</p>
-    <p>${c.margem>=0.15?"O caminho de crescimento aqui é aumentar receita sem deixar o custo fixo crescer junto: ocupar horários ociosos, reduzir faltas e revisar o mix particular/convênio.":c.margem>=0?"Duas alavancas rápidas: cortar ou renegociar as duas maiores linhas de custo do gráfico e recuperar a receita perdida com faltas. Pequenos ganhos somados mudam a margem de patamar.":"Nada aqui é sentença. Reveja as duas maiores linhas de custo, ajuste preço ou volume até cruzar o ponto de equilíbrio, e refaça esta análise com os novos números."}</p>`;
+    <div class="diag-sec ds-green"><h4>📊 Raio-X do mês</h4><ul>
+      <li>Entram <b>${R(c.receita)}</b> e saem <b>${R(c.custoTotal)}</b>: sobra de <b>${R(c.lucro)}</b> (${pct(c.margem)} de margem líquida).</li>
+      <li>Antes de impostos e taxas, a operação tem margem de <b>${pct(c.margemOp)}</b>.</li>
+      <li>Ticket médio de <b>${R(c.ticket)}</b> em ${Math.round(c.consultas)} consultas realizadas.</li>
+    </ul></div>
+    <div class="diag-sec ds-neutral"><h4>🎯 Ponto de equilíbrio</h4><ul>
+      <li>O consultório se paga a partir de <b>${Math.ceil(c.consultasBE)} consultas/mês</b> (cerca de ${be} por semana).</li>
+      <li>Hoje você realiza ${Math.round(c.consultas)}/mês: ${folga>=0?`<b>${pct(folga)} de folga</b> acima do equilíbrio.`:`<b>${pct(-folga)} abaixo</b> do equilíbrio.`}</li>
+    </ul></div>
+    <div class="diag-sec ${c.margem>=0.15?"ds-green":c.margem>=0?"ds-amber":"ds-red"}"><h4>🚀 Plano de ação</h4><ul>
+      ${acoes.map(a=>`<li>${a}</li>`).join("")}
+    </ul></div>`;
 
   buildOnepager(c,hi,lo);
 }
@@ -539,6 +588,7 @@ function buildOnepager(c,hi,lo){
 
 /* ================= EVENTOS ================= */
 $("analisar").addEventListener("click",analisar);
+$("ctaHero").addEventListener("click",()=>{document.getElementById("form").scrollIntoView({behavior:"smooth"})});
 $("editar").addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})});
 $("exportar").addEventListener("click",()=>{track("lucro/exportar-pdf");window.print()});
 
