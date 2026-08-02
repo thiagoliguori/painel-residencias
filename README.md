@@ -66,7 +66,7 @@ A v2 corrigiu a falha central da v1: **o pró-labore do médico não entrava na 
 Cascata de resultado:
 ```
 Receita realizada
- − custos por consulta e impostos
+ − impostos e taxa de cartão
  = sobra para pagar a estrutura   (margem de contribuição)
  − estrutura, equipe e fixos
  = caixa antes do médico
