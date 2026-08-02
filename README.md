@@ -44,11 +44,11 @@ O preenchimento virou um wizard de 4 etapas e a análise só aparece no fim, dep
 
 | Componente | Onde é usado |
 |---|---|
-| Slider (arrastar) | Percentuais: faltas, glosas, taxa de cartão, fatia no cartão, alíquota, repasses, multiplicador da CLT |
+| Slider (arrastar) | Percentuais: faltas, glosas, taxa de cartão, fatia no cartão, alíquota, multiplicador da CLT |
 | Slider + valor digitável | Todo campo em reais: preço da consulta, aluguel, salário, pró-labore, custos fixos |
 | Stepper (+ e −) | Quantidades pequenas: consultas por semana, vagas na agenda, horas |
 | Controle segmentado | Sala por mês ou por hora; equipe por salário ou custo total |
-| Toggle | Atendo por convênio, tenho equipe fixa, tenho empréstimo, quero reserva |
+| Toggle | Atendo por convênio, tenho equipe fixa |
 | Chips de seleção múltipla | Quais custos fixos existem: só os marcados viram campo |
 | Chips de seleção única | Regime tributário, que preenche a alíquota |
 | Autocomplete | Especialidade, com busca incremental em 56 opções |
