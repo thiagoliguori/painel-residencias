@@ -29,12 +29,15 @@
   --shadow:0 18px 50px rgba(10,51,44,.08);
 }
 *{box-sizing:border-box}
+[hidden]{display:none !important}
 html{scroll-behavior:smooth}
 body{margin:0;color:var(--ink);font-family:'Inter',ui-sans-serif,system-ui,sans-serif;line-height:1.45;
   background:radial-gradient(circle at 8% 0%,rgba(127,220,174,.20),transparent 28rem),linear-gradient(180deg,#EAF6F0 0,var(--paper) 30rem)}
 button,input,select{font:inherit}
 button{cursor:pointer}
 a{color:inherit}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
 /* ---------- topbar ---------- */
 .topbar{max-width:1180px;margin:0 auto;padding:22px 22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -43,53 +46,136 @@ a{color:inherit}
 .privacy-pill{border:1px solid rgba(10,51,44,.12);background:rgba(255,255,255,.75);padding:9px 14px;border-radius:999px;font-size:12.5px;color:var(--ink-2);backdrop-filter:blur(8px);font-weight:500}
 
 /* ---------- hero ---------- */
-.hero{max-width:1180px;margin:0 auto;padding:52px 22px 34px;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:end}
+.hero{max-width:1180px;margin:0 auto;padding:52px 22px 30px;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:end}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:14px;color:var(--ink-2);font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
 .eyebrow::before{content:"";width:26px;height:5px;border-radius:999px;background:var(--accent-dk)}
-h1{margin:0;max-width:780px;font-size:clamp(40px,5.6vw,68px);line-height:1;letter-spacing:-.05em;font-weight:800}
+h1{margin:0;max-width:780px;font-size:clamp(38px,5.4vw,64px);line-height:1;letter-spacing:-.05em;font-weight:800}
 h1 em{font-style:normal;color:var(--accent-dk)}
 .hero p{margin:22px 0 0;max-width:680px;font-size:18px;color:var(--muted)}
 .hero-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .hero-note{background:var(--ink);color:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow)}
 .hero-note strong{color:var(--accent);display:block;font-size:14px;margin-bottom:9px}
 .hero-note p{margin:0;color:rgba(255,255,255,.80);font-size:13.5px}
+.trust{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:500}
+.trust span::before{content:"✓ ";color:var(--accent-dk);font-weight:800}
+.primary{border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:15px;padding:15px 28px;box-shadow:0 10px 24px rgba(10,51,44,.2)}
+.primary:hover{filter:brightness(1.12)}
 
-/* ---------- layout ---------- */
-.layout{max-width:1180px;margin:0 auto;padding:0 22px 30px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr);gap:26px;align-items:start}
-.form-card,.results-card{background:rgba(255,255,255,.94);border:1px solid rgba(10,51,44,.09);border-radius:24px;box-shadow:var(--shadow)}
-.form-card{padding:6px 26px 26px}
-.results-card{position:sticky;top:18px;overflow:hidden}
+/* ---------- wizard ---------- */
+.wizard{max-width:940px;margin:0 auto;padding:0 22px 54px}
+.wcard{background:#fff;border:1px solid rgba(10,51,44,.09);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}
+.wtrack{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:20px 24px 16px}
+.wtab{text-align:left;background:none;border:0;padding:0;color:var(--muted);opacity:.55}
+.wtab .num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:9px;background:#EDF4F1;color:var(--ink-2);font-size:12px;font-weight:900;margin-bottom:7px}
+.wtab .nm{display:block;font-size:12px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.wtab.done{opacity:1;cursor:pointer}
+.wtab.done .num{background:var(--accent);color:var(--ink)}
+.wtab.now{opacity:1}
+.wtab.now .num{background:var(--ink);color:var(--accent)}
+.wtab.now .nm{color:var(--ink)}
+.wbar{height:5px;background:#EDF3F0}
+.wbar i{display:block;height:100%;width:25%;background:linear-gradient(90deg,var(--accent-dk),var(--accent));transition:width .35s ease}
+.wbody{padding:26px 26px 6px}
+.wtitle{margin-bottom:20px}
+.wtitle h2{margin:0;font-size:23px;font-weight:800;letter-spacing:-.03em}
+.wtitle p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.wfoot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:18px 26px 24px;border-top:1px solid var(--line-2);margin-top:10px}
+.wsum{font-size:12.5px;color:var(--muted);font-weight:600}
+.wsum b{color:var(--ink);font-weight:800}
+.wnav{display:flex;gap:10px;margin-left:auto}
+.btn-ghost{border:1px solid var(--line);background:#fff;color:var(--ink-2);border-radius:12px;font-weight:800;font-size:13.5px;padding:13px 18px}
+.btn-ghost:hover{background:#F4F9F7}
+.btn-next{border:0;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:14px;padding:13px 24px;box-shadow:0 10px 22px rgba(10,51,44,.18)}
+.btn-next:hover{filter:brightness(1.12)}
+.wmsg{margin:0 26px;padding:11px 14px;border-radius:12px;background:var(--soft-bad);border:1px solid #F5CFCA;color:var(--bad);font-size:12.5px;font-weight:700}
 
-.section{padding:24px 0;border-bottom:1px solid var(--line)}
-.section:last-of-type{border-bottom:0}
-.section-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:18px}
-.step{flex:0 0 auto;width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:var(--ink);color:var(--accent);font-weight:900;font-size:13px}
-h2,h3{margin:0;letter-spacing:-.02em}
-.section h2{font-size:19px;font-weight:800}
-.section-copy{margin:4px 0 0;color:var(--muted);font-size:13px}
-
-.grid-2,.grid-3{display:grid;gap:14px}
-.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* ---------- blocos e campos ---------- */
+.bloco{margin-top:22px;padding-top:20px;border-top:1px solid var(--line-2)}
+.bloco:first-child{margin-top:0;padding-top:0;border-top:0}
+.bloco-head{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.bloco-head h3{margin:0;font-size:14px;font-weight:800;letter-spacing:-.01em}
+.bloco-head span{font-size:12.5px;color:var(--muted)}
+.grid-2{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-2+.grid-2{margin-top:16px}
 .field{min-width:0}
-label{display:block;min-height:34px;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--ink-2)}
-.input-wrap{position:relative}
-.prefix,.suffix{position:absolute;top:50%;transform:translateY(-50%);color:#7A8B86;font-size:13px;pointer-events:none}
-.prefix{left:13px}.suffix{right:13px}
-input,select{width:100%;min-height:46px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;color:var(--ink);padding:10px 12px;outline:0;transition:border-color .16s,box-shadow .16s,background .16s}
-input.has-prefix{padding-left:35px}
-input.has-suffix{padding-right:40px}
-input:focus,select:focus{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
-.hint{margin-top:6px;color:var(--muted);font-size:11px}
-.callout{margin-top:14px;padding:12px 14px;border-radius:13px;background:#F1F7F4;border:1px solid #DBE9E3;color:var(--ink-2);font-size:12px}
-.callout strong{font-weight:800}
-.toggle-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:5px;margin-bottom:14px;background:#EDF4F1;border-radius:13px}
-.toggle-row button{min-height:38px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:800;font-size:12.5px}
-.toggle-row button.active{background:#fff;color:var(--ink);box-shadow:0 4px 14px rgba(10,51,44,.08)}
+label{display:block;margin-bottom:7px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
+label small{font-weight:600;color:var(--muted)}
+.hint{margin-top:7px;color:var(--muted);font-size:11.5px}
+input[type=text],input[type=month],select{width:100%;min-height:48px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;color:var(--ink);padding:10px 13px;outline:0;transition:border-color .16s,box-shadow .16s,background .16s}
+input[type=text]:focus,input[type=month]:focus,select:focus{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
 
-/* ---------- saiba mais ---------- */
-details.more{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:#FAFCFB;overflow:hidden}
-details.more summary{list-style:none;cursor:pointer;padding:12px 15px;font-size:12.5px;font-weight:800;color:var(--accent-dk);display:flex;align-items:center;gap:8px}
+/* valor em dinheiro com slider */
+.money .mrow{display:flex;align-items:baseline;gap:6px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;padding:9px 13px;transition:border-color .16s,box-shadow .16s,background .16s}
+.money .mrow:focus-within{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
+.money .cur{font-size:13px;font-weight:800;color:#7A8B86}
+.money input[type=number]{flex:1;min-width:0;border:0;background:transparent;outline:0;padding:0;font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.money .per{font-size:11.5px;color:var(--muted);font-weight:600}
+
+/* percentual e multiplicador */
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lrow label{margin-bottom:0}
+output{font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--accent-dk);font-variant-numeric:tabular-nums}
+
+/* slider */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;margin:12px 0 0;height:24px;background:transparent;cursor:grab;display:block}
+input[type=range]:active{cursor:grabbing}
+input[type=range]:focus{outline:0}
+input[type=range]::-webkit-slider-runnable-track{height:7px;border-radius:999px;background:linear-gradient(90deg,var(--accent-dk) var(--fill,0%),#E3EDE9 var(--fill,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-8.5px;border-radius:50%;background:#fff;border:3px solid var(--accent-dk);box-shadow:0 3px 9px rgba(10,51,44,.28);transition:transform .12s}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.12)}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(18,130,104,.18)}
+input[type=range]::-moz-range-track{height:7px;border-radius:999px;background:#E3EDE9}
+input[type=range]::-moz-range-progress{height:7px;border-radius:999px;background:var(--accent-dk)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--accent-dk);box-shadow:0 3px 9px rgba(10,51,44,.28)}
+.scale{display:flex;justify-content:space-between;font-size:10.5px;color:#8C9C97;font-weight:600;margin-top:4px}
+
+/* stepper */
+.stepper{display:flex;align-items:center;gap:6px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;padding:5px}
+.stepper:focus-within{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
+.stepper button{flex:0 0 auto;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:20px;font-weight:800;color:var(--accent-dk);line-height:1;display:grid;place-items:center}
+.stepper button:hover{background:#EEF6F2}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.stepper input{flex:1;min-width:0;border:0;background:transparent;outline:0;text-align:center;font-size:21px;font-weight:800;letter-spacing:-.03em;padding:0}
+.stepper .un{flex:0 0 auto;padding-right:8px;font-size:11px;color:var(--muted);font-weight:700}
+
+/* switch */
+.switch{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#FBFDFC}
+.switch .tx{font-size:13px;font-weight:700;color:var(--ink-2)}
+.switch .tx small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;margin-top:2px}
+.sw{flex:0 0 auto;width:52px;height:30px;border-radius:999px;background:#D3E0DB;border:0;position:relative;transition:background .18s;padding:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .18s;box-shadow:0 1px 4px rgba(0,0,0,.22)}
+.sw[aria-checked=true]{background:var(--accent-dk)}
+.sw[aria-checked=true]::after{left:25px}
+
+/* controle segmentado */
+.seg{display:grid;grid-auto-flow:column;gap:6px;padding:5px;background:#EDF4F1;border-radius:13px;margin-bottom:16px}
+.seg button{min-height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:800;font-size:12.5px;padding:0 10px}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 4px 14px rgba(10,51,44,.08)}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 15px;font-size:12.5px;font-weight:700;color:var(--ink-2);transition:.14s}
+.chip:hover{border-color:#B8CFC7}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip[aria-pressed=true]::before{content:"✓ ";font-weight:900}
+
+/* estrelas */
+.stars{display:flex;gap:5px;margin-top:4px}
+.stars button{font-size:29px;line-height:1;background:none;border:0;padding:0 2px;color:#D3E0DB;transition:transform .12s,color .12s}
+.stars button:hover{transform:scale(1.14)}
+.stars button.on{color:#E9B949}
+.stars-tx{margin-top:6px;font-size:12px;color:var(--muted);font-weight:600;min-height:18px}
+
+/* autocomplete */
+.ac{position:relative}
+.ac-list{position:absolute;z-index:40;top:calc(100% + 5px);left:0;right:0;max-height:220px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 14px 34px rgba(10,51,44,.14);padding:5px}
+.ac-list button{display:block;width:100%;text-align:left;padding:9px 11px;border:0;border-radius:9px;background:none;font-size:13px;color:var(--ink-2)}
+.ac-list button:hover,.ac-list button.sel{background:#EEF6F2;color:var(--ink);font-weight:700}
+.ac-empty{padding:10px 11px;font-size:12.5px;color:var(--muted)}
+
+/* saiba mais */
+details.more{margin-top:20px;border:1px solid var(--line);border-radius:14px;background:#FAFCFB;overflow:hidden}
+details.more summary{list-style:none;cursor:pointer;padding:13px 15px;font-size:12.5px;font-weight:800;color:var(--accent-dk);display:flex;align-items:center;gap:8px}
 details.more summary::-webkit-details-marker{display:none}
 details.more summary::before{content:"?";display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent-dk);color:#fff;font-size:11px;font-weight:900;flex-shrink:0}
 details.more summary::after{content:"▾";margin-left:auto;font-size:11px;color:var(--muted);transition:.2s}
@@ -101,9 +187,16 @@ details.more .more-body li{margin-bottom:4px}
 details.more .more-body b{color:var(--ink)}
 .round-note{background:#EEF6F2;border-left:3px solid var(--accent-dk);border-radius:0 9px 9px 0;padding:9px 12px;margin-top:4px;font-size:12px}
 
-/* ---------- painel de resultado ---------- */
-.results-header{padding:22px 22px 20px;background:var(--ink);color:#fff}
-.results-header h2{font-size:17px;font-weight:800}
+/* ---------- análise ---------- */
+.analise{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
+.an-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.an-head h2{margin:0;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.04em}
+.an-head p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.an-acts{display:flex;gap:10px;flex-wrap:wrap}
+.an-top{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(0,1.1fr);gap:18px;align-items:start;margin-bottom:16px}
+.results-card{background:#fff;border:1px solid rgba(10,51,44,.09);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.results-header{padding:20px 22px 18px;background:var(--ink);color:#fff}
+.results-header h3{margin:0;font-size:16px;font-weight:800}
 .results-header p{margin:6px 0 0;color:rgba(255,255,255,.7);font-size:12.5px}
 .status{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:800;font-size:12px;color:#fff}
 .status .good,.status .warn,.status .bad{color:#fff}
@@ -111,13 +204,13 @@ details.more .more-body b{color:var(--ink)}
 .result-body{padding:18px}
 .hero-metric{padding:18px;border:1px solid var(--line);border-radius:16px;background:#FBFDFC}
 .metric-label{color:var(--muted);font-size:11.5px;font-weight:700}
-.metric-value{margin-top:4px;font-size:32px;line-height:1;letter-spacing:-.04em;font-weight:900}
+.metric-value{margin-top:4px;font-size:34px;line-height:1;letter-spacing:-.04em;font-weight:900}
 .metric-sub{margin-top:8px;color:var(--muted);font-size:11.5px}
 .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
 .mini-metric{padding:13px;border-radius:13px;border:1px solid var(--line);background:#fff}
 .mini-metric strong{display:block;margin-top:4px;font-size:18px;letter-spacing:-.02em;font-weight:800}
 .bar-card{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:16px}
-.bar-card h3{font-size:13.5px;font-weight:800}
+.bar-card h3{margin:0;font-size:13.5px;font-weight:800}
 .bar-track{height:12px;margin-top:12px;overflow:hidden;display:flex;border-radius:999px;background:#E8EFEC;gap:2px}
 .bar{height:100%;min-width:0;transition:width .3s ease;border-radius:999px}
 .legend{display:grid;gap:6px;margin-top:12px}
@@ -128,19 +221,9 @@ details.more .more-body b{color:var(--ink)}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .btn-pdf{width:100%;min-height:48px;margin-top:14px;border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:14px;box-shadow:0 10px 24px rgba(10,51,44,.18)}
 .btn-pdf:hover{filter:brightness(1.12)}
-.primary{border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:15px;padding:15px 28px;box-shadow:0 10px 24px rgba(10,51,44,.2)}
-.primary:hover{transform:translateY(-1px)}
-.trust{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:500}
-.trust span::before{content:"✓ ";color:var(--accent-dk);font-weight:800}
-
-/* ---------- análise completa ---------- */
-.deep{max-width:1180px;margin:0 auto;padding:8px 22px 60px}
-.deep-head{margin-bottom:16px}
-.deep-head h2{font-size:26px;font-weight:800;letter-spacing:-.03em}
-.deep-head p{margin:6px 0 0;color:var(--muted);font-size:14.5px}
 .panel{background:#fff;border:1px solid rgba(10,51,44,.09);border-radius:20px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
-.panel h3{font-size:15.5px;font-weight:800;margin-bottom:2px}
-.panel .sub{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.panel h3{margin:0;font-size:15.5px;font-weight:800}
+.panel .sub{font-size:12.5px;color:var(--muted);margin:2px 0 14px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .hl li,.ll li{font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line-2);display:flex;gap:9px;align-items:flex-start;list-style:none}
 .hl li:last-child,.ll li:last-child{border-bottom:0}
@@ -148,7 +231,7 @@ details.more .more-body b{color:var(--ink)}
 .ll li::before{content:"⚠️";flex-shrink:0}
 ul{margin:0;padding:0}
 .diag-sec{border-radius:14px;padding:15px 17px;margin-bottom:11px;border:1px solid}
-.diag-sec h4{font-size:13.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.diag-sec h4{margin:0 0 8px;font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px}
 .diag-sec li{padding:4px 0 4px 18px;position:relative;list-style:none;font-size:13.5px}
 .diag-sec li::before{content:"•";position:absolute;left:5px;font-weight:800}
 .ds-green{background:var(--soft-good);border-color:#C9E7D8}
@@ -159,7 +242,7 @@ ul{margin:0;padding:0}
 .ds-amber h4,.ds-amber li::before{color:var(--warn)}
 .ds-red{background:var(--soft-bad);border-color:#F5CFCA}
 .ds-red h4,.ds-red li::before{color:var(--bad)}
-.casc-row{display:grid;grid-template-columns:190px 1fr 110px;gap:10px;align-items:center;padding:6px 0;font-size:13px}
+.casc-row{display:grid;grid-template-columns:200px 1fr 118px;gap:10px;align-items:center;padding:6px 0;font-size:13px}
 .casc-row .nm{color:var(--ink-2);font-weight:600}
 .casc-row .vl{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
 .casc-bar{height:16px;border-radius:5px;background:#E8EFEC;position:relative;overflow:hidden}
@@ -174,25 +257,29 @@ footer b{color:var(--ink-2)}
 footer a{color:var(--accent-dk);font-weight:700}
 
 @media(max-width:960px){
-  .hero,.layout,.two{grid-template-columns:1fr}
+  .hero,.an-top,.two{grid-template-columns:1fr}
   .hero{padding-top:38px}
   .hero-note{max-width:640px}
-  .results-card{position:static}
 }
 @media(max-width:620px){
   .privacy-pill{display:none}
-  h1{font-size:38px}
   .hero p{font-size:16px}
-  .form-card{padding-left:16px;padding-right:16px}
-  .grid-2,.grid-3{grid-template-columns:1fr}
+  .wbody{padding:20px 16px 4px}
+  .wtrack{padding:16px 14px 12px;gap:5px}
+  .wtab .nm{font-size:10.5px}
+  .wfoot{padding:16px}
+  .wnav{width:100%}
+  .wnav button{flex:1}
+  .grid-2{grid-template-columns:1fr}
   .metric-grid{grid-template-columns:1fr}
-  .casc-row{grid-template-columns:120px 1fr 92px;font-size:12px}
+  .casc-row{grid-template-columns:118px 1fr 92px;font-size:12px}
+  .seg{grid-auto-flow:row}
 }
 
 /* ---------- one-pager PDF ---------- */
 #onepager{display:none}
 @media print{
-  .topbar,.hero,.layout,.deep,footer,.tooltip{display:none !important}
+  .topbar,.hero,.wizard,.analise,footer,.tooltip,.ac-list{display:none !important}
   #onepager{display:block;padding:0;font-size:12px}
   body{background:#fff}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -200,6 +287,7 @@ footer a{color:var(--accent-dk);font-weight:700}
 }
 .op-head{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:13px}
 .op-head h1{font-size:18px;letter-spacing:-.02em}
+.op-head .op-ctx{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}
 .op-head svg{height:19px}
 .op-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:11px}
 .op-tile{border:1px solid var(--line);border-radius:9px;padding:8px 10px}
@@ -226,13 +314,13 @@ footer a{color:var(--accent-dk);font-weight:700}
   <div class="privacy-pill">Cálculo local. Nenhum dado é enviado.</div>
 </header>
 
-<section class="hero">
+<section class="hero" id="hero">
   <div>
     <div class="eyebrow">Diagnóstico financeiro gratuito</div>
     <h1>Seu consultório dá <em>lucro de verdade?</em></h1>
-    <p>Calcule receita realizada, margem, ponto de equilíbrio e, principalmente, quanto sobra <b>depois</b> de remunerar o seu próprio trabalho. Sem confundir dinheiro que sobra com lucro real.</p>
+    <p>Quatro passos rápidos, com barras para arrastar em vez de campos para digitar. No fim você recebe a análise completa: margem, ponto de equilíbrio e quanto sobra <b>depois</b> de remunerar o seu próprio trabalho.</p>
     <div class="hero-actions">
-      <button class="primary" id="ctaHero" data-track="lucro/cta-hero">Calcular meu lucro ↓</button>
+      <button class="primary" id="ctaHero" data-track="lucro/cta-hero">Começar meu diagnóstico ↓</button>
       <div class="trust"><span>Leva 3 minutos</span><span>Sem cadastro</span></div>
     </div>
   </div>
@@ -242,232 +330,99 @@ footer a{color:var(--accent-dk);font-weight:700}
   </aside>
 </section>
 
-<main class="layout">
-  <form class="form-card" id="calc" novalidate>
-
-    <!-- 1. RECEITA -->
-    <section class="section">
-      <div class="section-head"><div class="step">1</div>
-        <div><h2>Receita e agenda</h2><p class="section-copy">Como é um mês típico do seu consultório.</p></div>
+<!-- ===================== WIZARD ===================== -->
+<main class="wizard" id="wizard">
+  <div class="wcard">
+    <div class="wtrack" id="wtrack" role="tablist" aria-label="Etapas do diagnóstico"></div>
+    <div class="wbar"><i id="wbarFill"></i></div>
+    <form class="wbody" id="wbody" novalidate autocomplete="off"></form>
+    <div id="wmsgWrap"></div>
+    <div class="wfoot">
+      <div class="wsum" id="wsum"></div>
+      <div class="wnav">
+        <button type="button" class="btn-ghost" id="btnPrev" hidden>← Voltar</button>
+        <button type="button" class="btn-next" id="btnNext">Continuar →</button>
       </div>
-
-      <div class="callout"><strong>Consultas particulares</strong></div>
-      <div class="grid-3" style="margin-top:12px">
-        <div class="field"><label for="volPart">Agendadas por semana</label><input id="volPart" type="number" min="0" step="1" value="12"></div>
-        <div class="field"><label for="precoPart">Valor da consulta</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="precoPart" type="number" min="0" step="10" value="300"></div></div>
-        <div class="field"><label for="noshowPart">Faltas sem cobrança</label><div class="input-wrap"><input class="has-suffix" id="noshowPart" type="number" min="0" max="100" step="1" value="10"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="cardShare">Recebido no cartão</label><div class="input-wrap"><input class="has-suffix" id="cardShare" type="number" min="0" max="100" step="5" value="70"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="cardFee">Taxa da maquininha</label><div class="input-wrap"><input class="has-suffix" id="cardFee" type="number" min="0" max="20" step="0.1" value="3"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="outrasRec">Procedimentos e outras receitas <small>por mês</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="outrasRec" type="number" min="0" step="100" value="0"></div></div>
-      </div>
-
-      <div class="callout" style="margin-top:16px"><strong>Convênios</strong></div>
-      <div class="grid-3" style="margin-top:12px">
-        <div class="field"><label for="volConv">Agendadas por semana</label><input id="volConv" type="number" min="0" step="1" value="20"></div>
-        <div class="field"><label for="precoConv">Valor médio recebido</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="precoConv" type="number" min="0" step="5" value="90"></div></div>
-        <div class="field"><label for="noshowConv">Faltas sem cobrança</label><div class="input-wrap"><input class="has-suffix" id="noshowConv" type="number" min="0" max="100" step="1" value="12"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="glosas">Glosas e não recebimentos</label><div class="input-wrap"><input class="has-suffix" id="glosas" type="number" min="0" max="100" step="0.5" value="3"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="slots">Horários disponíveis na agenda <small>por semana</small></label><input id="slots" type="number" min="0" step="1" value="40"></div>
-        <div class="field"><label for="horasClin">Horas em consultório <small>por semana</small></label><input id="horasClin" type="number" min="0" step="1" value="20"></div>
-      </div>
-
-      <details class="more" data-track="lucro/saiba-mais-receita"><summary>Saiba mais: como preencher esta parte</summary>
-        <div class="more-body">
-          <p><b>Agendadas, não realizadas.</b> Coloque quantas consultas você <b>marca</b> numa semana comum. As faltas são descontadas em seguida, então não precisa fazer essa conta de cabeça.</p>
-          <ul>
-            <li><b>Faltas sem cobrança:</b> a fatia da agenda que simplesmente não aparece e não gera receita. Se você não faz ideia, o comum em consultório é 10% no particular e 10 a 20% em convênio.</li>
-            <li><b>Recebido no cartão:</b> só essa fatia paga taxa de maquininha. Pix e dinheiro entram inteiros, e é por isso que perguntamos separado.</li>
-            <li><b>Valor médio do convênio:</b> use o que realmente cai na conta por consulta, não a tabela.</li>
-            <li><b>Glosas:</b> o que a operadora recusa ou não paga. Entre 2 e 5% é o normal; acima disso vale auditar.</li>
-            <li><b>Horários disponíveis:</b> quantas vagas cabem na sua agenda por semana. Serve para calcular a sua taxa de ocupação.</li>
-          </ul>
-          <div class="round-note"><b>Nosso arredondamento:</b> usamos <b>4,33 semanas por mês</b> (52 semanas ÷ 12) e valores médios em vez de consulta a consulta. É proposital: o objetivo é um retrato rápido e realista do mês típico, não a contabilidade fechada. Diferenças de poucos por cento não mudam a decisão que você vai tomar.</div>
-        </div>
-      </details>
-    </section>
-
-    <!-- 2. CUSTOS VARIÁVEIS -->
-    <section class="section">
-      <div class="section-head"><div class="step">2</div>
-        <div><h2>Custos que crescem com o volume</h2><p class="section-copy">Gastos que sobem quando você atende mais gente.</p></div>
-      </div>
-      <div class="grid-3">
-        <div class="field"><label for="insumoPart">Insumos por consulta particular</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="insumoPart" type="number" min="0" step="1" value="5"></div></div>
-        <div class="field"><label for="insumoConv">Insumos por consulta de convênio</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="insumoConv" type="number" min="0" step="1" value="5"></div></div>
-        <div class="field"><label for="repasse">Repasses e comissões <small>sobre a receita</small></label><div class="input-wrap"><input class="has-suffix" id="repasse" type="number" min="0" max="100" step="0.5" value="0"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="imposto">Alíquota efetiva de impostos</label><div class="input-wrap"><input class="has-suffix" id="imposto" type="number" min="0" max="45" step="0.5" value="8"><span class="suffix">%</span></div></div>
-        <div class="field"><label for="regimeRef">Referência do seu regime</label>
-          <select id="regimeRef">
-            <option value="">Escolha para preencher a alíquota</option>
-            <option value="6">Simples · Anexo III, faixa inicial (6%)</option>
-            <option value="11">Simples · Anexo III, faixas seguintes (~11%)</option>
-            <option value="15.5">Simples · Anexo V (~15,5%)</option>
-            <option value="14">Lucro Presumido (~13 a 16%)</option>
-            <option value="27.5">Pessoa física · carnê-leão (até 27,5%)</option>
-          </select>
-        </div>
-        <div class="field"><label for="varOutros">Outros custos por atendimento <small>mensal</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="varOutros" type="number" min="0" step="50" value="0"></div></div>
-      </div>
-      <details class="more" data-track="lucro/saiba-mais-variaveis"><summary>Saiba mais: por que separamos esses custos</summary>
-        <div class="more-body">
-          <p>Estes são os custos <b>variáveis</b>: eles existem por consulta. Separá-los dos custos fixos é o que permite calcular direito o seu ponto de equilíbrio e saber quanto sobra de cada nova consulta que você encaixa na agenda.</p>
-          <ul>
-            <li><b>Insumos por consulta:</b> luvas, descartáveis, papel, material que some quando você atende. Se não souber, deixe R$ 5; em consultório clínico costuma ser pouco.</li>
-            <li><b>Repasses e comissões:</b> se você divide receita com outro profissional, clínica ou plataforma.</li>
-            <li><b>Alíquota efetiva:</b> a % que realmente sai do seu faturamento, não a alíquota de tabela.</li>
-          </ul>
-          <div class="round-note"><b>Por que não escolhemos o imposto por você:</b> no Simples, a mesma atividade pode cair no Anexo III ou no V dependendo do Fator R (folha ÷ faturamento nos últimos 12 meses), e a alíquota ainda muda com o quanto você faturou no ano. Por isso oferecemos <b>faixas de referência</b> para um chute inicial, mas o campo é sempre seu para editar. O número exato quem dá é o seu contador.</div>
-        </div>
-      </details>
-    </section>
-
-    <!-- 3. ESTRUTURA E EQUIPE -->
-    <section class="section">
-      <div class="section-head"><div class="step">3</div>
-        <div><h2>Estrutura e equipe</h2><p class="section-copy">Os custos que existem mesmo se você não atender ninguém.</p></div>
-      </div>
-      <div class="toggle-row" id="modoSala">
-        <button type="button" class="active" data-modo="mensal">Sala por mês</button>
-        <button type="button" data-modo="hora">Sala por hora</button>
-      </div>
-      <div class="grid-3">
-        <div class="field" id="fSalaMes"><label for="aluguelMes">Locação mensal da sala <small>com condomínio</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="aluguelMes" type="number" min="0" step="50" value="2500"></div></div>
-        <div class="field" id="fSalaHora" hidden><label for="aluguelHora">Valor da hora da sala</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="aluguelHora" type="number" min="0" step="5" value="60"></div></div>
-        <div class="field" id="fSalaHoras" hidden><label for="horasSala">Horas de sala por semana</label><input id="horasSala" type="number" min="0" step="1" value="16"></div>
-        <div class="field"><label for="contas">Água, luz, internet e limpeza</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="contas" type="number" min="0" step="50" value="600"></div></div>
-        <div class="field"><label for="materiais">Materiais de escritório e administrativos</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="materiais" type="number" min="0" step="50" value="200"></div></div>
-      </div>
-
-      <div class="callout" style="margin-top:16px"><strong>Equipe</strong></div>
-      <div class="toggle-row" id="modoEquipe" style="margin-top:12px">
-        <button type="button" class="active" data-modo="simples">Estimar pelo salário</button>
-        <button type="button" data-modo="exato">Já sei o custo total</button>
-      </div>
-      <div class="grid-3">
-        <div class="field" id="fEqSalario"><label for="salarioSec">Salário em carteira <small>secretária/recepção</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="salarioSec" type="number" min="0" step="100" value="2200"></div></div>
-        <div class="field" id="fEqMult"><label for="multCLT">Multiplicador de encargos</label><input id="multCLT" type="number" min="1" max="3" step="0.05" value="2"></div>
-        <div class="field" id="fEqTotal" hidden><label for="equipeTotal">Custo total mensal da equipe</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="equipeTotal" type="number" min="0" step="100" value="4400"></div><div class="hint">Salários, encargos, FGTS, férias, 13º e benefícios.</div></div>
-        <div class="field"><label for="outrosEquipe">Outros da equipe <small>terceiros, freelas</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="outrosEquipe" type="number" min="0" step="100" value="0"></div></div>
-      </div>
-
-      <div class="grid-3" style="margin-top:14px">
-        <div class="field"><label for="contador">Contabilidade</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="contador" type="number" min="0" step="50" value="400"></div></div>
-        <div class="field"><label for="plataformas">Prontuário, agenda e ferramentas</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="plataformas" type="number" min="0" step="50" value="250"></div></div>
-        <div class="field"><label for="marketing">Marketing e social media</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="marketing" type="number" min="0" step="50" value="800"></div></div>
-        <div class="field"><label for="anuncios">Anúncios pagos</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="anuncios" type="number" min="0" step="50" value="500"></div></div>
-        <div class="field"><label for="crmSeguro">CRM, seguro e cursos <small>mensalizados</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="crmSeguro" type="number" min="0" step="50" value="150"></div></div>
-        <div class="field"><label for="fixoOutros">Outros custos fixos</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="fixoOutros" type="number" min="0" step="50" value="0"></div></div>
-      </div>
-
-      <details class="more" data-track="lucro/saiba-mais-estrutura"><summary>Saiba mais: equipe e custos fixos</summary>
-        <div class="more-body">
-          <p><b>O erro mais comum aqui é usar o salário da carteira como custo.</b> Uma secretária de R$ 2.200 não custa R$ 2.200: com FGTS, INSS, férias mais 1/3, 13º, benefícios e provisão de rescisão, o custo real fica bem acima disso.</p>
-          <ul>
-            <li><b>Estimar pelo salário:</b> multiplicamos por 2, um atalho de mercado bastante usado. Serve para uma primeira leitura.</li>
-            <li><b>Já sei o custo total:</b> se o seu contador já te passou o custo cheio da folha, use este modo. É sempre mais preciso.</li>
-            <li><b>Anuidade do CRM, seguro e congressos:</b> divida o valor anual por 12 e coloque o resultado.</li>
-          </ul>
-          <div class="round-note"><b>Nosso arredondamento:</b> o multiplicador de 2x é uma <b>simplificação consciente</b>. O custo real varia com regime tributário, benefícios e sindicato, e pode ficar entre 1,7x e 2,2x. Deixamos o número editável justamente para você ajustar quando tiver a informação exata.</div>
-        </div>
-      </details>
-    </section>
-
-    <!-- 4. MÉDICO E CAPITAL -->
-    <section class="section">
-      <div class="section-head"><div class="step">4</div>
-        <div><h2>Sua remuneração e o capital</h2><p class="section-copy">A etapa que separa "sobrou dinheiro" de "deu lucro".</p></div>
-      </div>
-      <div class="grid-3">
-        <div class="field"><label for="proLabore">Pró-labore <small>quanto você quer receber pelo seu trabalho</small></label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="proLabore" type="number" min="0" step="500" value="12000"></div></div>
-        <div class="field"><label for="encargosPL">Encargos sobre o pró-labore</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="encargosPL" type="number" min="0" step="100" value="0"></div></div>
-        <div class="field"><label for="depreciacao">Reserva para trocar equipamentos</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="depreciacao" type="number" min="0" step="50" value="300"></div></div>
-        <div class="field"><label for="juros">Juros de empréstimos e parcelamentos</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="juros" type="number" min="0" step="50" value="0"></div></div>
-        <div class="field"><label for="reinvest">Reserva mensal para reinvestir</label><div class="input-wrap"><span class="prefix">R$</span><input class="has-prefix" id="reinvest" type="number" min="0" step="100" value="0"></div></div>
-      </div>
-      <details class="more" data-track="lucro/saiba-mais-medico"><summary>Saiba mais: por que o pró-labore muda o resultado</summary>
-        <div class="more-body">
-          <p>Se o seu trabalho não entra na conta, o consultório parece lucrativo mesmo quando não é. O que sobra no fim do mês costuma ser uma mistura de três coisas: <b>o pagamento pelo seu trabalho</b>, o <b>retorno do dinheiro que você investiu</b> e o <b>lucro do negócio</b>.</p>
-          <ul>
-            <li><b>Pró-labore:</b> coloque quanto você quer (ou precisa) receber por mês pelas horas que dedica ao consultório. Uma referência honesta é quanto você ganharia atendendo essas mesmas horas em outro lugar.</li>
-            <li><b>Reserva para equipamentos:</b> maca, computador, aparelhos e reforma se desgastam. Uma regra simples: some o valor dos seus equipamentos e divida por 60 meses.</li>
-            <li><b>Reserva para reinvestir:</b> não é despesa, é planejamento. Mostramos separado quanto sobra no caixa depois dela.</li>
-          </ul>
-          <div class="round-note"><b>Como lemos o resultado:</b> mostramos primeiro o <b>caixa antes da sua remuneração</b> e depois o <b>lucro depois dela</b>. Consultório que gera caixa mas não paga o médico direito não está falido, mas também não está saudável: você está financiando a operação com o seu próprio trabalho.</div>
-        </div>
-      </details>
-    </section>
-  </form>
-
-  <!-- PAINEL STICKY -->
-  <aside class="results-card" aria-live="polite">
-    <div class="results-header">
-      <h2>Diagnóstico do consultório</h2>
-      <p>Atualiza sozinho conforme você preenche.</p>
-      <div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Calculando</span></div>
     </div>
-    <div class="result-body">
-      <div class="hero-metric">
-        <div class="metric-label">Lucro depois de pagar o seu trabalho</div>
-        <div class="metric-value" id="mLucro">R$ 0</div>
-        <div class="metric-sub" id="mLucroSub"></div>
-      </div>
-      <div class="metric-grid">
-        <div class="mini-metric"><div class="metric-label">Receita realizada</div><strong id="mReceita">R$ 0</strong></div>
-        <div class="mini-metric"><div class="metric-label">Caixa antes do médico</div><strong id="mCaixa">R$ 0</strong></div>
-        <div class="mini-metric"><div class="metric-label">Sobra de cada consulta</div><strong id="mMC">0%</strong></div>
-        <div class="mini-metric"><div class="metric-label">Ocupação da agenda</div><strong id="mOcup">0%</strong></div>
-        <div class="mini-metric"><div class="metric-label">Ponto de equilíbrio</div><strong id="mBE">R$ 0</strong></div>
-        <div class="mini-metric"><div class="metric-label">Lucro por hora no consultório</div><strong id="mHora">R$ 0</strong></div>
-      </div>
-      <div class="bar-card">
-        <h3>De cada R$ 100 que entram</h3>
-        <div class="bar-track" aria-hidden="true">
-          <div class="bar" id="bVar" style="background:#57BE9F"></div>
-          <div class="bar" id="bFix" style="background:#128268"></div>
-          <div class="bar" id="bMed" style="background:#D6A43C"></div>
-          <div class="bar" id="bLuc" style="background:#0A332C"></div>
-        </div>
-        <div class="legend">
-          <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#57BE9F"></span>Custos por consulta e impostos</span><strong id="lVar">R$ 0</strong></div>
-          <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#128268"></span>Estrutura, equipe e fixos</span><strong id="lFix">R$ 0</strong></div>
-          <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#D6A43C"></span>Sua remuneração</span><strong id="lMed">R$ 0</strong></div>
-          <div class="legend-row"><span class="legend-name"><span class="swatch" id="swLuc" style="background:#0A332C"></span>Lucro do consultório</span><strong id="lLuc">R$ 0</strong></div>
-        </div>
-      </div>
-      <button class="btn-pdf" id="exportar" data-track="lucro/exportar-pdf">Salvar diagnóstico em PDF ⬇</button>
-    </div>
-  </aside>
+  </div>
 </main>
 
-<!-- ANÁLISE COMPLETA -->
-<section class="deep" id="deep">
-  <div class="deep-head">
-    <h2>Análise completa</h2>
-    <p>O caminho do dinheiro no seu consultório, o que está indo bem e o que fazer a seguir.</p>
+<!-- ===================== ANÁLISE ===================== -->
+<section class="analise" id="analise" hidden>
+  <div class="an-head">
+    <div>
+      <h2>Análise do seu consultório</h2>
+      <p id="anCtx"></p>
+    </div>
+    <div class="an-acts">
+      <button class="btn-ghost" id="btnEditar" data-track="lucro/editar">← Editar respostas</button>
+      <button class="btn-next" id="exportar" data-track="lucro/exportar-pdf">Salvar em PDF ⬇</button>
+    </div>
   </div>
 
-  <div class="panel">
-    <h3>Do que entra ao que sobra</h3>
-    <div class="sub">Cada linha desconta um grupo de custos da linha anterior.</div>
-    <div id="cascata"></div>
+  <div class="an-top">
+    <div class="results-card" aria-live="polite">
+      <div class="results-header">
+        <h3>Diagnóstico do consultório</h3>
+        <p>Resultado de um mês típico com os números que você informou.</p>
+        <div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Calculando</span></div>
+      </div>
+      <div class="result-body">
+        <div class="hero-metric">
+          <div class="metric-label">Lucro depois de pagar o seu trabalho</div>
+          <div class="metric-value" id="mLucro">R$ 0</div>
+          <div class="metric-sub" id="mLucroSub"></div>
+        </div>
+        <div class="metric-grid">
+          <div class="mini-metric"><div class="metric-label">Receita realizada</div><strong id="mReceita">R$ 0</strong></div>
+          <div class="mini-metric"><div class="metric-label">Caixa antes do médico</div><strong id="mCaixa">R$ 0</strong></div>
+          <div class="mini-metric"><div class="metric-label">Sobra de cada consulta</div><strong id="mMC">0%</strong></div>
+          <div class="mini-metric"><div class="metric-label">Ocupação da agenda</div><strong id="mOcup">0%</strong></div>
+          <div class="mini-metric"><div class="metric-label">Ponto de equilíbrio</div><strong id="mBE">R$ 0</strong></div>
+          <div class="mini-metric"><div class="metric-label">Lucro por hora no consultório</div><strong id="mHora">R$ 0</strong></div>
+        </div>
+        <div class="bar-card">
+          <h3>De cada R$ 100 que entram</h3>
+          <div class="bar-track" aria-hidden="true">
+            <div class="bar" id="bVar" style="background:#57BE9F"></div>
+            <div class="bar" id="bFix" style="background:#128268"></div>
+            <div class="bar" id="bMed" style="background:#D6A43C"></div>
+            <div class="bar" id="bLuc" style="background:#0A332C"></div>
+          </div>
+          <div class="legend">
+            <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#57BE9F"></span>Custos por consulta e impostos</span><strong id="lVar">R$ 0</strong></div>
+            <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#128268"></span>Estrutura, equipe e fixos</span><strong id="lFix">R$ 0</strong></div>
+            <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#D6A43C"></span>Sua remuneração</span><strong id="lMed">R$ 0</strong></div>
+            <div class="legend-row"><span class="legend-name"><span class="swatch" id="swLuc" style="background:#0A332C"></span>Lucro do consultório</span><strong id="lLuc">R$ 0</strong></div>
+          </div>
+        </div>
+        <button class="btn-pdf" id="exportar2" data-track="lucro/exportar-pdf-2">Salvar diagnóstico em PDF ⬇</button>
+      </div>
+    </div>
+
+    <div class="panel" style="margin:0">
+      <h3>Do que entra ao que sobra</h3>
+      <div class="sub">Cada linha desconta um grupo de custos da linha anterior.</div>
+      <div id="cascata"></div>
+    </div>
   </div>
 
-  <div class="two">
-    <div class="panel">
+  <div class="two" style="margin-bottom:16px">
+    <div class="panel" style="margin:0">
       <h3>Para onde vai o dinheiro</h3>
       <div class="sub">Custos do mês, do maior para o menor.</div>
       <div id="custosChart"></div>
     </div>
-    <div class="panel">
+    <div class="panel" style="margin:0">
       <h3>Ponto de equilíbrio</h3>
       <div class="sub" id="beSub"></div>
       <div id="beChart"></div>
     </div>
   </div>
 
-  <div class="two">
-    <div class="panel"><h3 style="color:var(--good)">O que vai bem</h3><ul class="hl" id="highlights" style="margin-top:8px"></ul></div>
-    <div class="panel"><h3 style="color:var(--warn)">Pontos de atenção</h3><ul class="ll" id="lowlights" style="margin-top:8px"></ul></div>
+  <div class="two" style="margin-bottom:16px">
+    <div class="panel" style="margin:0"><h3 style="color:var(--good)">O que vai bem</h3><ul class="hl" id="highlights" style="margin-top:8px"></ul></div>
+    <div class="panel" style="margin:0"><h3 style="color:var(--warn)">Pontos de atenção</h3><ul class="ll" id="lowlights" style="margin-top:8px"></ul></div>
   </div>
 
   <div class="panel"><h3 style="margin-bottom:12px">Leitura do consultor</h3><div id="diag"></div></div>
@@ -487,16 +442,342 @@ footer a{color:var(--accent-dk);font-weight:700}
 <script>
 const $=id=>document.getElementById(id);
 const SEM=4.33;
-const GREENS=["#0A332C","#128268","#3AA184","#57BE9F","#84D0B9","#AFE0D1"];
-const brl=v=>"R$ "+Math.round(v).toLocaleString("pt-BR");
+const OFF=new Set(["fixoOutros","juros","reinvest"]);
+const brl=v=>(v<-0.5?"− ":"")+"R$ "+Math.abs(Math.round(v)).toLocaleString("pt-BR");
 const pct=v=>(v*100).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
-const n=id=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.max(0,v):0};
+const n=id=>{const el=$(id);if(!el||OFF.has(id))return 0;const v=parseFloat(el.value);return Number.isFinite(v)?Math.max(0,v):0};
 const rt=id=>Math.min(100,n(id))/100;
+const short=v=>v>=1000?"R$ "+(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mil":"R$ "+v;
 let modoSala="mensal",modoEquipe="simples",calc=null;
+const state={passo:1,vistos:new Set([1]),estrelas:0};
 
-const CAMPOS=["volPart","precoPart","noshowPart","cardShare","cardFee","outrasRec","volConv","precoConv","noshowConv","glosas","slots","horasClin",
-"insumoPart","insumoConv","repasse","imposto","varOutros","aluguelMes","aluguelHora","horasSala","contas","materiais","salarioSec","multCLT","equipeTotal","outrosEquipe",
-"contador","plataformas","marketing","anuncios","crmSeguro","fixoOutros","proLabore","encargosPL","depreciacao","juros","reinvest"];
+/* ================= COMPONENTES ================= */
+function money(k,label,o={}){
+  const{min=0,max=10000,step=50,val=0,small="",hint="",per="por mês"}=o;
+  return `<div class="field money">
+    <label for="${k}">${label}${small?` <small>${small}</small>`:""}</label>
+    <div class="mrow"><span class="cur">R$</span><input id="${k}" type="number" min="${min}" step="${step}" value="${val}" inputmode="numeric"><span class="per">${per}</span></div>
+    <input class="rng" type="range" min="${min}" max="${max}" step="${step}" value="${val}" data-for="${k}" aria-label="${label}">
+    <div class="scale"><span>${short(min)}</span><span>${short(max)}${max<1000000?"+":""}</span></div>
+    ${hint?`<div class="hint">${hint}</div>`:""}
+  </div>`;
+}
+function slider(k,label,o={}){
+  const{min=0,max=100,step=1,val=0,fmt="pct",hint="",small="",esq="",dir=""}=o;
+  return `<div class="field">
+    <div class="lrow"><label for="${k}">${label}${small?` <small>${small}</small>`:""}</label><output id="o_${k}" for="${k}"></output></div>
+    <input id="${k}" type="range" min="${min}" max="${max}" step="${step}" value="${val}" data-fmt="${fmt}">
+    <div class="scale"><span>${esq||fmtOut(min,fmt)}</span><span>${dir||fmtOut(max,fmt)}</span></div>
+    ${hint?`<div class="hint">${hint}</div>`:""}
+  </div>`;
+}
+function stepper(k,label,o={}){
+  const{min=0,max=300,step=1,val=0,un="",hint="",small=""}=o;
+  return `<div class="field">
+    <label for="${k}">${label}${small?` <small>${small}</small>`:""}</label>
+    <div class="stepper">
+      <button type="button" class="stp" data-k="${k}" data-d="-1" aria-label="Diminuir">−</button>
+      <input id="${k}" type="number" min="${min}" max="${max}" step="${step}" value="${val}" inputmode="numeric">
+      ${un?`<span class="un">${un}</span>`:""}
+      <button type="button" class="stp" data-k="${k}" data-d="1" aria-label="Aumentar">+</button>
+    </div>
+    ${hint?`<div class="hint">${hint}</div>`:""}
+  </div>`;
+}
+function sw(k,titulo,sub,on){
+  return `<div class="switch"><div class="tx">${titulo}${sub?`<small>${sub}</small>`:""}</div>
+    <button type="button" class="sw" id="${k}" role="switch" aria-checked="${on}" aria-label="${titulo}"></button></div>`;
+}
+function fmtOut(v,f){
+  v=+v;
+  if(f==="mult")return v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})+"x";
+  return v.toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
+}
+
+const ESPECIALIDADES=["Acupuntura","Alergia e Imunologia","Anestesiologia","Angiologia","Cardiologia","Cirurgia Cardiovascular","Cirurgia de Cabeça e Pescoço","Cirurgia do Aparelho Digestivo","Cirurgia Geral","Cirurgia Oncológica","Cirurgia Pediátrica","Cirurgia Plástica","Cirurgia Torácica","Cirurgia Vascular","Clínica Médica","Coloproctologia","Dermatologia","Endocrinologia e Metabologia","Endoscopia","Fisioterapia","Fonoaudiologia","Gastroenterologia","Genética Médica","Geriatria","Ginecologia e Obstetrícia","Hematologia e Hemoterapia","Homeopatia","Infectologia","Mastologia","Medicina de Emergência","Medicina de Família e Comunidade","Medicina do Esporte","Medicina do Trabalho","Medicina Física e Reabilitação","Medicina Intensiva","Medicina Nuclear","Nefrologia","Neurocirurgia","Neurologia","Nutrição","Nutrologia","Odontologia","Oftalmologia","Oncologia Clínica","Ortopedia e Traumatologia","Otorrinolaringologia","Patologia","Pediatria","Pneumologia","Psicologia","Psiquiatria","Radiologia e Diagnóstico por Imagem","Radioterapia","Reumatologia","Terapia Ocupacional","Urologia"];
+
+const FIXOS=[
+  {k:"contas",nm:"Água, luz, internet e limpeza",val:600,max:8000,on:true},
+  {k:"materiais",nm:"Materiais administrativos",val:200,max:5000,on:true},
+  {k:"contador",nm:"Contabilidade",val:400,max:5000,on:true},
+  {k:"plataformas",nm:"Prontuário, agenda e ferramentas",val:250,max:5000,on:true},
+  {k:"marketing",nm:"Marketing e social media",val:800,max:15000,on:true},
+  {k:"anuncios",nm:"Anúncios pagos",val:500,max:15000,on:true},
+  {k:"crmSeguro",nm:"CRM, seguro e cursos",val:150,max:5000,on:true},
+  {k:"fixoOutros",nm:"Outros custos fixos",val:0,max:10000,on:false}
+];
+
+/* ================= PASSOS ================= */
+const PASSOS=[
+{nome:"Receita e agenda",titulo:"Receita e agenda",sub:"Como é um mês típico do seu consultório. Arraste as barras, não precisa digitar.",
+ body:()=>`
+  <div class="grid-2">
+    <div class="field"><label for="espec">Sua especialidade <small>opcional</small></label>
+      <div class="ac"><input id="espec" type="text" placeholder="Comece a digitar, por exemplo Derma" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="acList"><div class="ac-list" id="acList" hidden></div></div>
+      <div class="hint">Só para identificar o relatório em PDF.</div></div>
+    <div class="field"><label for="mesRef">Mês de referência</label><input id="mesRef" type="month">
+      <div class="hint">O mês típico que você está descrevendo.</div></div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Consultas particulares</h3><span>o que você atende numa semana comum</span></div>
+    <div class="grid-2">
+      ${stepper("volPart","Agendadas por semana",{val:12,max:120,un:"por semana"})}
+      ${money("precoPart","Valor da consulta",{val:300,max:1500,step:10,per:"por consulta"})}
+    </div>
+    <div class="grid-2">
+      ${slider("noshowPart","Faltas sem cobrança",{val:10,max:40,hint:"Fatia da agenda que não aparece e não gera receita."})}
+      ${slider("cardShare","Recebido no cartão",{val:70,max:100,step:5,hint:"Pix e dinheiro não pagam taxa, por isso perguntamos separado."})}
+      ${slider("cardFee","Taxa da maquininha",{val:3,max:8,step:.1})}
+      ${money("outrasRec","Procedimentos e outras receitas",{val:0,max:30000,step:100})}
+    </div>
+  </div>
+
+  ${sw("swConv","Atendo por convênio","Desligue se você é 100% particular",true)}
+  <div class="bloco" id="grpConv" style="border-top:0;padding-top:16px;margin-top:16px">
+    <div class="bloco-head"><h3>Consultas de convênio</h3><span>o que a operadora realmente paga</span></div>
+    <div class="grid-2">
+      ${stepper("volConv","Agendadas por semana",{val:20,max:200,un:"por semana"})}
+      ${money("precoConv","Valor médio recebido",{val:90,max:600,step:5,per:"por consulta",hint:"O que realmente cai na conta, não a tabela."})}
+    </div>
+    <div class="grid-2">
+      ${slider("noshowConv","Faltas sem cobrança",{val:12,max:40})}
+      ${slider("glosas","Glosas e não recebimentos",{val:3,max:20,step:.5,hint:"Entre 2% e 5% é o normal. Acima disso vale auditar."})}
+    </div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Sua agenda</h3><span>serve para calcular ocupação e lucro por hora</span></div>
+    <div class="grid-2">
+      ${stepper("slots","Horários disponíveis por semana",{val:40,max:200,step:5,un:"vagas"})}
+      ${stepper("horasClin","Horas em consultório por semana",{val:20,max:80,un:"horas"})}
+    </div>
+  </div>
+
+  <details class="more" data-track="lucro/saiba-mais-receita"><summary>Saiba mais: como preencher esta parte</summary>
+    <div class="more-body">
+      <p><b>Agendadas, não realizadas.</b> Coloque quantas consultas você <b>marca</b> numa semana comum. As faltas são descontadas em seguida, então não precisa fazer essa conta de cabeça.</p>
+      <ul>
+        <li><b>Faltas sem cobrança:</b> a fatia da agenda que simplesmente não aparece e não gera receita. Se você não faz ideia, o comum em consultório é 10% no particular e 10 a 20% em convênio.</li>
+        <li><b>Recebido no cartão:</b> só essa fatia paga taxa de maquininha. Pix e dinheiro entram inteiros, e é por isso que perguntamos separado.</li>
+        <li><b>Valor médio do convênio:</b> use o que realmente cai na conta por consulta, não a tabela.</li>
+        <li><b>Glosas:</b> o que a operadora recusa ou não paga. Entre 2 e 5% é o normal; acima disso vale auditar.</li>
+        <li><b>Horários disponíveis:</b> quantas vagas cabem na sua agenda por semana. Serve para calcular a sua taxa de ocupação.</li>
+      </ul>
+      <div class="round-note"><b>Nosso arredondamento:</b> usamos <b>4,33 semanas por mês</b> (52 semanas ÷ 12) e valores médios em vez de consulta a consulta. É proposital: o objetivo é um retrato rápido e realista do mês típico, não a contabilidade fechada. Diferenças de poucos por cento não mudam a decisão que você vai tomar.</div>
+    </div>
+  </details>`},
+
+{nome:"Custos por consulta",titulo:"Custos que crescem com o volume",sub:"Impostos e gastos que sobem quando você atende mais gente.",
+ body:()=>`
+  <div class="bloco">
+    <div class="bloco-head"><h3>Impostos</h3><span>escolha o seu regime para preencher a alíquota</span></div>
+    <div class="chips" id="chipsRegime" role="group" aria-label="Regime tributário">
+      <button type="button" class="chip" data-v="6" aria-pressed="false">Simples, Anexo III inicial · 6%</button>
+      <button type="button" class="chip" data-v="11" aria-pressed="false">Simples, Anexo III seguinte · 11%</button>
+      <button type="button" class="chip" data-v="15.5" aria-pressed="false">Simples, Anexo V · 15,5%</button>
+      <button type="button" class="chip" data-v="14" aria-pressed="false">Lucro Presumido · 14%</button>
+      <button type="button" class="chip" data-v="27.5" aria-pressed="false">Pessoa física, carnê-leão · 27,5%</button>
+    </div>
+    <div style="margin-top:16px">
+      ${slider("imposto","Alíquota efetiva de impostos",{val:8,max:35,step:.5,hint:"O chip preenche um ponto de partida. A barra continua sua para ajustar."})}
+    </div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Custos por atendimento</h3><span>o que some a cada consulta</span></div>
+    <div class="grid-2">
+      ${money("insumoPart","Insumos por consulta particular",{val:5,max:300,step:1,per:"por consulta"})}
+      ${money("insumoConv","Insumos por consulta de convênio",{val:5,max:300,step:1,per:"por consulta"})}
+      ${slider("repasse","Repasses e comissões",{val:0,max:50,step:.5,small:"sobre a receita",hint:"Se você divide receita com clínica, plataforma ou outro profissional."})}
+      ${money("varOutros","Outros custos variáveis",{val:0,max:20000,step:50})}
+    </div>
+  </div>
+
+  <details class="more" data-track="lucro/saiba-mais-variaveis"><summary>Saiba mais: por que separamos esses custos</summary>
+    <div class="more-body">
+      <p>Estes são os custos <b>variáveis</b>: eles existem por consulta. Separá-los dos custos fixos é o que permite calcular direito o seu ponto de equilíbrio e saber quanto sobra de cada nova consulta que você encaixa na agenda.</p>
+      <ul>
+        <li><b>Insumos por consulta:</b> luvas, descartáveis, papel, material que some quando você atende. Se não souber, deixe R$ 5; em consultório clínico costuma ser pouco.</li>
+        <li><b>Repasses e comissões:</b> se você divide receita com outro profissional, clínica ou plataforma.</li>
+        <li><b>Alíquota efetiva:</b> a % que realmente sai do seu faturamento, não a alíquota de tabela.</li>
+      </ul>
+      <div class="round-note"><b>Por que não escolhemos o imposto por você:</b> no Simples, a mesma atividade pode cair no Anexo III ou no V dependendo do Fator R (folha ÷ faturamento nos últimos 12 meses), e a alíquota ainda muda com o quanto você faturou no ano. Por isso oferecemos <b>faixas de referência</b> para um chute inicial, mas a barra é sempre sua para ajustar. O número exato quem dá é o seu contador.</div>
+    </div>
+  </details>`},
+
+{nome:"Estrutura e equipe",titulo:"Estrutura e equipe",sub:"Os custos que existem mesmo se você não atender ninguém.",
+ body:()=>`
+  <div class="bloco">
+    <div class="bloco-head"><h3>Sala de atendimento</h3></div>
+    <div class="seg" id="modoSala" role="group" aria-label="Como você paga a sala">
+      <button type="button" data-modo="mensal" aria-pressed="true">Pago por mês</button>
+      <button type="button" data-modo="hora" aria-pressed="false">Pago por hora</button>
+    </div>
+    <div class="grid-2">
+      <div id="fSalaMes">${money("aluguelMes","Locação mensal da sala",{val:2500,max:25000,step:50,small:"com condomínio"})}</div>
+      <div id="fSalaHora" hidden>${money("aluguelHora","Valor da hora da sala",{val:60,max:400,step:5,per:"por hora"})}</div>
+      <div id="fSalaHoras" hidden>${stepper("horasSala","Horas de sala por semana",{val:16,max:80,un:"horas"})}</div>
+    </div>
+  </div>
+
+  ${sw("swEquipe","Tenho equipe fixa","Secretária, recepção ou auxiliar",true)}
+  <div class="bloco" id="grpEquipe" style="border-top:0;padding-top:14px;margin-top:14px">
+    <div class="seg" id="modoEquipe" role="group" aria-label="Como calcular o custo da equipe">
+      <button type="button" data-modo="simples" aria-pressed="true">Estimar pelo salário</button>
+      <button type="button" data-modo="exato" aria-pressed="false">Já sei o custo total</button>
+    </div>
+    <div class="grid-2">
+      <div id="fEqSalario">${money("salarioSec","Salário em carteira",{val:2200,max:15000,step:100,small:"secretária ou recepção"})}</div>
+      <div id="fEqMult">${slider("multCLT","Multiplicador de encargos",{val:2,min:1.5,max:2.5,step:.05,fmt:"mult",hint:"FGTS, INSS, férias, 13º e benefícios. O mercado usa entre 1,7x e 2,2x."})}</div>
+      <div id="fEqTotal" hidden>${money("equipeTotal","Custo total mensal da equipe",{val:4400,max:40000,step:100,hint:"Salários, encargos, FGTS, férias, 13º e benefícios."})}</div>
+      <div>${money("outrosEquipe","Outros da equipe",{val:0,max:20000,step:100,small:"terceiros e freelas"})}</div>
+    </div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Custos fixos do consultório</h3><span>marque só o que você paga hoje</span></div>
+    <div class="chips" id="chipsFixos" role="group" aria-label="Custos fixos que você tem">
+      ${FIXOS.map(f=>`<button type="button" class="chip" data-k="${f.k}" aria-pressed="${f.on}">${f.nm}</button>`).join("")}
+    </div>
+    <div class="grid-2" style="margin-top:16px" id="camposFixos">
+      ${FIXOS.map(f=>`<div data-fix="${f.k}" ${f.on?"":"hidden"}>${money(f.k,f.nm,{val:f.val,max:f.max,step:50})}</div>`).join("")}
+    </div>
+  </div>
+
+  <details class="more" data-track="lucro/saiba-mais-estrutura"><summary>Saiba mais: equipe e custos fixos</summary>
+    <div class="more-body">
+      <p><b>O erro mais comum aqui é usar o salário da carteira como custo.</b> Uma secretária de R$ 2.200 não custa R$ 2.200: com FGTS, INSS, férias mais 1/3, 13º, benefícios e provisão de rescisão, o custo real fica bem acima disso.</p>
+      <ul>
+        <li><b>Estimar pelo salário:</b> multiplicamos por 2, um atalho de mercado bastante usado. Serve para uma primeira leitura.</li>
+        <li><b>Já sei o custo total:</b> se o seu contador já te passou o custo cheio da folha, use este modo. É sempre mais preciso.</li>
+        <li><b>Anuidade do CRM, seguro e congressos:</b> divida o valor anual por 12 e coloque o resultado.</li>
+      </ul>
+      <div class="round-note"><b>Nosso arredondamento:</b> o multiplicador de 2x é uma <b>simplificação consciente</b>. O custo real varia com regime tributário, benefícios e sindicato, e pode ficar entre 1,7x e 2,2x. Deixamos a barra livre justamente para você ajustar quando tiver a informação exata.</div>
+    </div>
+  </details>`},
+
+{nome:"Você e o capital",titulo:"Sua remuneração e o capital",sub:"A etapa que separa \"sobrou dinheiro\" de \"deu lucro\".",
+ body:()=>`
+  <div class="bloco">
+    <div class="bloco-head"><h3>Sua remuneração</h3><span>arraste até o valor que você quer receber</span></div>
+    <div class="grid-2">
+      ${money("proLabore","Pró-labore",{val:12000,max:60000,step:500,small:"quanto você quer receber pelo seu trabalho",hint:"Uma referência honesta é quanto você ganharia atendendo essas mesmas horas em outro lugar."})}
+      ${money("encargosPL","Encargos sobre o pró-labore",{val:0,max:15000,step:100,small:"INSS e IR retidos"})}
+    </div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Capital e equipamentos</h3></div>
+    <div class="grid-2">
+      ${money("depreciacao","Reserva para trocar equipamentos",{val:300,max:8000,step:50,hint:"Regra simples: some o valor dos seus equipamentos e divida por 60 meses."})}
+    </div>
+    ${sw("swJuros","Tenho empréstimo ou parcelamento","Financiamento de equipamento, capital de giro, cheque especial",false)}
+    <div class="grid-2" id="grpJuros" hidden style="margin-top:16px">
+      ${money("juros","Juros de empréstimos e parcelamentos",{val:0,max:20000,step:50})}
+    </div>
+    ${sw("swReinvest","Quero separar uma reserva para reinvestir","Mostramos quanto sobra no caixa depois dela",false)}
+    <div class="grid-2" id="grpReinvest" hidden style="margin-top:16px">
+      ${money("reinvest","Reserva mensal para reinvestir",{val:0,max:30000,step:100})}
+    </div>
+  </div>
+
+  <div class="bloco">
+    <div class="bloco-head"><h3>Antes de ver o resultado</h3></div>
+    <label>Quanta confiança você tem nos números que preencheu?</label>
+    <div class="stars" id="stars" role="group" aria-label="Confiança nos números">
+      ${[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" aria-label="${i} de 5">★</button>`).join("")}
+    </div>
+    <div class="stars-tx" id="starsTx">Isso muda só o tom da leitura final, não os cálculos.</div>
+  </div>
+
+  <details class="more" data-track="lucro/saiba-mais-medico"><summary>Saiba mais: por que o pró-labore muda o resultado</summary>
+    <div class="more-body">
+      <p>Se o seu trabalho não entra na conta, o consultório parece lucrativo mesmo quando não é. O que sobra no fim do mês costuma ser uma mistura de três coisas: <b>o pagamento pelo seu trabalho</b>, o <b>retorno do dinheiro que você investiu</b> e o <b>lucro do negócio</b>.</p>
+      <ul>
+        <li><b>Pró-labore:</b> coloque quanto você quer (ou precisa) receber por mês pelas horas que dedica ao consultório. Uma referência honesta é quanto você ganharia atendendo essas mesmas horas em outro lugar.</li>
+        <li><b>Reserva para equipamentos:</b> maca, computador, aparelhos e reforma se desgastam. Uma regra simples: some o valor dos seus equipamentos e divida por 60 meses.</li>
+        <li><b>Reserva para reinvestir:</b> não é despesa, é planejamento. Mostramos separado quanto sobra no caixa depois dela.</li>
+      </ul>
+      <div class="round-note"><b>Como lemos o resultado:</b> mostramos primeiro o <b>caixa antes da sua remuneração</b> e depois o <b>lucro depois dela</b>. Consultório que gera caixa mas não paga o médico direito não está falido, mas também não está saudável: você está financiando a operação com o seu próprio trabalho.</div>
+    </div>
+  </details>`}
+];
+
+/* ================= MONTAGEM ================= */
+function montar(){
+  $("wtrack").innerHTML=PASSOS.map((p,i)=>`<button type="button" class="wtab" data-p="${i+1}" role="tab"><span class="num">${i+1}</span><span class="nm">${p.nome}</span></button>`).join("");
+  $("wbody").innerHTML=PASSOS.map((p,i)=>`<section class="wpasso" data-p="${i+1}" ${i?"hidden":""}>
+      <div class="wtitle"><h2>${p.titulo}</h2><p>${p.sub}</p></div>${p.body()}</section>`).join("");
+  const d=new Date();
+  $("mesRef").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+  sincronizar();
+  irPara(1);
+}
+
+function sincronizar(){
+  document.querySelectorAll('input[type=range]').forEach(r=>{
+    const alvo=r.dataset.for?$(r.dataset.for):null;
+    if(alvo){const v=parseFloat(alvo.value)||0;if(v>+r.max)r.max=Math.ceil(v/ +r.step)*+r.step;r.value=v}
+    const min=+r.min,max=+r.max,v=+r.value;
+    r.style.setProperty("--fill",((v-min)/(max-min||1)*100)+"%");
+    const out=$("o_"+r.id);
+    if(out)out.textContent=fmtOut(v,r.dataset.fmt);
+  });
+  document.querySelectorAll(".stp").forEach(b=>{
+    const el=$(b.dataset.k);if(!el)return;
+    const v=parseFloat(el.value)||0;
+    b.disabled=b.dataset.d==="-1"?v<=+el.min:v>=+el.max;
+  });
+}
+
+/* ================= NAVEGAÇÃO ================= */
+function irPara(p){
+  state.passo=p;state.vistos.add(p);
+  document.querySelectorAll(".wpasso").forEach(s=>s.hidden=+s.dataset.p!==p);
+  document.querySelectorAll(".wtab").forEach(t=>{
+    const i=+t.dataset.p;
+    t.className="wtab"+(i===p?" now":"")+(state.vistos.has(i)?" done":"");
+    t.setAttribute("aria-selected",i===p);
+  });
+  $("wbarFill").style.width=(p/PASSOS.length*100)+"%";
+  $("btnPrev").hidden=p===1;
+  $("btnNext").textContent=p===PASSOS.length?"Ver meu diagnóstico →":"Continuar →";
+  $("hero").style.display=p===1?"":"none";
+  $("wmsgWrap").innerHTML="";
+  resumo();
+}
+function resumo(){
+  const c=calcular();
+  const t={1:["Receita realizada estimada",c.receita],2:["Custos por consulta e impostos",c.variaveis],
+    3:["Estrutura, equipe e fixos",c.fixos],4:["Caixa antes da sua remuneração",c.caixaAntes]}[state.passo];
+  $("wsum").innerHTML=c.receita>0?`${t[0]}: <b>${brl(t[1])}</b> por mês`:"Comece pelas consultas por semana.";
+}
+function validar(){
+  const c=calcular();
+  if(state.passo===1&&c.receita<=0)return "Preencha pelo menos as consultas por semana e o valor da consulta para seguir.";
+  return null;
+}
+function avancar(){
+  const erro=validar();
+  if(erro){$("wmsgWrap").innerHTML=`<div class="wmsg">${erro}</div>`;return}
+  if(state.passo<PASSOS.length){irPara(state.passo+1);track("lucro/passo-"+state.passo);scrollTopo()}
+  else verAnalise();
+}
+function scrollTopo(){window.scrollTo({top:$("wizard").offsetTop-14,behavior:"smooth"})}
+function verAnalise(){
+  render();
+  $("wizard").hidden=true;$("hero").style.display="none";$("analise").hidden=false;
+  const esp=$("espec").value.trim(),mes=$("mesRef").value;
+  const ctx=[esp,mes?"referência de "+new Date(mes+"-02").toLocaleDateString("pt-BR",{month:"long",year:"numeric"}):""].filter(Boolean).join(" · ");
+  $("anCtx").textContent=ctx||"Resultado do mês típico que você descreveu.";
+  track("lucro/ver-diagnostico");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function editar(){
+  $("analise").hidden=true;$("wizard").hidden=false;
+  irPara(1);window.scrollTo({top:0,behavior:"smooth"});
+}
 
 /* ================= CÁLCULO ================= */
 function calcular(){
@@ -554,12 +835,11 @@ function calcular(){
     sala,equipe,custos,custoCartao,custoImposto,custoInsumo,slotsMes,horasMes};
 }
 
-/* ================= RENDER ================= */
+/* ================= RENDER DA ANÁLISE ================= */
 function render(){
   const c=calc=calcular();
   const temDados=c.receita>0;
 
-  /* status */
   let st,cls;
   if(!temDados){st="Preencha a receita";cls=""}
   else if(c.lucro<0&&c.caixaAntes<0){st="Prejuízo: falta cobrir custos";cls="bad"}
@@ -577,10 +857,9 @@ function render(){
   $("mCaixa").textContent=brl(c.caixaAntes);
   $("mMC").textContent=pct(c.taxaContrib);
   $("mOcup").textContent=pct(Math.min(c.ocupacao,9.99));
-  $("mBE").textContent=isFinite(c.beReais)?brl(c.beReais):"—";
+  $("mBE").textContent=isFinite(c.beReais)?brl(c.beReais):"n/d";
   $("mHora").textContent=brl(c.lucroHora);
 
-  /* barra 100 */
   const base=Math.max(c.receita,c.variaveis+c.fixos+c.capital+c.medico+Math.abs(Math.min(0,c.lucro)),1);
   const w=v=>Math.max(0,Math.min(100,v/base*100));
   $("bVar").style.width=w(c.variaveis)+"%";
@@ -604,7 +883,6 @@ function render(){
   buildOnepager(c,hi,lo);
 }
 
-/* ---------- cascata ---------- */
 function drawCascata(c){
   const linhas=[
     {n:"Receita realizada",v:c.receita,cor:"#128268",tipo:"in"},
@@ -625,7 +903,6 @@ function drawCascata(c){
     </div>`).join("");
 }
 
-/* ---------- barras de custo ---------- */
 function drawCustos(c){
   const items=c.custos.slice().sort((a,b)=>b.v-a.v).slice(0,12);
   if(!items.length){$("custosChart").innerHTML="";return}
@@ -641,10 +918,9 @@ function drawCustos(c){
   hookTips($("custosChart"));
 }
 
-/* ---------- ponto de equilíbrio ---------- */
 function drawBE(c){
   if(!isFinite(c.beReais)){$("beChart").innerHTML="";$("beSub").textContent="Informe os custos para calcular.";return}
-  const beSem=c.beConsultas/SEM,atual=c.consultas/SEM;
+  const beSem=c.beConsultas/SEM;
   $("beSub").innerHTML=`Você precisa de <b>${brl(c.beReais)}</b> por mês (cerca de <b>${beSem.toLocaleString("pt-BR",{maximumFractionDigits:1})} consultas/semana</b>) para o consultório se pagar já contando a sua remuneração.`;
   const W=440,H=150,pad=30;
   const max=Math.max(c.receita,c.beReais)*1.12;
@@ -661,7 +937,6 @@ function drawBE(c){
   hookTips($("beChart"));
 }
 
-/* ---------- insights ---------- */
 function insights(c){
   const hi=[],lo=[];
   const mkt=n("marketing")+n("anuncios");
@@ -669,7 +944,7 @@ function insights(c){
   else if(c.lucro>=0&&c.margem>0)hi.push(`O consultório paga o seu pró-labore de ${brl(n("proLabore"))} e ainda sobra ${brl(c.lucro)}.`);
   if(c.caixaAntes>0&&c.lucro<0)lo.push(`Sobram ${brl(c.caixaAntes)} antes da sua remuneração, mas isso não cobre o pró-labore de ${brl(n("proLabore"))}. Na prática, você está financiando o consultório com o próprio trabalho.`);
   if(c.caixaAntes<0)lo.push(`O consultório não cobre nem os custos operacionais: faltam ${brl(-c.caixaAntes)} por mês antes mesmo da sua remuneração.`);
-  if(c.taxaContrib>=0.65)hi.push(`De cada R$ 100 que entram, ${brl(c.taxaContrib*100).replace("R$ ","R$ ")} sobram para pagar a estrutura. Margem por consulta saudável.`);
+  if(c.taxaContrib>=0.65)hi.push(`De cada R$ 100 que entram, ${brl(c.taxaContrib*100)} sobram para pagar a estrutura. Margem por consulta saudável.`);
   if(c.taxaContrib<0.5&&c.receita>0)lo.push(`Só ${pct(c.taxaContrib)} de cada consulta sobra depois de impostos, cartão e insumos. Revise alíquota, taxa de cartão e repasses.`);
   if(c.ocupacao>0&&c.ocupacao<0.6)lo.push(`Sua agenda está ${pct(c.ocupacao)} ocupada. Encher os horários que já existem é mais barato que qualquer expansão: cada consulta a mais deixa ${brl(c.ticket*c.taxaContrib)} líquidos.`);
   if(c.ocupacao>=0.8)hi.push(`Agenda ${pct(c.ocupacao)} ocupada. Com essa ocupação, o caminho de crescimento passa por preço ou mix, não por volume.`);
@@ -691,7 +966,6 @@ function insights(c){
   return {hi:hi.slice(0,6),lo:lo.slice(0,6)};
 }
 
-/* ---------- leitura do consultor ---------- */
 function drawDiag(c){
   const top2=c.custos.slice().sort((a,b)=>b.v-a.v).slice(0,2);
   const ganho=c.ticket*c.taxaContrib;
@@ -713,6 +987,11 @@ function drawDiag(c){
       faltam>0?`Fechar a conta: faltam <b>${brl(faltam)}</b> de receita por mês, cerca de ${Math.ceil((c.beConsultas-c.consultas)/SEM)} consultas por semana.`:`Revisar preço: o ticket atual de ${brl(c.ticket)} não sustenta a estrutura.`,
       `Se o pró-labore de ${brl(n("proLabore"))} for a meta, decida entre aumentar receita, cortar estrutura ou ajustar temporariamente a sua retirada.`];
   }
+  const conf=state.estrelas>0&&state.estrelas<=2
+    ?`<div class="diag-sec ds-neutral"><h4>🧭 Sobre a confiança nos números</h4><ul>
+        <li>Você marcou ${state.estrelas} de 5 estrelas de confiança. Trate este diagnóstico como uma primeira aproximação.</li>
+        <li>Antes de decidir preço, corte ou contratação, confira três coisas: extrato do último mês, custo cheio da folha com o contador e o valor médio que o convênio realmente paga.</li>
+      </ul></div>`:"";
   $("diag").innerHTML=`
     <div class="diag-sec ds-green"><h4>📊 Raio-X do mês</h4><ul>
       <li>Entram <b>${brl(c.receita)}</b> e saem <b>${brl(c.variaveis+c.fixos+c.capital)}</b> em custos, deixando <b>${brl(c.caixaAntes)}</b> antes da sua remuneração.</li>
@@ -723,7 +1002,8 @@ function drawDiag(c){
       <li>O consultório se paga a partir de <b>${brl(c.beReais)}</b> por mês, cerca de <b>${Math.ceil(c.beConsultas)} consultas</b>.</li>
       <li>Hoje você faz ${Math.round(c.consultas)} consultas e fatura ${brl(c.receita)}: ${c.receita>=c.beReais?`está <b>${brl(c.receita-c.beReais)} acima</b> do necessário.`:`faltam <b>${brl(c.beReais-c.receita)}</b>.`}</li>
     </ul></div>
-    <div class="diag-sec ${cor}"><h4>🚀 Plano de ação</h4><ul>${acoes.map(a=>`<li>${a}</li>`).join("")}</ul></div>`;
+    <div class="diag-sec ${cor}"><h4>🚀 Plano de ação</h4><ul>${acoes.map(a=>`<li>${a}</li>`).join("")}</ul></div>
+    ${conf}`;
 }
 
 function hookTips(root){
@@ -737,6 +1017,8 @@ function hookTips(root){
 /* ================= ONE-PAGER ================= */
 function buildOnepager(c,hi,lo){
   const hoje=new Date().toLocaleDateString("pt-BR");
+  const esp=$("espec").value.trim(),mes=$("mesRef").value;
+  const ctx=[esp,mes?new Date(mes+"-02").toLocaleDateString("pt-BR",{month:"long",year:"numeric"}):""].filter(Boolean).join(" · ");
   const grp=[{k:"Custos por consulta e impostos",v:c.variaveis,cor:"#57BE9F"},{k:"Estrutura, equipe e fixos",v:c.fixos+c.capital,cor:"#128268"},{k:"Sua remuneração",v:c.medico,cor:"#D6A43C"}];
   if(c.lucro>0)grp.push({k:"Lucro",v:c.lucro,cor:"#0A332C"});
   const tot=Math.max(grp.reduce((a,g)=>a+g.v,0),c.receita,1);
@@ -748,7 +1030,7 @@ function buildOnepager(c,hi,lo){
     ["− Estrutura, equipe e fixos",-c.fixos],["= Caixa antes do médico",c.caixaAntes],["− Sua remuneração",-c.medico],
     ["− Equipamentos e juros",-c.capital]];
   $("onepager").innerHTML=`
-  <div class="op-head"><h1>Diagnóstico do meu consultório</h1><span style="color:#0A332C"><svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg></span></div>
+  <div class="op-head"><div><h1>Diagnóstico do meu consultório</h1>${ctx?`<div class="op-ctx">${ctx}</div>`:""}</div><span style="color:#0A332C"><svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg></span></div>
   <div class="op-tiles">
     <div class="op-tile"><b>${brl(c.receita)}</b><span>receita/mês</span></div>
     <div class="op-tile"><b>${brl(c.caixaAntes)}</b><span>caixa antes do médico</span></div>
@@ -777,29 +1059,97 @@ function buildOnepager(c,hi,lo){
 }
 
 /* ================= EVENTOS ================= */
-CAMPOS.forEach(id=>$(id).addEventListener("input",render));
-$("regimeRef").addEventListener("change",e=>{if(e.target.value){$("imposto").value=e.target.value;render()}});
-$("modoSala").addEventListener("click",e=>{
-  const b=e.target.closest("button");if(!b)return;
-  document.querySelectorAll("#modoSala button").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");modoSala=b.dataset.modo;
-  $("fSalaMes").hidden=modoSala!=="mensal";$("fSalaHora").hidden=modoSala!=="hora";$("fSalaHoras").hidden=modoSala!=="hora";
-  render();
+const body=$("wbody");
+
+body.addEventListener("input",e=>{
+  const el=e.target;
+  if(el.matches("input[type=range][data-for]")){const t=$(el.dataset.for);if(t)t.value=el.value}
+  else if(el.matches("input[type=number]")){
+    const r=document.querySelector(`input[type=range][data-for="${el.id}"]`);
+    if(r){const v=parseFloat(el.value)||0;if(v>+r.max)r.max=v;r.value=v}
+  }
+  sincronizar();resumo();
 });
-$("modoEquipe").addEventListener("click",e=>{
+
+body.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
-  document.querySelectorAll("#modoEquipe button").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");modoEquipe=b.dataset.modo;
-  $("fEqSalario").hidden=modoEquipe!=="simples";$("fEqMult").hidden=modoEquipe!=="simples";$("fEqTotal").hidden=modoEquipe!=="exato";
-  render();
+
+  if(b.classList.contains("stp")){
+    const el=$(b.dataset.k),step=+el.step||1,d=+b.dataset.d;
+    const v=Math.min(+el.max,Math.max(+el.min,(parseFloat(el.value)||0)+d*step));
+    el.value=Math.round(v*100)/100;sincronizar();resumo();return;
+  }
+  if(b.classList.contains("sw")){
+    const on=b.getAttribute("aria-checked")!=="true";
+    b.setAttribute("aria-checked",on);
+    if(b.id==="swConv"){$("grpConv").hidden=!on;on?OFF.delete("volConv"):OFF.add("volConv")}
+    if(b.id==="swEquipe"){$("grpEquipe").hidden=!on;["salarioSec","equipeTotal","outrosEquipe"].forEach(k=>on?OFF.delete(k):OFF.add(k))}
+    if(b.id==="swJuros"){$("grpJuros").hidden=!on;on?OFF.delete("juros"):OFF.add("juros")}
+    if(b.id==="swReinvest"){$("grpReinvest").hidden=!on;on?OFF.delete("reinvest"):OFF.add("reinvest")}
+    resumo();return;
+  }
+  if(b.closest("#chipsRegime")){
+    document.querySelectorAll("#chipsRegime .chip").forEach(c=>c.setAttribute("aria-pressed",c===b));
+    $("imposto").value=b.dataset.v;sincronizar();resumo();return;
+  }
+  if(b.closest("#chipsFixos")){
+    const on=b.getAttribute("aria-pressed")!=="true";
+    b.setAttribute("aria-pressed",on);
+    document.querySelector(`[data-fix="${b.dataset.k}"]`).hidden=!on;
+    on?OFF.delete(b.dataset.k):OFF.add(b.dataset.k);
+    resumo();return;
+  }
+  if(b.closest("#modoSala")){
+    document.querySelectorAll("#modoSala button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    modoSala=b.dataset.modo;
+    $("fSalaMes").hidden=modoSala!=="mensal";$("fSalaHora").hidden=modoSala!=="hora";$("fSalaHoras").hidden=modoSala!=="hora";
+    resumo();return;
+  }
+  if(b.closest("#modoEquipe")){
+    document.querySelectorAll("#modoEquipe button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    modoEquipe=b.dataset.modo;
+    $("fEqSalario").hidden=modoEquipe!=="simples";$("fEqMult").hidden=modoEquipe!=="simples";$("fEqTotal").hidden=modoEquipe!=="exato";
+    resumo();return;
+  }
+  if(b.closest("#stars")){
+    state.estrelas=+b.dataset.v;
+    document.querySelectorAll("#stars button").forEach(s=>s.classList.toggle("on",+s.dataset.v<=state.estrelas));
+    $("starsTx").textContent=["","Vamos tratar o resultado como uma primeira aproximação.","Vale conferir extrato e folha antes de decidir.","Boa base para decidir os próximos passos.","Números confiáveis, dá para agir com eles.","Ótimo, o diagnóstico fica bem preciso."][state.estrelas];
+    return;
+  }
 });
-$("ctaHero").addEventListener("click",()=>$("calc").scrollIntoView({behavior:"smooth"}));
-$("exportar").addEventListener("click",()=>{
+
+/* autocomplete de especialidade */
+function acFechar(){$("acList").hidden=true;$("espec").setAttribute("aria-expanded","false")}
+body.addEventListener("input",e=>{
+  if(e.target.id!=="espec")return;
+  const q=e.target.value.trim().toLowerCase();
+  const lista=$("acList");
+  if(!q){acFechar();return}
+  const hits=ESPECIALIDADES.filter(s=>s.toLowerCase().includes(q)).slice(0,8);
+  lista.innerHTML=hits.length?hits.map(s=>`<button type="button" data-esp="${s}">${s}</button>`).join(""):'<div class="ac-empty">Nada encontrado. Pode escrever livremente.</div>';
+  lista.hidden=false;$("espec").setAttribute("aria-expanded","true");
+});
+body.addEventListener("click",e=>{
+  const op=e.target.closest("[data-esp]");
+  if(op){$("espec").value=op.dataset.esp;acFechar()}
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".ac"))acFechar()});
+
+$("btnNext").addEventListener("click",avancar);
+$("btnPrev").addEventListener("click",()=>{irPara(state.passo-1);scrollTopo()});
+$("wtrack").addEventListener("click",e=>{
+  const t=e.target.closest(".wtab");
+  if(t&&state.vistos.has(+t.dataset.p)){irPara(+t.dataset.p);scrollTopo()}
+});
+$("ctaHero").addEventListener("click",scrollTopo);
+$("btnEditar").addEventListener("click",editar);
+[$("exportar"),$("exportar2")].forEach(b=>b.addEventListener("click",()=>{
   const t=document.title;
   document.title="diagnóstico do meu consultório pela Turi Saúde";
   window.addEventListener("afterprint",()=>{document.title=t},{once:true});
   window.print();
-});
+}));
 
 /* ================= ANALYTICS ================= */
 const TRACK_URL="https://painel-analytics.turi-sa-de.workers.dev";
@@ -810,8 +1160,9 @@ function track(id){
 }
 track("lucro/visita");
 document.addEventListener("click",e=>{const a=e.target.closest("[data-track]");if(a)track(a.dataset.track)});
-document.querySelectorAll("details.more").forEach(d=>d.addEventListener("toggle",()=>{if(d.open)track(d.dataset.track)}));
 
+montar();
+document.querySelectorAll("details.more").forEach(d=>d.addEventListener("toggle",()=>{if(d.open)track(d.dataset.track)}));
 render();
 </script>
 </body>

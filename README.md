@@ -36,9 +36,32 @@ Cada ferramenta é um único `index.html` autocontido (HTML + CSS + JS puro, sem
 
 ## 2. Meu Lucro no Consultório
 
-**Status: no ar, versão 2.** Calculadora de lucro, margem e ponto de equilíbrio para médicos.
+**Status: no ar, versão 3.** Calculadora de lucro, margem e ponto de equilíbrio para médicos.
 
-Versão 2 (02/08/2026) corrigiu a falha central da v1: **o pró-labore do médico não entrava na conta**, então o consultório aparecia lucrativo mesmo quando o médico estava trabalhando de graça. No cenário de exemplo, a margem foi de +36% (v1) para −19% (v2).
+### Versão 3 (02/08/2026): formulário em 4 passos
+
+O preenchimento virou um wizard de 4 etapas e a análise só aparece no fim, depois do botão "Ver meu diagnóstico". Os componentes seguem o guia de padrões de UI (`form_ui_patterns.pdf`), escolhidos pelo tipo de dado:
+
+| Componente | Onde é usado |
+|---|---|
+| Slider (arrastar) | Percentuais: faltas, glosas, taxa de cartão, fatia no cartão, alíquota, repasses, multiplicador da CLT |
+| Slider + valor digitável | Todo campo em reais: preço da consulta, aluguel, salário, pró-labore, custos fixos |
+| Stepper (+ e −) | Quantidades pequenas: consultas por semana, vagas na agenda, horas |
+| Controle segmentado | Sala por mês ou por hora; equipe por salário ou custo total |
+| Toggle | Atendo por convênio, tenho equipe fixa, tenho empréstimo, quero reserva |
+| Chips de seleção múltipla | Quais custos fixos existem: só os marcados viram campo |
+| Chips de seleção única | Regime tributário, que preenche a alíquota |
+| Autocomplete | Especialidade, com busca incremental em 56 opções |
+| Seletor de data | Mês de referência, que vai para o PDF |
+| Avaliação por estrelas | Confiança nos números, que muda o tom da leitura final |
+
+Não usamos arrastar e soltar para upload (nada é enviado, o cálculo é local) nem slider de intervalo duplo (nenhum campo é uma faixa). A regra do próprio guia é escolher o componente pelo tipo de dado, não pela estética.
+
+Cada passo mostra um resumo ao vivo no rodapé (receita estimada, custos, estrutura, caixa antes do médico) e o passo 1 bloqueia o avanço enquanto não houver consultas e preço. Campos desligados por toggle ou chip entram como zero no cálculo através do conjunto `OFF`, sem perder o valor digitado.
+
+### Versão 2 (02/08/2026): o pró-labore
+
+A v2 corrigiu a falha central da v1: **o pró-labore do médico não entrava na conta**, então o consultório aparecia lucrativo mesmo quando o médico estava trabalhando de graça. No cenário de exemplo, a margem foi de +36% (v1) para −19% (v2).
 
 Cascata de resultado:
 ```
@@ -98,7 +121,7 @@ O GitHub Pages publica em 1 a 3 minutos. Se o push for rejeitado, rode `git pull
 - Avaliar persistência opcional em localStorage, hoje desativada por decisão de produto
 
 **Meu Lucro no Consultório**
-- Considerar deixar o campo de pró-labore vazio em vez de pré-preenchido com R$ 12.000, para não ancorar o médico num número que não é dele
+- Acompanhar no analytics onde o preenchimento é abandonado: os eventos `lucro/passo-1` a `lucro/passo-3` e `lucro/ver-diagnostico` formam o funil
 - Possíveis evoluções: simulador de cenários (mudar preço e volume e ver a margem em tempo real), comparação com benchmark de outros usuários, captura opcional de e-mail antes do PDF
 
 **Analytics**
