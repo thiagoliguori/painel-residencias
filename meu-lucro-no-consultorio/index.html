@@ -46,16 +46,13 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .privacy-pill{border:1px solid rgba(10,51,44,.12);background:rgba(255,255,255,.75);padding:9px 14px;border-radius:999px;font-size:12.5px;color:var(--ink-2);backdrop-filter:blur(8px);font-weight:500}
 
 /* ---------- hero ---------- */
-.hero{max-width:1180px;margin:0 auto;padding:52px 22px 30px;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:end}
+.hero{max-width:1180px;margin:0 auto;padding:52px 22px 30px}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:14px;color:var(--ink-2);font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
 .eyebrow::before{content:"";width:26px;height:5px;border-radius:999px;background:var(--accent-dk)}
 h1{margin:0;max-width:780px;font-size:clamp(38px,5.4vw,64px);line-height:1;letter-spacing:-.05em;font-weight:800}
 h1 em{font-style:normal;color:var(--accent-dk)}
-.hero p{margin:22px 0 0;max-width:680px;font-size:18px;color:var(--muted)}
+.hero p{margin:22px 0 0;max-width:760px;font-size:18px;color:var(--muted)}
 .hero-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.hero-note{background:var(--ink);color:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow)}
-.hero-note strong{color:var(--accent);display:block;font-size:14px;margin-bottom:9px}
-.hero-note p{margin:0;color:rgba(255,255,255,.80);font-size:13.5px}
 .trust{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:500}
 .trust span::before{content:"✓ ";color:var(--accent-dk);font-weight:800}
 .primary{border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:15px;padding:15px 28px;box-shadow:0 10px 24px rgba(10,51,44,.2)}
@@ -191,6 +188,7 @@ details.more .more-body b{color:var(--ink)}
 .analise{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
 .an-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
 .an-head h2{margin:0;font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.04em}
+.an-head h2 .emoji{font-size:.78em;letter-spacing:0}
 .an-head p{margin:6px 0 0;color:var(--muted);font-size:14px}
 .an-acts{display:flex;gap:10px;flex-wrap:wrap}
 .an-top{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(0,1.1fr);gap:18px;align-items:start;margin-bottom:16px}
@@ -257,9 +255,8 @@ footer b{color:var(--ink-2)}
 footer a{color:var(--accent-dk);font-weight:700}
 
 @media(max-width:960px){
-  .hero,.an-top,.two{grid-template-columns:1fr}
+  .an-top,.two{grid-template-columns:1fr}
   .hero{padding-top:38px}
-  .hero-note{max-width:640px}
 }
 @media(max-width:620px){
   .privacy-pill{display:none}
@@ -285,18 +282,26 @@ footer a{color:var(--accent-dk);font-weight:700}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{size:A4;margin:11mm}
 }
+.op-page+.op-page{page-break-before:always;break-before:page}
 .op-head{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:13px}
-.op-head h1{font-size:18px;letter-spacing:-.02em}
+.op-head h1{font-size:20px;letter-spacing:-.03em;margin:0}
 .op-head .op-ctx{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}
 .op-head svg{height:19px}
 .op-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:11px}
 .op-tile{border:1px solid var(--line);border-radius:9px;padding:8px 10px}
 .op-tile b{font-size:14.5px;display:block;font-weight:800}
 .op-tile span{font-size:9.5px;color:var(--ink-2)}
-.op-sec{margin-bottom:10px}
+.op-sec{margin-bottom:10px;break-inside:avoid}
 .op-sec h2{font-size:11.5px;color:var(--accent-dk);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;font-weight:800}
 .op-sec li{font-size:11px;margin-left:15px;margin-bottom:3px}
-.op-cols{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.op-p{font-size:10px;margin:0 0 5px;color:var(--ink-2);line-height:1.45}
+.op-chart{max-width:470px}
+.op-list li{font-size:10px;margin-left:13px;margin-bottom:5px;line-height:1.45}
+.op-diag .diag-sec{padding:9px 11px;margin-bottom:7px;border-radius:9px;break-inside:avoid}
+.op-diag .diag-sec h4{font-size:10.5px;margin-bottom:4px}
+.op-diag .diag-sec li{font-size:9.8px;padding:2px 0 2px 13px;margin:0;line-height:1.4}
+.op-diag .diag-sec li::before{left:3px}
+.op-cols{display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:start}
 .op-casc{width:100%;border-collapse:collapse;font-size:10.5px}
 .op-casc td{padding:3px 5px;border-bottom:1px solid var(--line-2)}
 .op-casc td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
@@ -318,16 +323,12 @@ footer a{color:var(--accent-dk);font-weight:700}
   <div>
     <div class="eyebrow">Diagnóstico financeiro gratuito</div>
     <h1>Seu consultório dá <em>lucro de verdade?</em></h1>
-    <p>Quatro passos rápidos, com barras para arrastar em vez de campos para digitar. No fim você recebe a análise completa: margem, ponto de equilíbrio e quanto sobra <b>depois</b> de remunerar o seu próprio trabalho.</p>
+    <p>Preencha quatro passos rápidos para receber uma análise financeira completa do seu consultório, que inclui: margem de lucro, ponto de equilíbrio e quanto sobra no fim do mês.</p>
     <div class="hero-actions">
       <button class="primary" id="ctaHero" data-track="lucro/cta-hero">Começar meu diagnóstico ↓</button>
       <div class="trust"><span>Leva 3 minutos</span><span>Sem cadastro</span></div>
     </div>
   </div>
-  <aside class="hero-note">
-    <strong>O detalhe que muda tudo</strong>
-    <p>A maioria das contas de consultório esquece o pró-labore: o médico acaba entrando como mão de obra gratuita e o resultado parece melhor do que é. Aqui a sua remuneração entra antes do lucro final.</p>
-  </aside>
 </section>
 
 <!-- ===================== WIZARD ===================== -->
@@ -351,7 +352,7 @@ footer a{color:var(--accent-dk);font-weight:700}
 <section class="analise" id="analise" hidden>
   <div class="an-head">
     <div>
-      <h2>Análise do seu consultório</h2>
+      <h2 id="anTitulo">Análise do seu consultório</h2>
       <p id="anCtx"></p>
     </div>
     <div class="an-acts">
@@ -390,7 +391,7 @@ footer a{color:var(--accent-dk);font-weight:700}
             <div class="bar" id="bLuc" style="background:#0A332C"></div>
           </div>
           <div class="legend">
-            <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#57BE9F"></span>Custos por consulta e impostos</span><strong id="lVar">R$ 0</strong></div>
+            <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#57BE9F"></span>Impostos e taxa de cartão</span><strong id="lVar">R$ 0</strong></div>
             <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#128268"></span>Estrutura, equipe e fixos</span><strong id="lFix">R$ 0</strong></div>
             <div class="legend-row"><span class="legend-name"><span class="swatch" style="background:#D6A43C"></span>Sua remuneração</span><strong id="lMed">R$ 0</strong></div>
             <div class="legend-row"><span class="legend-name"><span class="swatch" id="swLuc" style="background:#0A332C"></span>Lucro do consultório</span><strong id="lLuc">R$ 0</strong></div>
@@ -449,7 +450,7 @@ const n=id=>{const el=$(id);if(!el||OFF.has(id))return 0;const v=parseFloat(el.v
 const rt=id=>Math.min(100,n(id))/100;
 const short=v=>v>=1000?"R$ "+(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mil":"R$ "+v;
 let modoSala="mensal",modoEquipe="simples",calc=null;
-const state={passo:1,vistos:new Set([1]),estrelas:0};
+const state={passo:1,vistos:new Set([1]),estrelas:0,titulo:""};
 
 /* ================= COMPONENTES ================= */
 function money(k,label,o={}){
@@ -511,12 +512,26 @@ const FIXOS=[
 const PASSOS=[
 {nome:"Receita e agenda",titulo:"Receita e agenda",sub:"Como é um mês típico do seu consultório. Arraste as barras, não precisa digitar.",
  body:()=>`
-  <div class="grid-2">
-    <div class="field"><label for="espec">Sua especialidade <small>opcional</small></label>
-      <div class="ac"><input id="espec" type="text" placeholder="Comece a digitar, por exemplo Derma" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="acList"><div class="ac-list" id="acList" hidden></div></div>
-      <div class="hint">Só para identificar o relatório em PDF.</div></div>
-    <div class="field"><label for="mesRef">Mês de referência</label><input id="mesRef" type="month">
-      <div class="hint">O mês típico que você está descrevendo.</div></div>
+  <div class="bloco">
+    <div class="bloco-head"><h3>Quem está fazendo o diagnóstico</h3><span>vai em destaque no seu relatório</span></div>
+    <div class="grid-2">
+      <div class="field">
+        <label for="nome">Como você quer ser chamado</label>
+        <div class="seg" id="titulo" role="group" aria-label="Título" style="margin-bottom:10px">
+          <button type="button" data-t="Dr." aria-pressed="false">Dr.</button>
+          <button type="button" data-t="Dra." aria-pressed="false">Dra.</button>
+          <button type="button" data-t="" aria-pressed="false">Sem título</button>
+        </div>
+        <input id="nome" type="text" placeholder="Seu nome" maxlength="60">
+      </div>
+      <div>
+        <div class="field"><label for="clinica">Nome da clínica ou consultório <small>opcional</small></label>
+          <input id="clinica" type="text" placeholder="Por exemplo Clínica Vida" maxlength="70"></div>
+        <div class="field" style="margin-top:14px"><label for="espec">Sua especialidade <small>opcional</small></label>
+          <div class="ac"><input id="espec" type="text" placeholder="Comece a digitar, por exemplo Cardiologia" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="acList"><div class="ac-list" id="acList" hidden></div></div>
+          <div class="hint">Nome, clínica e especialidade aparecem no cabeçalho do seu relatório.</div></div>
+      </div>
+    </div>
   </div>
 
   <div class="bloco">
@@ -526,11 +541,23 @@ const PASSOS=[
       ${money("precoPart","Valor da consulta",{val:300,max:1500,step:10,per:"por consulta"})}
     </div>
     <div class="grid-2">
-      ${slider("noshowPart","Faltas sem cobrança",{val:10,max:40,hint:"Fatia da agenda que não aparece e não gera receita."})}
+      ${slider("noshowPart","Pacientes que faltam",{val:10,max:40,hint:"Fatia da agenda que não aparece e não gera receita."})}
       ${slider("cardShare","Recebido no cartão",{val:70,max:100,step:5,hint:"Pix e dinheiro não pagam taxa, por isso perguntamos separado."})}
       ${slider("cardFee","Taxa da maquininha",{val:3,max:8,step:.1})}
       ${money("outrasRec","Procedimentos e outras receitas",{val:0,max:30000,step:100})}
     </div>
+    <details class="more" data-track="lucro/saiba-mais-particular"><summary>Saiba mais: como calculamos a receita particular</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b></p>
+        <ul>
+          <li>Consultas realizadas = agendadas por semana × 4,33 semanas × (1 − % que falta)</li>
+          <li>Receita particular = consultas realizadas × valor da consulta</li>
+          <li>Taxa de cartão = receita particular × % recebido no cartão × taxa da maquininha</li>
+        </ul>
+        <p>Repare que a taxa de cartão não incide sobre tudo: Pix, dinheiro e transferência entram inteiros. Por isso a fatia no cartão é uma pergunta separada, e não um desconto médio chutado sobre a receita toda.</p>
+        <div class="round-note"><b>Nossas premissas:</b> usamos <b>4,33 semanas por mês</b> (52 ÷ 12) e um valor médio de consulta em vez de caso a caso. É proposital: o objetivo é o retrato de um mês típico, não a contabilidade fechada. Se você cobra valores diferentes para primeira consulta e retorno, use a média ponderada pelo volume. Faltas típicas em consultório particular ficam entre 8% e 12%.</div>
+      </div>
+    </details>
   </div>
 
   ${sw("swConv","Atendo por convênio","Desligue se você é 100% particular",true)}
@@ -541,9 +568,20 @@ const PASSOS=[
       ${money("precoConv","Valor médio recebido",{val:90,max:600,step:5,per:"por consulta",hint:"O que realmente cai na conta, não a tabela."})}
     </div>
     <div class="grid-2">
-      ${slider("noshowConv","Faltas sem cobrança",{val:12,max:40})}
+      ${slider("noshowConv","Pacientes que faltam",{val:12,max:40})}
       ${slider("glosas","Glosas e não recebimentos",{val:3,max:20,step:.5,hint:"Entre 2% e 5% é o normal. Acima disso vale auditar."})}
     </div>
+    <details class="more" data-track="lucro/saiba-mais-convenio"><summary>Saiba mais: como calculamos a receita de convênio</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b></p>
+        <ul>
+          <li>Consultas realizadas = agendadas por semana × 4,33 semanas × (1 − % que falta)</li>
+          <li>Receita de convênio = consultas realizadas × valor médio recebido × (1 − % de glosa)</li>
+        </ul>
+        <p>Glosa é o que a operadora recusa ou paga a menos depois de você já ter atendido. Ela entra como um desconto direto na receita porque, na prática, é atendimento feito que não vira dinheiro.</p>
+        <div class="round-note"><b>Nossas premissas:</b> use o valor que <b>realmente cai na conta</b>, não a tabela de referência. Trabalhamos por competência, ou seja, contamos a receita no mês do atendimento; não modelamos o prazo de repasse da operadora, que costuma ser de 30 a 90 dias e afeta o seu caixa, não a sua margem. Glosa entre 2% e 5% é o normal de mercado; acima disso vale auditar por operadora e por motivo de recusa.</div>
+      </div>
+    </details>
   </div>
 
   <div class="bloco">
@@ -552,26 +590,23 @@ const PASSOS=[
       ${stepper("slots","Horários disponíveis por semana",{val:40,max:200,step:5,un:"vagas"})}
       ${stepper("horasClin","Horas em consultório por semana",{val:20,max:80,un:"horas"})}
     </div>
-  </div>
+    <details class="more" data-track="lucro/saiba-mais-agenda"><summary>Saiba mais: ocupação da agenda e lucro por hora</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b></p>
+        <ul>
+          <li>Ocupação = consultas realizadas no mês ÷ (horários disponíveis por semana × 4,33)</li>
+          <li>Lucro por hora clínica = lucro do consultório ÷ (horas por semana × 4,33)</li>
+        </ul>
+        <p>Ocupação é o indicador mais barato de melhorar em qualquer consultório: encher uma vaga que já existe não aumenta aluguel, equipe nem nenhum custo fixo, então quase tudo que entra vira margem.</p>
+        <div class="round-note"><b>Nossas premissas:</b> assumimos uma agenda estável semana a semana e ignoramos sazonalidade, férias e feriados. "Horários disponíveis" são as vagas que a sua agenda comporta, não as que estão preenchidas. Como referência, abaixo de 60% de ocupação sobra capacidade ociosa relevante; a partir de 80% o crescimento passa a vir de preço e mix, não de volume.</div>
+      </div>
+    </details>
+  </div>`},
 
-  <details class="more" data-track="lucro/saiba-mais-receita"><summary>Saiba mais: como preencher esta parte</summary>
-    <div class="more-body">
-      <p><b>Agendadas, não realizadas.</b> Coloque quantas consultas você <b>marca</b> numa semana comum. As faltas são descontadas em seguida, então não precisa fazer essa conta de cabeça.</p>
-      <ul>
-        <li><b>Faltas sem cobrança:</b> a fatia da agenda que simplesmente não aparece e não gera receita. Se você não faz ideia, o comum em consultório é 10% no particular e 10 a 20% em convênio.</li>
-        <li><b>Recebido no cartão:</b> só essa fatia paga taxa de maquininha. Pix e dinheiro entram inteiros, e é por isso que perguntamos separado.</li>
-        <li><b>Valor médio do convênio:</b> use o que realmente cai na conta por consulta, não a tabela.</li>
-        <li><b>Glosas:</b> o que a operadora recusa ou não paga. Entre 2 e 5% é o normal; acima disso vale auditar.</li>
-        <li><b>Horários disponíveis:</b> quantas vagas cabem na sua agenda por semana. Serve para calcular a sua taxa de ocupação.</li>
-      </ul>
-      <div class="round-note"><b>Nosso arredondamento:</b> usamos <b>4,33 semanas por mês</b> (52 semanas ÷ 12) e valores médios em vez de consulta a consulta. É proposital: o objetivo é um retrato rápido e realista do mês típico, não a contabilidade fechada. Diferenças de poucos por cento não mudam a decisão que você vai tomar.</div>
-    </div>
-  </details>`},
-
-{nome:"Custos por consulta",titulo:"Custos que crescem com o volume",sub:"Impostos e gastos que sobem quando você atende mais gente.",
+{nome:"Impostos",titulo:"Impostos sobre o faturamento",sub:"Quanto do que entra vai embora antes de pagar qualquer conta.",
  body:()=>`
   <div class="bloco">
-    <div class="bloco-head"><h3>Impostos</h3><span>escolha o seu regime para preencher a alíquota</span></div>
+    <div class="bloco-head"><h3>Seu regime tributário</h3><span>escolha para preencher a alíquota</span></div>
     <div class="chips" id="chipsRegime" role="group" aria-label="Regime tributário">
       <button type="button" class="chip" data-v="6" aria-pressed="false">Simples, Anexo III inicial · 6%</button>
       <button type="button" class="chip" data-v="11" aria-pressed="false">Simples, Anexo III seguinte · 11%</button>
@@ -582,29 +617,20 @@ const PASSOS=[
     <div style="margin-top:16px">
       ${slider("imposto","Alíquota efetiva de impostos",{val:8,max:35,step:.5,hint:"O chip preenche um ponto de partida. A barra continua sua para ajustar."})}
     </div>
-  </div>
-
-  <div class="bloco">
-    <div class="bloco-head"><h3>Custos por atendimento</h3><span>o que some a cada consulta</span></div>
-    <div class="grid-2">
-      ${money("insumoPart","Insumos por consulta particular",{val:5,max:300,step:1,per:"por consulta"})}
-      ${money("insumoConv","Insumos por consulta de convênio",{val:5,max:300,step:1,per:"por consulta"})}
-      ${slider("repasse","Repasses e comissões",{val:0,max:50,step:.5,small:"sobre a receita",hint:"Se você divide receita com clínica, plataforma ou outro profissional."})}
-      ${money("varOutros","Outros custos variáveis",{val:0,max:20000,step:50})}
-    </div>
-  </div>
-
-  <details class="more" data-track="lucro/saiba-mais-variaveis"><summary>Saiba mais: por que separamos esses custos</summary>
-    <div class="more-body">
-      <p>Estes são os custos <b>variáveis</b>: eles existem por consulta. Separá-los dos custos fixos é o que permite calcular direito o seu ponto de equilíbrio e saber quanto sobra de cada nova consulta que você encaixa na agenda.</p>
-      <ul>
-        <li><b>Insumos por consulta:</b> luvas, descartáveis, papel, material que some quando você atende. Se não souber, deixe R$ 5; em consultório clínico costuma ser pouco.</li>
-        <li><b>Repasses e comissões:</b> se você divide receita com outro profissional, clínica ou plataforma.</li>
-        <li><b>Alíquota efetiva:</b> a % que realmente sai do seu faturamento, não a alíquota de tabela.</li>
-      </ul>
-      <div class="round-note"><b>Por que não escolhemos o imposto por você:</b> no Simples, a mesma atividade pode cair no Anexo III ou no V dependendo do Fator R (folha ÷ faturamento nos últimos 12 meses), e a alíquota ainda muda com o quanto você faturou no ano. Por isso oferecemos <b>faixas de referência</b> para um chute inicial, mas a barra é sempre sua para ajustar. O número exato quem dá é o seu contador.</div>
-    </div>
-  </details>`},
+    <details class="more" data-track="lucro/saiba-mais-impostos"><summary>Saiba mais: como o imposto entra na conta</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b> imposto do mês = receita realizada × alíquota efetiva. Ele é tratado como custo variável porque acompanha o faturamento: se você atende menos, paga menos.</p>
+        <p><b>Alíquota efetiva</b> é o quanto de fato sai do seu faturamento, não a alíquota de tabela. Se você não tem o número, use as faixas abaixo como ponto de partida:</p>
+        <ul>
+          <li><b>Simples Nacional, Anexo III (6% a 11%):</b> vale quando o Fator R fica em 28% ou mais, ou seja, quando a folha (incluindo o seu pró-labore) representa pelo menos 28% do faturamento dos últimos 12 meses.</li>
+          <li><b>Simples Nacional, Anexo V (cerca de 15,5%):</b> mesma atividade, mas com Fator R abaixo de 28%. É por isso que aumentar o pró-labore às vezes reduz o imposto total.</li>
+          <li><b>Lucro Presumido (13% a 16%):</b> soma de IRPJ, CSLL, PIS, COFINS e ISS, com o ISS variando por município.</li>
+          <li><b>Pessoa física, carnê-leão (até 27,5%):</b> tabela progressiva do IR, com dedução de despesas do livro-caixa.</li>
+        </ul>
+        <div class="round-note"><b>Nossas premissas:</b> aplicamos <b>uma única alíquota sobre toda a receita</b>, sem separar ISS, PIS, COFINS, IRPJ e CSLL, e sem calcular o IR e o INSS que incidem sobre o seu pró-labore, que variam demais entre um caso e outro. Também não escolhemos o regime por você: no Simples a alíquota muda com o Fator R e com o quanto você faturou nos últimos 12 meses. As faixas servem como chute inicial; o número exato quem dá é o seu contador.</div>
+      </div>
+    </details>
+  </div>`},
 
 {nome:"Estrutura e equipe",titulo:"Estrutura e equipe",sub:"Os custos que existem mesmo se você não atender ninguém.",
  body:()=>`
@@ -619,6 +645,13 @@ const PASSOS=[
       <div id="fSalaHora" hidden>${money("aluguelHora","Valor da hora da sala",{val:60,max:400,step:5,per:"por hora"})}</div>
       <div id="fSalaHoras" hidden>${stepper("horasSala","Horas de sala por semana",{val:16,max:80,un:"horas"})}</div>
     </div>
+    <details class="more" data-track="lucro/saiba-mais-sala"><summary>Saiba mais: como tratamos o custo da sala</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b> no modo mensal, entra o valor cheio da locação. No modo por hora, custo da sala = valor da hora × horas por semana × 4,33.</p>
+        <p>A sala é um custo <b>fixo</b>: ela existe mesmo no mês em que você atende pouco. É justamente isso que a torna a variável mais perigosa de um consultório novo, e a mais poderosa quando você troca aluguel fixo por sala por hora enquanto a agenda ainda está enchendo.</p>
+        <div class="round-note"><b>Nossas premissas:</b> inclua condomínio e IPTU no valor mensal. Não rateamos a sala entre profissionais nem calculamos o custo ocioso das horas em que ela fica vazia. Como referência de mercado, a sala fica confortável até <b>15% da receita</b> e acende alerta acima de <b>20%</b>.</div>
+      </div>
+    </details>
   </div>
 
   ${sw("swEquipe","Tenho equipe fixa","Secretária, recepção ou auxiliar",true)}
@@ -633,6 +666,17 @@ const PASSOS=[
       <div id="fEqTotal" hidden>${money("equipeTotal","Custo total mensal da equipe",{val:4400,max:40000,step:100,hint:"Salários, encargos, FGTS, férias, 13º e benefícios."})}</div>
       <div>${money("outrosEquipe","Outros da equipe",{val:0,max:20000,step:100,small:"terceiros e freelas"})}</div>
     </div>
+    <details class="more" data-track="lucro/saiba-mais-equipe"><summary>Saiba mais: por que o salário não é o custo da equipe</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b> custo da equipe = salário em carteira × multiplicador de encargos, mais o que você paga a terceiros e freelas.</p>
+        <p>Uma secretária de R$ 2.200 não custa R$ 2.200. Sobre o salário incidem FGTS (8%), INSS patronal e terceiros, férias mais 1/3, 13º, além de vale-transporte, vale-refeição e a provisão de rescisão que você deveria estar guardando desde o primeiro mês.</p>
+        <ul>
+          <li><b>Estimar pelo salário:</b> multiplicamos por 2, o atalho mais usado no mercado. Serve para uma primeira leitura.</li>
+          <li><b>Já sei o custo total:</b> se o contador já te passou o custo cheio da folha, use este modo. É sempre mais preciso.</li>
+        </ul>
+        <div class="round-note"><b>Nossas premissas:</b> o multiplicador de 2x é uma <b>simplificação consciente</b>. O custo real varia com o regime tributário (no Simples não há INSS patronal de 20%), com os benefícios e com o sindicato da categoria, ficando tipicamente entre <b>1,7x e 2,2x</b>. Deixamos a barra livre justamente para você ajustar quando tiver o número exato. Lembre também que a folha entra no Fator R e pode reduzir a sua alíquota do Simples.</div>
+      </div>
+    </details>
   </div>
 
   <div class="bloco">
@@ -643,19 +687,18 @@ const PASSOS=[
     <div class="grid-2" style="margin-top:16px" id="camposFixos">
       ${FIXOS.map(f=>`<div data-fix="${f.k}" ${f.on?"":"hidden"}>${money(f.k,f.nm,{val:f.val,max:f.max,step:50})}</div>`).join("")}
     </div>
-  </div>
-
-  <details class="more" data-track="lucro/saiba-mais-estrutura"><summary>Saiba mais: equipe e custos fixos</summary>
-    <div class="more-body">
-      <p><b>O erro mais comum aqui é usar o salário da carteira como custo.</b> Uma secretária de R$ 2.200 não custa R$ 2.200: com FGTS, INSS, férias mais 1/3, 13º, benefícios e provisão de rescisão, o custo real fica bem acima disso.</p>
-      <ul>
-        <li><b>Estimar pelo salário:</b> multiplicamos por 2, um atalho de mercado bastante usado. Serve para uma primeira leitura.</li>
-        <li><b>Já sei o custo total:</b> se o seu contador já te passou o custo cheio da folha, use este modo. É sempre mais preciso.</li>
-        <li><b>Anuidade do CRM, seguro e congressos:</b> divida o valor anual por 12 e coloque o resultado.</li>
-      </ul>
-      <div class="round-note"><b>Nosso arredondamento:</b> o multiplicador de 2x é uma <b>simplificação consciente</b>. O custo real varia com regime tributário, benefícios e sindicato, e pode ficar entre 1,7x e 2,2x. Deixamos a barra livre justamente para você ajustar quando tiver a informação exata.</div>
-    </div>
-  </details>`},
+    <details class="more" data-track="lucro/saiba-mais-fixos"><summary>Saiba mais: o que conta como custo fixo</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b> somamos tudo o que você marcou e tratamos como um valor que se repete todo mês, independentemente de quantos pacientes você atende. É esse total que o consultório precisa cobrir antes de gerar qualquer lucro.</p>
+        <ul>
+          <li><b>Valores anuais:</b> anuidade do CRM, seguro de responsabilidade civil, congressos e cursos entram divididos por 12.</li>
+          <li><b>Marketing e anúncios:</b> separados de propósito. Anúncio é torneira que você abre e fecha; social media costuma ser contrato mensal.</li>
+          <li><b>O que não deve entrar aqui:</b> retiradas suas (isso é pró-labore, no passo 4) e compra de equipamento (isso é investimento, que entra como reserva de depreciação).</li>
+        </ul>
+        <div class="round-note"><b>Nossas premissas:</b> custo fixo não muda com o volume dentro da faixa atual de atendimentos. Isso vale até certo ponto: se você dobrar a agenda, provavelmente vai precisar de mais uma secretária ou mais horas de sala, e o "fixo" sobe em degrau. Como referência, <b>marketing e anúncios somados acima de 15% da receita</b> só se justificam com métrica de retorno por canal.</div>
+      </div>
+    </details>
+  </div>`},
 
 {nome:"Você e o capital",titulo:"Sua remuneração e o capital",sub:"A etapa que separa \"sobrou dinheiro\" de \"deu lucro\".",
  body:()=>`
@@ -665,6 +708,17 @@ const PASSOS=[
       ${money("proLabore","Pró-labore",{val:12000,max:60000,step:500,small:"quanto você quer receber pelo seu trabalho",hint:"Uma referência honesta é quanto você ganharia atendendo essas mesmas horas em outro lugar."})}
       ${money("encargosPL","Encargos sobre o pró-labore",{val:0,max:15000,step:100,small:"INSS e IR retidos"})}
     </div>
+    <details class="more" data-track="lucro/saiba-mais-medico"><summary>Saiba mais: por que o pró-labore muda o resultado</summary>
+      <div class="more-body">
+        <p><b>A conta que roda por trás:</b> lucro do consultório = caixa antes da sua remuneração − pró-labore − encargos − equipamentos e juros.</p>
+        <p>Se o seu trabalho não entra na conta, o consultório parece lucrativo mesmo quando não é. O que sobra no fim do mês costuma ser uma mistura de três coisas diferentes: <b>o pagamento pelo seu trabalho</b>, o <b>retorno do dinheiro que você investiu</b> e o <b>lucro do negócio</b>. Separar as três é o que permite responder se vale a pena manter o consultório aberto ou se você ganharia mais atendendo as mesmas horas em outro lugar.</p>
+        <ul>
+          <li><b>Quanto colocar:</b> quanto você quer, ou precisa, receber por mês pelas horas que dedica ao consultório. A referência mais honesta é o seu custo de oportunidade, ou seja, quanto essas mesmas horas renderiam em plantão, clínica de terceiros ou telemedicina.</li>
+          <li><b>Encargos:</b> INSS e IR que incidem sobre a sua retirada. Se você não sabe o valor, deixe zero e trate o resultado como bruto.</li>
+        </ul>
+        <div class="round-note"><b>Nossa premissa mais importante:</b> mostramos primeiro o <b>caixa antes da sua remuneração</b> e só depois o <b>lucro depois dela</b>. Consultório que gera caixa mas não paga o médico direito não está falido, mas também não está saudável: você está financiando a operação com o seu próprio trabalho. Lembre ainda que o pró-labore entra na folha e conta para o Fator R, então aumentá-lo pode reduzir a sua alíquota no Simples.</div>
+      </div>
+    </details>
   </div>
 
   <div class="bloco">
@@ -680,6 +734,17 @@ const PASSOS=[
     <div class="grid-2" id="grpReinvest" hidden style="margin-top:16px">
       ${money("reinvest","Reserva mensal para reinvestir",{val:0,max:30000,step:100})}
     </div>
+    <details class="more" data-track="lucro/saiba-mais-capital"><summary>Saiba mais: equipamentos, juros e reserva</summary>
+      <div class="more-body">
+        <p><b>Reserva para trocar equipamentos</b> é a versão prática da depreciação. Maca, computador, aparelhos e reforma se desgastam, e o dia da troca chega. Quem não guarda nada por mês tem um lucro que parece maior do que é e vira dívida quando o equipamento quebra.</p>
+        <ul>
+          <li><b>Regra simples:</b> some o valor de tudo o que você comprou para o consultório e divida por 60 meses, que é a vida útil de 5 anos usada na maior parte dos equipamentos.</li>
+          <li><b>Juros:</b> entre só a parte de juros da parcela, não a parcela inteira. A amortização é devolução de dinheiro que você já pegou emprestado, não despesa do mês.</li>
+          <li><b>Reserva para reinvestir:</b> não é despesa, é decisão de planejamento. Por isso ela não reduz o lucro; mostramos separado quanto sobra no caixa depois dela.</li>
+        </ul>
+        <div class="round-note"><b>Nossas premissas:</b> usamos <b>depreciação linear</b>, ou seja, o mesmo valor todo mês, sem valor residual e sem seguir tabela fiscal. É uma reserva gerencial para você tomar decisão, não um lançamento contábil.</div>
+      </div>
+    </details>
   </div>
 
   <div class="bloco">
@@ -689,19 +754,7 @@ const PASSOS=[
       ${[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" aria-label="${i} de 5">★</button>`).join("")}
     </div>
     <div class="stars-tx" id="starsTx">Isso muda só o tom da leitura final, não os cálculos.</div>
-  </div>
-
-  <details class="more" data-track="lucro/saiba-mais-medico"><summary>Saiba mais: por que o pró-labore muda o resultado</summary>
-    <div class="more-body">
-      <p>Se o seu trabalho não entra na conta, o consultório parece lucrativo mesmo quando não é. O que sobra no fim do mês costuma ser uma mistura de três coisas: <b>o pagamento pelo seu trabalho</b>, o <b>retorno do dinheiro que você investiu</b> e o <b>lucro do negócio</b>.</p>
-      <ul>
-        <li><b>Pró-labore:</b> coloque quanto você quer (ou precisa) receber por mês pelas horas que dedica ao consultório. Uma referência honesta é quanto você ganharia atendendo essas mesmas horas em outro lugar.</li>
-        <li><b>Reserva para equipamentos:</b> maca, computador, aparelhos e reforma se desgastam. Uma regra simples: some o valor dos seus equipamentos e divida por 60 meses.</li>
-        <li><b>Reserva para reinvestir:</b> não é despesa, é planejamento. Mostramos separado quanto sobra no caixa depois dela.</li>
-      </ul>
-      <div class="round-note"><b>Como lemos o resultado:</b> mostramos primeiro o <b>caixa antes da sua remuneração</b> e depois o <b>lucro depois dela</b>. Consultório que gera caixa mas não paga o médico direito não está falido, mas também não está saudável: você está financiando a operação com o seu próprio trabalho.</div>
-    </div>
-  </details>`}
+  </div>`}
 ];
 
 /* ================= MONTAGEM ================= */
@@ -709,8 +762,6 @@ function montar(){
   $("wtrack").innerHTML=PASSOS.map((p,i)=>`<button type="button" class="wtab" data-p="${i+1}" role="tab"><span class="num">${i+1}</span><span class="nm">${p.nome}</span></button>`).join("");
   $("wbody").innerHTML=PASSOS.map((p,i)=>`<section class="wpasso" data-p="${i+1}" ${i?"hidden":""}>
       <div class="wtitle"><h2>${p.titulo}</h2><p>${p.sub}</p></div>${p.body()}</section>`).join("");
-  const d=new Date();
-  $("mesRef").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
   sincronizar();
   irPara(1);
 }
@@ -749,7 +800,7 @@ function irPara(p){
 }
 function resumo(){
   const c=calcular();
-  const t={1:["Receita realizada estimada",c.receita],2:["Custos por consulta e impostos",c.variaveis],
+  const t={1:["Receita realizada estimada",c.receita],2:["Impostos e taxa de cartão",c.variaveis],
     3:["Estrutura, equipe e fixos",c.fixos],4:["Caixa antes da sua remuneração",c.caixaAntes]}[state.passo];
   $("wsum").innerHTML=c.receita>0?`${t[0]}: <b>${brl(t[1])}</b> por mês`:"Comece pelas consultas por semana.";
 }
@@ -765,11 +816,17 @@ function avancar(){
   else verAnalise();
 }
 function scrollTopo(){window.scrollTo({top:$("wizard").offsetTop-14,behavior:"smooth"})}
+function identidade(){
+  const nome=$("nome").value.trim();
+  const completo=nome?((state.titulo?state.titulo+" ":"")+nome):"";
+  return {nome,completo,clinica:$("clinica").value.trim(),espec:$("espec").value.trim()};
+}
 function verAnalise(){
   render();
   $("wizard").hidden=true;$("hero").style.display="none";$("analise").hidden=false;
-  const esp=$("espec").value.trim(),mes=$("mesRef").value;
-  const ctx=[esp,mes?"referência de "+new Date(mes+"-02").toLocaleDateString("pt-BR",{month:"long",year:"numeric"}):""].filter(Boolean).join(" · ");
+  const id=identidade();
+  $("anTitulo").innerHTML=id.completo?`${id.completo} <span class="emoji">🩺</span>`:"Análise do seu consultório";
+  const ctx=[id.completo?"Análise financeira do seu consultório":"",id.clinica,id.espec].filter(Boolean).join(" · ");
   $("anCtx").textContent=ctx||"Resultado do mês típico que você descreveu.";
   track("lucro/ver-diagnostico");
   window.scrollTo({top:0,behavior:"smooth"});
@@ -790,11 +847,8 @@ function calcular(){
   const consultas=partReal+convReal;
 
   const custoCartao=recPart*rt("cardShare")*rt("cardFee");
-  const custoInsumo=partReal*n("insumoPart")+convReal*n("insumoConv");
   const custoImposto=receita*rt("imposto");
-  const custoRepasse=receita*rt("repasse");
-  const varOutros=n("varOutros");
-  const variaveis=custoCartao+custoInsumo+custoImposto+custoRepasse+varOutros;
+  const variaveis=custoCartao+custoImposto;
 
   const sala=modoSala==="mensal"?n("aluguelMes"):n("aluguelHora")*n("horasSala")*SEM;
   const equipe=(modoEquipe==="simples"?n("salarioSec")*(n("multCLT")||2):n("equipeTotal"))+n("outrosEquipe");
@@ -823,16 +877,16 @@ function calcular(){
   const custos=[
     {k:"Impostos",v:custoImposto},{k:"Equipe",v:equipe},{k:"Sala de atendimento",v:sala},
     {k:"Marketing",v:n("marketing")},{k:"Anúncios",v:n("anuncios")},{k:"Taxa de cartão",v:custoCartao},
-    {k:"Contas do consultório",v:n("contas")},{k:"Insumos por consulta",v:custoInsumo},
+    {k:"Contas do consultório",v:n("contas")},
     {k:"Contabilidade",v:n("contador")},{k:"Plataformas e ferramentas",v:n("plataformas")},
     {k:"Materiais administrativos",v:n("materiais")},{k:"CRM, seguro e cursos",v:n("crmSeguro")},
-    {k:"Repasses e comissões",v:custoRepasse},{k:"Reserva de equipamentos",v:n("depreciacao")},
-    {k:"Juros",v:n("juros")},{k:"Outros fixos",v:n("fixoOutros")},{k:"Outros variáveis",v:varOutros}
+    {k:"Reserva de equipamentos",v:n("depreciacao")},
+    {k:"Juros",v:n("juros")},{k:"Outros fixos",v:n("fixoOutros")}
   ].filter(c=>c.v>0);
 
   return {receita,recPart,recConv,outras,consultas,partReal,convReal,variaveis,fixos,capital,medico,contrib,taxaContrib,
     caixaAntes,lucro,margem,aposReserva,beReais,beConsultas,ticket,ocupacao,lucroHora,perdaNoshow,perdaGlosa,
-    sala,equipe,custos,custoCartao,custoImposto,custoInsumo,slotsMes,horasMes};
+    sala,equipe,custos,custoCartao,custoImposto,slotsMes,horasMes};
 }
 
 /* ================= RENDER DA ANÁLISE ================= */
@@ -852,7 +906,7 @@ function render(){
 
   $("mLucro").textContent=brl(c.lucro);
   $("mLucro").className="metric-value "+cls;
-  $("mLucroSub").textContent=temDados?`Margem de ${pct(c.margem)} sobre o que entra.`+(n("reinvest")>0?` Depois da reserva de ${brl(n("reinvest"))}, ficam ${brl(c.aposReserva)}.`:""):"Preencha as consultas para ver o resultado.";
+  $("mLucroSub").textContent=temDados?`Margem de lucro de ${pct(c.margem)} sobre o que entra.`+(n("reinvest")>0?` Depois da reserva de ${brl(n("reinvest"))}, ficam ${brl(c.aposReserva)}.`:""):"Preencha as consultas para ver o resultado.";
   $("mReceita").textContent=brl(c.receita);
   $("mCaixa").textContent=brl(c.caixaAntes);
   $("mMC").textContent=pct(c.taxaContrib);
@@ -886,7 +940,7 @@ function render(){
 function drawCascata(c){
   const linhas=[
     {n:"Receita realizada",v:c.receita,cor:"#128268",tipo:"in"},
-    {n:"Custos por consulta e impostos",v:-c.variaveis,cor:"#57BE9F"},
+    {n:"Impostos e taxa de cartão",v:-c.variaveis,cor:"#57BE9F"},
     {n:"Sobra para pagar a estrutura",v:c.contrib,cor:"#128268",tipo:"sub"},
     {n:"Estrutura, equipe e fixos",v:-c.fixos,cor:"#3AA184"},
     {n:"Caixa antes da sua remuneração",v:c.caixaAntes,cor:"#0E4F45",tipo:"sub"},
@@ -903,9 +957,9 @@ function drawCascata(c){
     </div>`).join("");
 }
 
-function drawCustos(c){
+function svgCustos(c){
   const items=c.custos.slice().sort((a,b)=>b.v-a.v).slice(0,12);
-  if(!items.length){$("custosChart").innerHTML="";return}
+  if(!items.length)return "";
   const max=items[0].v,W=520,rowH=27,labelW=185,padR=70,H=items.length*rowH+4;
   let g="";
   items.forEach((it,i)=>{
@@ -914,18 +968,19 @@ function drawCustos(c){
     <rect x="${labelW}" y="${y}" width="${bw}" height="17" rx="4" fill="#128268" data-tip="${it.k}: ${brl(it.v)} (${pct(it.v/c.receita)} da receita)"/>
     <text x="${labelW+bw+7}" y="${y+12}" font-size="11.5" font-weight="700" fill="#0A332C">${brl(it.v)}</text>`;
   });
-  $("custosChart").innerHTML=`<svg width="100%" viewBox="0 0 ${W} ${H}"><line x1="${labelW}" x2="${labelW}" y1="0" y2="${H}" stroke="#DBE7E2"/>${g}</svg>`;
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}"><line x1="${labelW}" x2="${labelW}" y1="0" y2="${H}" stroke="#DBE7E2"/>${g}</svg>`;
+}
+function drawCustos(c){
+  $("custosChart").innerHTML=svgCustos(c);
   hookTips($("custosChart"));
 }
 
-function drawBE(c){
-  if(!isFinite(c.beReais)){$("beChart").innerHTML="";$("beSub").textContent="Informe os custos para calcular.";return}
-  const beSem=c.beConsultas/SEM;
-  $("beSub").innerHTML=`Você precisa de <b>${brl(c.beReais)}</b> por mês (cerca de <b>${beSem.toLocaleString("pt-BR",{maximumFractionDigits:1})} consultas/semana</b>) para o consultório se pagar já contando a sua remuneração.`;
+function svgBE(c){
+  if(!isFinite(c.beReais))return "";
   const W=440,H=150,pad=30;
   const max=Math.max(c.receita,c.beReais)*1.12;
   const bw=v=>Math.max(2,(W-pad*2)*v/max);
-  $("beChart").innerHTML=`<svg width="100%" viewBox="0 0 ${W} ${H}">
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}">
     <text x="${pad}" y="20" font-size="11.5" fill="#62736F">Sua receita hoje</text>
     <rect x="${pad}" y="28" width="${bw(c.receita)}" height="22" rx="5" fill="#128268" data-tip="Receita realizada: ${brl(c.receita)}"/>
     <text x="${pad+bw(c.receita)+7}" y="43" font-size="12" font-weight="700" fill="#0A332C">${brl(c.receita)}</text>
@@ -934,18 +989,25 @@ function drawBE(c){
     <text x="${pad+bw(c.beReais)+7}" y="103" font-size="12" font-weight="700" fill="#0A332C">${brl(c.beReais)}</text>
     <text x="${pad}" y="136" font-size="12" font-weight="700" fill="${c.receita>=c.beReais?"#0F7A4D":"#B42318"}">${c.receita>=c.beReais?`Folga de ${brl(c.receita-c.beReais)} por mês`:`Faltam ${brl(c.beReais-c.receita)} por mês`}</text>
   </svg>`;
+}
+function drawBE(c){
+  if(!isFinite(c.beReais)){$("beChart").innerHTML="";$("beSub").textContent="Informe os custos para calcular.";return}
+  const beSem=c.beConsultas/SEM;
+  $("beSub").innerHTML=`<b>O que é:</b> o ponto de equilíbrio é o faturamento mínimo que o consultório precisa fazer no mês para se pagar por inteiro, já incluindo a sua remuneração. Abaixo dele você trabalha no vermelho; acima, cada real que entra começa a virar lucro.<br><br>
+    No seu caso são <b>${brl(c.beReais)}</b> por mês, cerca de <b>${beSem.toLocaleString("pt-BR",{maximumFractionDigits:1})} consultas por semana</b>.`;
+  $("beChart").innerHTML=svgBE(c);
   hookTips($("beChart"));
 }
 
 function insights(c){
   const hi=[],lo=[];
   const mkt=n("marketing")+n("anuncios");
-  if(c.margem>=0.20)hi.push(`Margem de ${pct(c.margem)} <b>depois</b> de pagar o seu trabalho: o consultório é um bom negócio, não só um emprego.`);
+  if(c.margem>=0.20)hi.push(`Margem de lucro de ${pct(c.margem)} <b>depois</b> de pagar o seu trabalho: o consultório é um bom negócio, não só um emprego.`);
   else if(c.lucro>=0&&c.margem>0)hi.push(`O consultório paga o seu pró-labore de ${brl(n("proLabore"))} e ainda sobra ${brl(c.lucro)}.`);
   if(c.caixaAntes>0&&c.lucro<0)lo.push(`Sobram ${brl(c.caixaAntes)} antes da sua remuneração, mas isso não cobre o pró-labore de ${brl(n("proLabore"))}. Na prática, você está financiando o consultório com o próprio trabalho.`);
   if(c.caixaAntes<0)lo.push(`O consultório não cobre nem os custos operacionais: faltam ${brl(-c.caixaAntes)} por mês antes mesmo da sua remuneração.`);
-  if(c.taxaContrib>=0.65)hi.push(`De cada R$ 100 que entram, ${brl(c.taxaContrib*100)} sobram para pagar a estrutura. Margem por consulta saudável.`);
-  if(c.taxaContrib<0.5&&c.receita>0)lo.push(`Só ${pct(c.taxaContrib)} de cada consulta sobra depois de impostos, cartão e insumos. Revise alíquota, taxa de cartão e repasses.`);
+  if(c.taxaContrib>=0.65)hi.push(`De cada R$ 100 que entram, ${brl(c.taxaContrib*100)} sobram para pagar a estrutura. Sobra por consulta saudável.`);
+  if(c.taxaContrib<0.5&&c.receita>0)lo.push(`Só ${pct(c.taxaContrib)} de cada consulta sobra depois de impostos e taxa de cartão. Revise a alíquota com o seu contador e negocie a taxa da maquininha.`);
   if(c.ocupacao>0&&c.ocupacao<0.6)lo.push(`Sua agenda está ${pct(c.ocupacao)} ocupada. Encher os horários que já existem é mais barato que qualquer expansão: cada consulta a mais deixa ${brl(c.ticket*c.taxaContrib)} líquidos.`);
   if(c.ocupacao>=0.8)hi.push(`Agenda ${pct(c.ocupacao)} ocupada. Com essa ocupação, o caminho de crescimento passa por preço ou mix, não por volume.`);
   if(c.perdaNoshow>0)lo.push(`Faltas custam ${brl(c.perdaNoshow)}/mês (${brl(c.perdaNoshow*12)}/ano). Confirmação automática e lista de espera recuperam boa parte disso.`);
@@ -966,7 +1028,8 @@ function insights(c){
   return {hi:hi.slice(0,6),lo:lo.slice(0,6)};
 }
 
-function drawDiag(c){
+function drawDiag(c){$("diag").innerHTML=diagHTML(c)}
+function diagHTML(c){
   const top2=c.custos.slice().sort((a,b)=>b.v-a.v).slice(0,2);
   const ganho=c.ticket*c.taxaContrib;
   let acoes,cor;
@@ -992,14 +1055,15 @@ function drawDiag(c){
         <li>Você marcou ${state.estrelas} de 5 estrelas de confiança. Trate este diagnóstico como uma primeira aproximação.</li>
         <li>Antes de decidir preço, corte ou contratação, confira três coisas: extrato do último mês, custo cheio da folha com o contador e o valor médio que o convênio realmente paga.</li>
       </ul></div>`:"";
-  $("diag").innerHTML=`
+  return `
     <div class="diag-sec ds-green"><h4>📊 Raio-X do mês</h4><ul>
       <li>Entram <b>${brl(c.receita)}</b> e saem <b>${brl(c.variaveis+c.fixos+c.capital)}</b> em custos, deixando <b>${brl(c.caixaAntes)}</b> antes da sua remuneração.</li>
-      <li>Depois de pagar o seu pró-labore de <b>${brl(n("proLabore"))}</b>, o consultório ${c.lucro>=0?`ainda dá <b>${brl(c.lucro)}</b> de lucro`:`fica <b>${brl(-c.lucro)}</b> no negativo`} (${pct(c.margem)} de margem).</li>
+      <li>Depois de pagar o seu pró-labore de <b>${brl(n("proLabore"))}</b>, o consultório ${c.lucro>=0?`ainda dá <b>${brl(c.lucro)}</b> de lucro`:`fica <b>${brl(-c.lucro)}</b> no negativo`}, uma margem de lucro de ${pct(c.margem)}.</li>
       <li>Ticket médio de <b>${brl(c.ticket)}</b> em ${Math.round(c.consultas)} consultas realizadas, com agenda ${pct(c.ocupacao)} ocupada.</li>
     </ul></div>
     <div class="diag-sec ds-neutral"><h4>🎯 Ponto de equilíbrio</h4><ul>
-      <li>O consultório se paga a partir de <b>${brl(c.beReais)}</b> por mês, cerca de <b>${Math.ceil(c.beConsultas)} consultas</b>.</li>
+      <li><b>O que é:</b> o faturamento mínimo do mês para o consultório se pagar por inteiro, já com a sua remuneração dentro. Abaixo dele você trabalha no vermelho; acima, o que entra começa a virar lucro. A conta é: custos fixos totais divididos pelo percentual que sobra de cada consulta.</li>
+      <li>O seu consultório se paga a partir de <b>${brl(c.beReais)}</b> por mês, cerca de <b>${Math.ceil(c.beConsultas)} consultas</b>.</li>
       <li>Hoje você faz ${Math.round(c.consultas)} consultas e fatura ${brl(c.receita)}: ${c.receita>=c.beReais?`está <b>${brl(c.receita-c.beReais)} acima</b> do necessário.`:`faltam <b>${brl(c.beReais-c.receita)}</b>.`}</li>
     </ul></div>
     <div class="diag-sec ${cor}"><h4>🚀 Plano de ação</h4><ul>${acoes.map(a=>`<li>${a}</li>`).join("")}</ul></div>
@@ -1017,45 +1081,57 @@ function hookTips(root){
 /* ================= ONE-PAGER ================= */
 function buildOnepager(c,hi,lo){
   const hoje=new Date().toLocaleDateString("pt-BR");
-  const esp=$("espec").value.trim(),mes=$("mesRef").value;
-  const ctx=[esp,mes?new Date(mes+"-02").toLocaleDateString("pt-BR",{month:"long",year:"numeric"}):""].filter(Boolean).join(" · ");
-  const grp=[{k:"Custos por consulta e impostos",v:c.variaveis,cor:"#57BE9F"},{k:"Estrutura, equipe e fixos",v:c.fixos+c.capital,cor:"#128268"},{k:"Sua remuneração",v:c.medico,cor:"#D6A43C"}];
+  const id=identidade();
+  const titulo=id.completo?`${id.completo} 🩺`:"Diagnóstico do meu consultório";
+  const ctx=[id.completo?"Diagnóstico financeiro do consultório":"",id.clinica,id.espec].filter(Boolean).join(" · ");
+  const grp=[{k:"Impostos e taxa de cartão",v:c.variaveis,cor:"#57BE9F"},{k:"Estrutura, equipe e fixos",v:c.fixos+c.capital,cor:"#128268"},{k:"Sua remuneração",v:c.medico,cor:"#D6A43C"}];
   if(c.lucro>0)grp.push({k:"Lucro",v:c.lucro,cor:"#0A332C"});
   const tot=Math.max(grp.reduce((a,g)=>a+g.v,0),c.receita,1);
   let x=0,rects="";
   grp.forEach(g=>{const w=Math.max(3,700*g.v/tot);rects+=`<rect x="${x}" y="0" width="${Math.max(1,w-2)}" height="14" rx="3" fill="${g.cor}"/>`;x+=w});
   let leg=grp.map(g=>`<span style="margin-right:10px;white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${g.cor};margin-right:4px"></span>${g.k}: R$ ${Math.round(g.v/c.receita*100)}</span>`).join("");
   if(c.lucro<0)leg+=`<span style="color:#B42318;font-weight:700;white-space:nowrap">Faltam R$ ${Math.round(-c.lucro/c.receita*100)} para fechar a conta</span>`;
-  const casc=[["Receita realizada",c.receita],["− Custos por consulta e impostos",-c.variaveis],["= Sobra para pagar a estrutura",c.contrib],
+  const casc=[["Receita realizada",c.receita],["− Impostos e taxa de cartão",-c.variaveis],["= Sobra para pagar a estrutura",c.contrib],
     ["− Estrutura, equipe e fixos",-c.fixos],["= Caixa antes do médico",c.caixaAntes],["− Sua remuneração",-c.medico],
     ["− Equipamentos e juros",-c.capital]];
+  const rodape=`<div class="op-foot"><span>Gerado em ${hoje} · simulação de referência, não substitui seu contador</span><span><b>Teste as ferramentas de IA da Turi Saúde</b> · turisaude.com.br</span></div>`;
+  const logo=`<span style="color:#0A332C"><svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg></span>`;
+
   $("onepager").innerHTML=`
-  <div class="op-head"><div><h1>Diagnóstico do meu consultório</h1>${ctx?`<div class="op-ctx">${ctx}</div>`:""}</div><span style="color:#0A332C"><svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg></span></div>
-  <div class="op-tiles">
-    <div class="op-tile"><b>${brl(c.receita)}</b><span>receita/mês</span></div>
-    <div class="op-tile"><b>${brl(c.caixaAntes)}</b><span>caixa antes do médico</span></div>
-    <div class="op-tile"><b>${brl(c.medico)}</b><span>sua remuneração</span></div>
-    <div class="op-tile"><b style="color:${c.lucro>=0?"#0F7A4D":"#B42318"}">${brl(c.lucro)}</b><span>lucro final · ${pct(c.margem)}</span></div>
-  </div>
-  <div class="op-sec"><h2>De cada R$ 100 que entram</h2>
-    <svg width="100%" viewBox="0 0 700 14" preserveAspectRatio="none" style="display:block;margin:4px 0 5px;height:14px">${rects}</svg>
-    <div style="font-size:9.5px;color:#62736F;line-height:1.7">${leg}</div></div>
-  <div class="op-cols">
-    <div>
+  <div class="op-page">
+    <div class="op-head"><div><h1>${titulo}</h1>${ctx?`<div class="op-ctx">${ctx}</div>`:""}</div>${logo}</div>
+    <div class="op-tiles">
+      <div class="op-tile"><b>${brl(c.receita)}</b><span>receita/mês</span></div>
+      <div class="op-tile"><b>${brl(c.caixaAntes)}</b><span>caixa antes do médico</span></div>
+      <div class="op-tile"><b>${brl(c.medico)}</b><span>sua remuneração</span></div>
+      <div class="op-tile"><b style="color:${c.lucro>=0?"#0F7A4D":"#B42318"}">${brl(c.lucro)}</b><span>lucro final · margem de lucro ${pct(c.margem)}</span></div>
+    </div>
+    <div class="op-sec"><h2>De cada R$ 100 que entram</h2>
+      <svg width="100%" viewBox="0 0 700 14" preserveAspectRatio="none" style="display:block;margin:4px 0 5px;height:14px">${rects}</svg>
+      <div style="font-size:9.5px;color:#62736F;line-height:1.7">${leg}</div></div>
+    <div class="op-cols">
       <div class="op-sec"><h2>Do que entra ao que sobra</h2><table class="op-casc">
         ${casc.map(([k,v])=>`<tr><td>${k}</td><td>${v<0?"− ":""}${brl(Math.abs(v))}</td></tr>`).join("")}
         <tr class="tot"><td>= Lucro do consultório</td><td style="color:${c.lucro>=0?"#0F7A4D":"#B42318"}">${brl(c.lucro)}</td></tr></table></div>
-      <div class="op-sec"><h2>Ponto de equilíbrio</h2><ul>
-        <li>${brl(c.beReais)}/mês para se pagar, cerca de ${Math.ceil(c.beConsultas)} consultas</li>
-        <li>Hoje: ${Math.round(c.consultas)} consultas, ticket de ${brl(c.ticket)}, agenda ${pct(c.ocupacao)} ocupada</li>
-      </ul></div>
+      <div class="op-sec"><h2>Ponto de equilíbrio</h2>
+        <p class="op-p"><b>O que é:</b> o faturamento mínimo do mês para o consultório se pagar por inteiro, já com a sua remuneração dentro. Abaixo dele você trabalha no vermelho; acima, o que entra começa a virar lucro.</p>
+        ${svgBE(c)}
+        <p class="op-p">São cerca de <b>${Math.ceil(c.beConsultas)} consultas por mês</b>. Hoje você faz ${Math.round(c.consultas)}, com ticket médio de ${brl(c.ticket)} e agenda ${pct(c.ocupacao)} ocupada.</p>
+      </div>
     </div>
-    <div>
-      <div class="op-sec"><h2>O que vai bem</h2><ul>${hi.slice(0,3).map(x=>`<li>${x.replace(/<[^>]+>/g,"")}</li>`).join("")}</ul></div>
-      <div class="op-sec"><h2>Pontos de atenção</h2><ul>${lo.slice(0,4).map(x=>`<li>${x.replace(/<[^>]+>/g,"")}</li>`).join("")}</ul></div>
-    </div>
+    <div class="op-sec"><h2>Para onde vai o dinheiro</h2><div class="op-chart">${svgCustos(c)}</div></div>
+    ${rodape}
   </div>
-  <div class="op-foot"><span>Gerado em ${hoje} · simulação de referência, não substitui seu contador</span><span><b>Teste as ferramentas de IA da Turi Saúde</b> · turisaude.com.br</span></div>`;
+
+  <div class="op-page">
+    <div class="op-head"><div><h1>${id.completo?id.completo+" 🩺":"Diagnóstico do meu consultório"}</h1><div class="op-ctx">Análise escrita e plano de ação</div></div>${logo}</div>
+    <div class="op-cols">
+      <div class="op-sec"><h2>O que vai bem</h2><ul class="op-list">${hi.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="op-sec"><h2>Pontos de atenção</h2><ul class="op-list">${lo.length?lo.map(t=>`<li>${t}</li>`).join(""):"<li>Nenhum alerta relevante. Consultório redondo.</li>"}</ul></div>
+    </div>
+    <div class="op-sec"><h2>Leitura do consultor</h2><div class="op-diag">${diagHTML(c)}</div></div>
+    ${rodape}
+  </div>`;
 }
 
 /* ================= EVENTOS ================= */
@@ -1087,6 +1163,10 @@ body.addEventListener("click",e=>{
     if(b.id==="swJuros"){$("grpJuros").hidden=!on;on?OFF.delete("juros"):OFF.add("juros")}
     if(b.id==="swReinvest"){$("grpReinvest").hidden=!on;on?OFF.delete("reinvest"):OFF.add("reinvest")}
     resumo();return;
+  }
+  if(b.closest("#titulo")){
+    document.querySelectorAll("#titulo button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    state.titulo=b.dataset.t;return;
   }
   if(b.closest("#chipsRegime")){
     document.querySelectorAll("#chipsRegime .chip").forEach(c=>c.setAttribute("aria-pressed",c===b));

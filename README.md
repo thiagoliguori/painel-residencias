@@ -52,12 +52,12 @@ O preenchimento virou um wizard de 4 etapas e a análise só aparece no fim, dep
 | Chips de seleção múltipla | Quais custos fixos existem: só os marcados viram campo |
 | Chips de seleção única | Regime tributário, que preenche a alíquota |
 | Autocomplete | Especialidade, com busca incremental em 56 opções |
-| Seletor de data | Mês de referência, que vai para o PDF |
+| Campo de texto | Nome do médico, título Dr./Dra. e nome da clínica, que abrem o relatório |
 | Avaliação por estrelas | Confiança nos números, que muda o tom da leitura final |
 
 Não usamos arrastar e soltar para upload (nada é enviado, o cálculo é local) nem slider de intervalo duplo (nenhum campo é uma faixa). A regra do próprio guia é escolher o componente pelo tipo de dado, não pela estética.
 
-Cada passo mostra um resumo ao vivo no rodapé (receita estimada, custos, estrutura, caixa antes do médico) e o passo 1 bloqueia o avanço enquanto não houver consultas e preço. Campos desligados por toggle ou chip entram como zero no cálculo através do conjunto `OFF`, sem perder o valor digitado.
+Os quatro passos são: Receita e agenda, Impostos, Estrutura e equipe, Você e o capital. Cada passo mostra um resumo ao vivo no rodapé (receita estimada, custos, estrutura, caixa antes do médico) e o passo 1 bloqueia o avanço enquanto não houver consultas e preço. Campos desligados por toggle ou chip entram como zero no cálculo através do conjunto `OFF`, sem perder o valor digitado.
 
 ### Versão 2 (02/08/2026): o pró-labore
 
@@ -79,12 +79,14 @@ Regras de cálculo relevantes:
 - 4,33 semanas por mês (52 ÷ 12)
 - No-show separado para particular e convênio; glosas aplicadas só ao convênio
 - Taxa de cartão incide apenas sobre a fatia da receita particular paga no cartão
-- Insumos entram por consulta (custo variável), não como valor fixo mensal
+- Custos variáveis são só impostos e taxa de cartão: insumos por consulta e repasses saíram na v3
 - Equipe em 2 modos: salário × multiplicador de encargos (padrão 2,0) ou custo total da contabilidade
 - Ponto de equilíbrio = custos fixos totais (já com pró-labore) ÷ % de margem de contribuição
 - Alíquota de imposto sempre editável, com faixas de referência apenas como ponto de partida
 
-Saída: painel BI ao vivo + one-pager em PDF de 1 página, salvo como "diagnóstico do meu consultório pela Turi Saúde".
+Cada bloco do formulário tem um "Saiba mais" com a fórmula usada e as premissas assumidas (9 no total).
+
+Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como "diagnóstico do meu consultório pela Turi Saúde". A página 1 traz os indicadores, a distribuição de cada R$ 100, a cascata, o ponto de equilíbrio explicado e o gráfico de custos; a página 2 traz o que vai bem, os pontos de atenção e a leitura escrita do consultor com o plano de ação. O cabeçalho usa o nome do médico em destaque.
 
 **Marca:** somente Turi Saúde (sem Caveo), verde institucional.
 
