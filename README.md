@@ -57,7 +57,7 @@ O preenchimento virou um wizard de 4 etapas e a análise só aparece no fim, dep
 
 Não usamos arrastar e soltar para upload (nada é enviado, o cálculo é local) nem slider de intervalo duplo (nenhum campo é uma faixa). A regra do próprio guia é escolher o componente pelo tipo de dado, não pela estética.
 
-Os quatro passos são: Receita e agenda, Impostos, Estrutura e equipe, Você e o capital. Cada passo mostra um resumo ao vivo no rodapé (receita estimada, custos, estrutura, caixa antes do médico) e o passo 1 bloqueia o avanço enquanto não houver consultas e preço. Campos desligados por toggle ou chip entram como zero no cálculo através do conjunto `OFF`, sem perder o valor digitado.
+Os quatro passos são: Receita e agenda, Impostos, Estrutura e equipe, Sua remuneração. Cada passo mostra um resumo ao vivo no rodapé (receita estimada, custos, estrutura, caixa antes do médico) e o passo 1 bloqueia o avanço enquanto não houver consultas e preço. Campos desligados por toggle ou chip entram como zero no cálculo através do conjunto `OFF`, sem perder o valor digitado.
 
 ### Versão 2 (02/08/2026): o pró-labore
 
@@ -71,7 +71,6 @@ Receita realizada
  − estrutura, equipe e fixos
  = caixa antes do médico
  − pró-labore + encargos
- − equipamentos e juros
  = lucro do consultório
 ```
 
@@ -81,10 +80,13 @@ Regras de cálculo relevantes:
 - Taxa de cartão incide apenas sobre a fatia da receita particular paga no cartão
 - Custos variáveis são só impostos e taxa de cartão: insumos por consulta e repasses saíram na v3
 - Equipe em 2 modos: salário × multiplicador de encargos (padrão 2,0) ou custo total da contabilidade
-- Ponto de equilíbrio = custos fixos totais (já com pró-labore) ÷ % de margem de contribuição
+- Ponto de equilíbrio = custos fixos totais (já com pró-labore) ÷ % de margem de contribuição, explicado em texto na tela e no PDF
+- Depreciação, juros e reserva de reinvestimento saíram em 02/08: o passo 4 é só pró-labore e encargos
 - Alíquota de imposto sempre editável, com faixas de referência apenas como ponto de partida
 
-Cada bloco do formulário tem um "Saiba mais" com a fórmula usada e as premissas assumidas (9 no total).
+Cada bloco do formulário tem um "Saiba mais" com a fórmula usada e as premissas assumidas (8 no total).
+
+O painel de análise abre com um bloco de conversão para o agente de IA no WhatsApp da Turi, que leva para `wa.me/551152380850` com mensagem pré-preenchida (evento `lucro/cta-whatsapp`).
 
 Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como "diagnóstico do meu consultório pela Turi Saúde". A página 1 traz os indicadores, a distribuição de cada R$ 100, a cascata, o ponto de equilíbrio explicado e o gráfico de custos; a página 2 traz o que vai bem, os pontos de atenção e a leitura escrita do consultor com o plano de ação. O cabeçalho usa o nome do médico em destaque.
 

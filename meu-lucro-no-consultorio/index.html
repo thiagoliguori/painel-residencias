@@ -200,6 +200,12 @@ details.more .more-body b{color:var(--ink)}
 .status .good,.status .warn,.status .bad{color:#fff}
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 .result-body{padding:18px}
+.turi-cta{margin-bottom:16px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#E9F7F0,#DCF1E7);border:1px solid #C4E4D5}
+.turi-cta b{display:block;font-size:11px;font-weight:900;color:var(--accent-dk);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.turi-cta p{margin:0 0 13px;font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.cta-btn{display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 14px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:13px;text-decoration:none;text-align:center;box-shadow:0 9px 20px rgba(10,51,44,.20);transition:filter .15s,transform .15s}
+.cta-btn:hover{filter:brightness(1.14);transform:translateY(-1px)}
+.cta-btn svg{width:17px;height:17px;flex:0 0 auto;fill:var(--accent)}
 .hero-metric{padding:18px;border:1px solid var(--line);border-radius:16px;background:#FBFDFC}
 .metric-label{color:var(--muted);font-size:11.5px;font-weight:700}
 .metric-value{margin-top:4px;font-size:34px;line-height:1;letter-spacing:-.04em;font-weight:900}
@@ -369,6 +375,14 @@ footer a{color:var(--accent-dk);font-weight:700}
         <div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Calculando</span></div>
       </div>
       <div class="result-body">
+        <div class="turi-cta">
+          <b>Agente de IA no WhatsApp</b>
+          <p>Entenda como a Turi pode te ajudar a aumentar a receita do consultório com um agente de IA no WhatsApp, com aumento de 15% a 20% em consultas agendadas.</p>
+          <a class="cta-btn" href="https://wa.me/551152380850?text=Conheci%20a%20Turi%20Sa%C3%BAde%20pelo%20diagn%C3%B3stico%20financeiro%20do%20meu%20consult%C3%B3rio%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20uso%20de%20IA" target="_blank" rel="noopener" data-track="lucro/cta-whatsapp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Falar com o nosso time hoje mesmo
+          </a>
+        </div>
         <div class="hero-metric">
           <div class="metric-label">Lucro depois de pagar o seu trabalho</div>
           <div class="metric-value" id="mLucro">R$ 0</div>
@@ -443,7 +457,7 @@ footer a{color:var(--accent-dk);font-weight:700}
 <script>
 const $=id=>document.getElementById(id);
 const SEM=4.33;
-const OFF=new Set(["fixoOutros","juros","reinvest"]);
+const OFF=new Set(["fixoOutros"]);
 const brl=v=>(v<-0.5?"− ":"")+"R$ "+Math.abs(Math.round(v)).toLocaleString("pt-BR");
 const pct=v=>(v*100).toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
 const n=id=>{const el=$(id);if(!el||OFF.has(id))return 0;const v=parseFloat(el.value);return Number.isFinite(v)?Math.max(0,v):0};
@@ -700,7 +714,7 @@ const PASSOS=[
     </details>
   </div>`},
 
-{nome:"Você e o capital",titulo:"Sua remuneração e o capital",sub:"A etapa que separa \"sobrou dinheiro\" de \"deu lucro\".",
+{nome:"Sua remuneração",titulo:"Sua remuneração",sub:"A etapa que separa \"sobrou dinheiro\" de \"deu lucro\".",
  body:()=>`
   <div class="bloco">
     <div class="bloco-head"><h3>Sua remuneração</h3><span>arraste até o valor que você quer receber</span></div>
@@ -710,39 +724,13 @@ const PASSOS=[
     </div>
     <details class="more" data-track="lucro/saiba-mais-medico"><summary>Saiba mais: por que o pró-labore muda o resultado</summary>
       <div class="more-body">
-        <p><b>A conta que roda por trás:</b> lucro do consultório = caixa antes da sua remuneração − pró-labore − encargos − equipamentos e juros.</p>
+        <p><b>A conta que roda por trás:</b> lucro do consultório = caixa antes da sua remuneração − pró-labore − encargos sobre ele.</p>
         <p>Se o seu trabalho não entra na conta, o consultório parece lucrativo mesmo quando não é. O que sobra no fim do mês costuma ser uma mistura de três coisas diferentes: <b>o pagamento pelo seu trabalho</b>, o <b>retorno do dinheiro que você investiu</b> e o <b>lucro do negócio</b>. Separar as três é o que permite responder se vale a pena manter o consultório aberto ou se você ganharia mais atendendo as mesmas horas em outro lugar.</p>
         <ul>
           <li><b>Quanto colocar:</b> quanto você quer, ou precisa, receber por mês pelas horas que dedica ao consultório. A referência mais honesta é o seu custo de oportunidade, ou seja, quanto essas mesmas horas renderiam em plantão, clínica de terceiros ou telemedicina.</li>
           <li><b>Encargos:</b> INSS e IR que incidem sobre a sua retirada. Se você não sabe o valor, deixe zero e trate o resultado como bruto.</li>
         </ul>
         <div class="round-note"><b>Nossa premissa mais importante:</b> mostramos primeiro o <b>caixa antes da sua remuneração</b> e só depois o <b>lucro depois dela</b>. Consultório que gera caixa mas não paga o médico direito não está falido, mas também não está saudável: você está financiando a operação com o seu próprio trabalho. Lembre ainda que o pró-labore entra na folha e conta para o Fator R, então aumentá-lo pode reduzir a sua alíquota no Simples.</div>
-      </div>
-    </details>
-  </div>
-
-  <div class="bloco">
-    <div class="bloco-head"><h3>Capital e equipamentos</h3></div>
-    <div class="grid-2">
-      ${money("depreciacao","Reserva para trocar equipamentos",{val:300,max:8000,step:50,hint:"Regra simples: some o valor dos seus equipamentos e divida por 60 meses."})}
-    </div>
-    ${sw("swJuros","Tenho empréstimo ou parcelamento","Financiamento de equipamento, capital de giro, cheque especial",false)}
-    <div class="grid-2" id="grpJuros" hidden style="margin-top:16px">
-      ${money("juros","Juros de empréstimos e parcelamentos",{val:0,max:20000,step:50})}
-    </div>
-    ${sw("swReinvest","Quero separar uma reserva para reinvestir","Mostramos quanto sobra no caixa depois dela",false)}
-    <div class="grid-2" id="grpReinvest" hidden style="margin-top:16px">
-      ${money("reinvest","Reserva mensal para reinvestir",{val:0,max:30000,step:100})}
-    </div>
-    <details class="more" data-track="lucro/saiba-mais-capital"><summary>Saiba mais: equipamentos, juros e reserva</summary>
-      <div class="more-body">
-        <p><b>Reserva para trocar equipamentos</b> é a versão prática da depreciação. Maca, computador, aparelhos e reforma se desgastam, e o dia da troca chega. Quem não guarda nada por mês tem um lucro que parece maior do que é e vira dívida quando o equipamento quebra.</p>
-        <ul>
-          <li><b>Regra simples:</b> some o valor de tudo o que você comprou para o consultório e divida por 60 meses, que é a vida útil de 5 anos usada na maior parte dos equipamentos.</li>
-          <li><b>Juros:</b> entre só a parte de juros da parcela, não a parcela inteira. A amortização é devolução de dinheiro que você já pegou emprestado, não despesa do mês.</li>
-          <li><b>Reserva para reinvestir:</b> não é despesa, é decisão de planejamento. Por isso ela não reduz o lucro; mostramos separado quanto sobra no caixa depois dela.</li>
-        </ul>
-        <div class="round-note"><b>Nossas premissas:</b> usamos <b>depreciação linear</b>, ou seja, o mesmo valor todo mês, sem valor residual e sem seguir tabela fiscal. É uma reserva gerencial para você tomar decisão, não um lançamento contábil.</div>
       </div>
     </details>
   </div>
@@ -853,7 +841,7 @@ function calcular(){
   const sala=modoSala==="mensal"?n("aluguelMes"):n("aluguelHora")*n("horasSala")*SEM;
   const equipe=(modoEquipe==="simples"?n("salarioSec")*(n("multCLT")||2):n("equipeTotal"))+n("outrosEquipe");
   const fixos=sala+n("contas")+n("materiais")+equipe+n("contador")+n("plataformas")+n("marketing")+n("anuncios")+n("crmSeguro")+n("fixoOutros");
-  const capital=n("depreciacao")+n("juros");
+  const capital=0;
   const medico=n("proLabore")+n("encargosPL");
 
   const contrib=receita-variaveis;
@@ -861,7 +849,7 @@ function calcular(){
   const caixaAntes=contrib-fixos;
   const lucro=caixaAntes-medico-capital;
   const margem=receita>0?lucro/receita:0;
-  const aposReserva=lucro-n("reinvest");
+  const aposReserva=lucro;
 
   const fixosTotais=fixos+medico+capital;
   const beReais=taxaContrib>0?fixosTotais/taxaContrib:Infinity;
@@ -880,8 +868,7 @@ function calcular(){
     {k:"Contas do consultório",v:n("contas")},
     {k:"Contabilidade",v:n("contador")},{k:"Plataformas e ferramentas",v:n("plataformas")},
     {k:"Materiais administrativos",v:n("materiais")},{k:"CRM, seguro e cursos",v:n("crmSeguro")},
-    {k:"Reserva de equipamentos",v:n("depreciacao")},
-    {k:"Juros",v:n("juros")},{k:"Outros fixos",v:n("fixoOutros")}
+    {k:"Outros fixos",v:n("fixoOutros")}
   ].filter(c=>c.v>0);
 
   return {receita,recPart,recConv,outras,consultas,partReal,convReal,variaveis,fixos,capital,medico,contrib,taxaContrib,
@@ -906,7 +893,7 @@ function render(){
 
   $("mLucro").textContent=brl(c.lucro);
   $("mLucro").className="metric-value "+cls;
-  $("mLucroSub").textContent=temDados?`Margem de lucro de ${pct(c.margem)} sobre o que entra.`+(n("reinvest")>0?` Depois da reserva de ${brl(n("reinvest"))}, ficam ${brl(c.aposReserva)}.`:""):"Preencha as consultas para ver o resultado.";
+  $("mLucroSub").textContent=temDados?`Margem de lucro de ${pct(c.margem)} sobre o que entra.`:"Preencha as consultas para ver o resultado.";
   $("mReceita").textContent=brl(c.receita);
   $("mCaixa").textContent=brl(c.caixaAntes);
   $("mMC").textContent=pct(c.taxaContrib);
@@ -1017,7 +1004,6 @@ function insights(c){
   if(mkt/c.receita>0.15)lo.push(`Marketing e anúncios levam ${pct(mkt/c.receita)} da receita. Acima de 15%, exija métrica de retorno: quantos pacientes novos por canal.`);
   else if(mkt>0)hi.push(`Marketing em ${pct(mkt/c.receita)} da receita, dentro do razoável.`);
   if(rt("imposto")>=0.25)lo.push(`Alíquota de ${pct(rt("imposto"))} indica atuação como pessoa física. Uma PJ no Simples costuma pagar bem menos; vale conversar com o contador.`);
-  if(n("depreciacao")===0)lo.push(`Você não reservou nada para trocar equipamentos. Maca, computador e aparelhos se desgastam: sem essa reserva, o lucro fica otimista demais.`);
   if(c.recConv>0&&c.recPart>0){
     const dif=(n("precoPart")-n("precoConv"))*SEM;
     if(n("precoConv")<n("precoPart")*0.5)lo.push(`Convênio paga ${brl(n("precoConv"))} contra ${brl(n("precoPart"))} do particular. Trocar 1 consulta de convênio por 1 particular na semana já adiciona ${brl(dif)}/mês.`);
@@ -1092,8 +1078,8 @@ function buildOnepager(c,hi,lo){
   let leg=grp.map(g=>`<span style="margin-right:10px;white-space:nowrap"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${g.cor};margin-right:4px"></span>${g.k}: R$ ${Math.round(g.v/c.receita*100)}</span>`).join("");
   if(c.lucro<0)leg+=`<span style="color:#B42318;font-weight:700;white-space:nowrap">Faltam R$ ${Math.round(-c.lucro/c.receita*100)} para fechar a conta</span>`;
   const casc=[["Receita realizada",c.receita],["− Impostos e taxa de cartão",-c.variaveis],["= Sobra para pagar a estrutura",c.contrib],
-    ["− Estrutura, equipe e fixos",-c.fixos],["= Caixa antes do médico",c.caixaAntes],["− Sua remuneração",-c.medico],
-    ["− Equipamentos e juros",-c.capital]];
+    ["− Estrutura, equipe e fixos",-c.fixos],["= Caixa antes do médico",c.caixaAntes],["− Sua remuneração",-c.medico]]
+    .concat(c.capital>0?[["− Equipamentos e juros",-c.capital]]:[]);
   const rodape=`<div class="op-foot"><span>Gerado em ${hoje} · simulação de referência, não substitui seu contador</span><span><b>Teste as ferramentas de IA da Turi Saúde</b> · turisaude.com.br</span></div>`;
   const logo=`<span style="color:#0A332C"><svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg></span>`;
 
@@ -1160,8 +1146,6 @@ body.addEventListener("click",e=>{
     b.setAttribute("aria-checked",on);
     if(b.id==="swConv"){$("grpConv").hidden=!on;on?OFF.delete("volConv"):OFF.add("volConv")}
     if(b.id==="swEquipe"){$("grpEquipe").hidden=!on;["salarioSec","equipeTotal","outrosEquipe"].forEach(k=>on?OFF.delete(k):OFF.add(k))}
-    if(b.id==="swJuros"){$("grpJuros").hidden=!on;on?OFF.delete("juros"):OFF.add("juros")}
-    if(b.id==="swReinvest"){$("grpReinvest").hidden=!on;on?OFF.delete("reinvest"):OFF.add("reinvest")}
     resumo();return;
   }
   if(b.closest("#titulo")){
