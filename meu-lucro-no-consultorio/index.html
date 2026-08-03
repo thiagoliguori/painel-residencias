@@ -1218,11 +1218,21 @@ $("btnEditar").addEventListener("click",editar);
 /* ================= ANALYTICS ================= */
 const TRACK_URL="https://painel-analytics.turi-sa-de.workers.dev";
 const TRACK_ON=/turisaude\.com\.br$|github\.io$/.test(location.hostname);
-function track(id){
+function send(body){
   if(!TRACK_ON)return;
-  try{fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({e:"click",id}),keepalive:true}).catch(()=>{})}catch(e){}
+  try{fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),keepalive:true}).catch(()=>{})}catch(e){}
 }
-track("lucro/visita");
+/* Prefixo "lucro:" identifica a plataforma. Visita e visitante único vão como
+   eventos com a data no nome, porque o /stats do Worker soma os cliques do
+   período; o dashboard remonta a série diária a partir dessas chaves. */
+function track(id){send({e:"click",s:"lucro",id:"lucro:"+String(id).replace(/^lucro\//,"")})}
+if(TRACK_ON){
+  const hoje=new Date().toISOString().slice(0,10);
+  let nv=false;
+  try{nv=localStorage.getItem("lucro-track-day")!==hoje;if(nv)localStorage.setItem("lucro-track-day",hoje)}catch(e){}
+  send({e:"click",s:"lucro",id:"lucro:pv:"+hoje});
+  if(nv)send({e:"click",s:"lucro",id:"lucro:uv:"+hoje});
+}
 document.addEventListener("click",e=>{const a=e.target.closest("[data-track]");if(a)track(a.dataset.track)});
 
 montar();

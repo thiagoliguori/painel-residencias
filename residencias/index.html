@@ -798,14 +798,14 @@ const TRACK_URL="https://painel-analytics.turi-sa-de.workers.dev";
 const TRACK_ON=/turisaude\.com\.br$|github\.io$/.test(location.hostname);
 function track(id){
   if(!TRACK_ON)return;
-  try{fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({e:"click",id}),keepalive:true}).catch(()=>{})}catch(e){}
+  try{fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({e:"click",s:"residencias",id}),keepalive:true}).catch(()=>{})}catch(e){}
 }
 if(TRACK_ON){
   try{
     const today=new Date().toISOString().slice(0,10);
     const nv=localStorage.getItem("track-day")!==today;
     if(nv)localStorage.setItem("track-day",today);
-    fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({e:"pv",nv}),keepalive:true}).catch(()=>{});
+    fetch(TRACK_URL+"/t",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({e:"pv",s:"residencias",nv}),keepalive:true}).catch(()=>{});
   }catch(e){}
 }
 document.addEventListener("click",e=>{

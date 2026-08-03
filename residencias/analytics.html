@@ -48,7 +48,9 @@ header a.back{margin-left:auto;color:#fff;font-size:13px;font-weight:600;text-de
 main{max-width:1080px;margin:0 auto;padding:26px 24px 70px}
 h1{font-size:24px;font-weight:900;margin-bottom:4px}
 .desc{color:var(--text-secondary);margin-bottom:20px}
-.chips{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:20px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+#siteChips .chip.on{background:var(--series-1);border-color:var(--series-1);color:#fff}
 .chip{border:1px solid var(--border);background:var(--surface-1);color:var(--text-secondary);font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer}
 .chip.on{background:var(--text-primary);color:var(--page);border-color:var(--text-primary)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
@@ -84,13 +86,20 @@ th{color:var(--muted);font-weight:600;font-size:12px}
 </header>
 <main>
   <h1>Visitantes e cliques</h1>
-  <p class="desc">Dados coletados de forma anônima e agregada no site painel.turisaude.com.br/residencias.</p>
+  <p class="desc" id="desc">Dados coletados de forma anônima e agregada nas plataformas em painel.turisaude.com.br.</p>
 
-  <div class="chips" id="periodChips">
-    <button class="chip" data-days="7">7 dias</button>
-    <button class="chip" data-days="14">14 dias</button>
-    <button class="chip on" data-days="30">30 dias</button>
-    <button class="chip" data-days="60">60 dias</button>
+  <div class="filters">
+    <div class="chips" id="siteChips">
+      <button class="chip on" data-site="all">Todas as plataformas</button>
+      <button class="chip" data-site="residencias">Residências</button>
+      <button class="chip" data-site="lucro">Meu Lucro</button>
+    </div>
+    <div class="chips" id="periodChips">
+      <button class="chip" data-days="7">7 dias</button>
+      <button class="chip" data-days="14">14 dias</button>
+      <button class="chip on" data-days="30">30 dias</button>
+      <button class="chip" data-days="60">60 dias</button>
+    </div>
   </div>
 
   <div class="tiles" id="tiles"></div>
@@ -109,29 +118,61 @@ th{color:var(--muted);font-weight:600;font-size:12px}
     <div id="barsWrap" style="position:relative"></div>
   </div>
 
-  <p class="note">Coleta via Cloudflare Worker (painel-analytics) + Workers KV, sem cookies e sem dados pessoais. Plano gratuito: até 1.000 registros de eventos por dia.</p>
+  <p class="note">Coleta via Cloudflare Worker (painel-analytics) + Workers KV, sem cookies e sem dados pessoais. As duas plataformas gravam no mesmo Worker e a separação é feita aqui pelo prefixo do evento. Plano gratuito: até 1.000 registros de eventos por dia.</p>
 </main>
 <div class="tooltip" id="tip"></div>
 
 <script>
 const API="https://painel-analytics.turi-sa-de.workers.dev";
-let days=30;
+let days=30, site="all";
 const $=id=>document.getElementById(id);
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const fmtD=d=>{const[y,m,dd]=d.split("-");return dd+"/"+m};
 const fmtFull=d=>{const[y,m,dd]=d.split("-");return dd+"/"+m+"/"+y};
 
+const SITE_LBL={residencias:"Residências",lucro:"Meu Lucro"};
+const SITE_DESC={
+  all:"Dados anônimos e agregados das plataformas em painel.turisaude.com.br.",
+  residencias:"Painel das Residências · painel.turisaude.com.br/residencias",
+  lucro:"Meu Lucro no Consultório · painel.turisaude.com.br/meu-lucro-no-consultorio"
+};
 const PRETTY={"aba":"Aba","plano-add":"+ Meu plano","plano-remove":"Remover do plano","detalhes":"Detalhes","site":"Site oficial","logo":"Logo","filtro-status":"Filtro de status","teste":"Teste"};
-function prettyId(id){
+const LUCRO={"visita":"Abriu a calculadora","cta-hero":"Começar diagnóstico","passo-2":"Chegou ao passo 2","passo-3":"Chegou ao passo 3","passo-4":"Chegou ao passo 4","ver-diagnostico":"Viu o diagnóstico","editar":"Editou respostas","exportar-pdf":"Salvou PDF","exportar-pdf-2":"Salvou PDF (rodapé)","cta-whatsapp":"Clicou no WhatsApp","logo-turi":"Logo Turi","analisar":"Analisar"};
+function prettyId(raw){
+  let pre="",id=raw;
+  const sl=raw.indexOf("/");
+  if(sl>0&&SITE_LBL[raw.slice(0,sl)]){pre=SITE_LBL[raw.slice(0,sl)]+" · ";id=raw.slice(sl+1)}
+  if(LUCRO[id])return pre+LUCRO[id];
+  if(id.indexOf("saiba-mais-")===0)return pre+"Saiba mais: "+id.slice(11);
   const i=id.indexOf(":");
-  if(i<0)return id;
-  const pre=PRETTY[id.slice(0,i)]||id.slice(0,i);
-  const alvo=id.slice(i+1).replace(/^./,c=>c.toUpperCase());
-  return pre+" · "+alvo;
+  if(i<0)return pre+id;
+  const grupo=PRETTY[id.slice(0,i)]||id.slice(0,i);
+  return pre+grupo+" · "+id.slice(i+1).replace(/^./,c=>c.toUpperCase());
+}
+
+/* O Worker guarda tudo junto. A separação por plataforma é feita aqui:
+   eventos do Meu Lucro chegam com o prefixo "lucro". */
+function separar(data){
+  const res={days:data.days.map(x=>({d:x.d,pv:x.pv,uv:x.uv})),clicks:{}};
+  const luc={days:data.days.map(x=>({d:x.d,pv:0,uv:0})),clicks:{}};
+  const idx={};luc.days.forEach((x,i)=>idx[x.d]=i);
+  for(const raw in data.clicks){
+    const v=data.clicks[raw];
+    const serie=raw.match(/^lucro:(pv|uv):(\d{4}-\d{2}-\d{2})$/);
+    if(serie){const i=idx[serie[2]];if(i!==undefined)luc.days[i][serie[1]]+=v;continue}
+    if(raw.indexOf("lucro:")===0){const id=raw.slice(6);luc.clicks[id]=(luc.clicks[id]||0)+v;continue}
+    if(raw.indexOf("lucro")===0){const id=raw.slice(5);luc.clicks[id]=(luc.clicks[id]||0)+v;continue}
+    res.clicks[raw]=(res.clicks[raw]||0)+v;
+  }
+  const tudo={days:res.days.map((x,i)=>({d:x.d,pv:x.pv+luc.days[i].pv,uv:x.uv+luc.days[i].uv})),clicks:{}};
+  for(const id in res.clicks)tudo.clicks["residencias/"+id]=res.clicks[id];
+  for(const id in luc.clicks)tudo.clicks["lucro/"+id]=luc.clicks[id];
+  return {residencias:res,lucro:luc,all:tudo};
 }
 
 async function load(){
   $("tiles").innerHTML='<div class="tile"><b>…</b><span>carregando</span></div>';
+  $("desc").textContent=SITE_DESC[site];
   let data;
   try{
     const r=await fetch(API+"/stats?days="+days);
@@ -140,7 +181,7 @@ async function load(){
     $("tiles").innerHTML='<div class="tile"><b>—</b><span>não foi possível carregar os dados</span></div>';
     return;
   }
-  render(data);
+  render(separar(data)[site]);
 }
 
 function render(data){
@@ -232,6 +273,11 @@ $("periodChips").addEventListener("click",e=>{
   const c=e.target.closest(".chip");if(!c)return;
   document.querySelectorAll("#periodChips .chip").forEach(x=>x.classList.remove("on"));
   c.classList.add("on");days=+c.dataset.days;load();
+});
+$("siteChips").addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(!c)return;
+  document.querySelectorAll("#siteChips .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");site=c.dataset.site;load();
 });
 load();
 </script>
