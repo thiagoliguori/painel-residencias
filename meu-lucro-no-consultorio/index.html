@@ -98,8 +98,8 @@ h1 em{font-style:normal;color:var(--accent-dk)}
 label{display:block;margin-bottom:7px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
 label small{font-weight:600;color:var(--muted)}
 .hint{margin-top:7px;color:var(--muted);font-size:11.5px}
-input[type=text],input[type=month],select{width:100%;min-height:48px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;color:var(--ink);padding:10px 13px;outline:0;transition:border-color .16s,box-shadow .16s,background .16s}
-input[type=text]:focus,input[type=month]:focus,select:focus{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
+input[type=text],input[type=month],input[type=email],input[type=tel],select{width:100%;min-height:48px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;color:var(--ink);padding:10px 13px;outline:0;transition:border-color .16s,box-shadow .16s,background .16s}
+input[type=text]:focus,input[type=month]:focus,input[type=email]:focus,input[type=tel]:focus,select:focus{background:#fff;border-color:var(--accent-dk);box-shadow:0 0 0 4px rgba(18,130,104,.12)}
 
 /* valor em dinheiro com slider */
 .money .mrow{display:flex;align-items:baseline;gap:6px;border:1px solid #CFDDD7;border-radius:12px;background:#FBFDFC;padding:9px 13px;transition:border-color .16s,box-shadow .16s,background .16s}
@@ -225,6 +225,32 @@ details.more .more-body b{color:var(--ink)}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .btn-pdf{width:100%;min-height:48px;margin-top:14px;border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:14px;box-shadow:0 10px 24px rgba(10,51,44,.18)}
 .btn-pdf:hover{filter:brightness(1.12)}
+
+/* ---------- modal de cadastro ---------- */
+.modal-bg{position:fixed;inset:0;z-index:80;background:rgba(10,51,44,.55);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.modal{background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(10,51,44,.35);width:100%;max-width:540px;margin:auto;overflow:hidden}
+.modal-head{padding:22px 24px 18px;background:var(--ink);color:#fff;position:relative}
+.modal-head h3{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em;padding-right:34px}
+.modal-head p{margin:7px 0 0;font-size:13px;color:rgba(255,255,255,.75);line-height:1.45}
+.modal-x{position:absolute;top:18px;right:18px;width:28px;height:28px;border:0;border-radius:9px;background:rgba(255,255,255,.14);color:#fff;font-size:16px;line-height:1;display:grid;place-items:center}
+.modal-x:hover{background:rgba(255,255,255,.26)}
+.modal-body{padding:20px 24px 24px}
+.modal-body .grid-2{gap:13px}
+.modal-body .field{margin-bottom:13px}
+.modal-body label{margin-bottom:6px}
+.modal-body input[type=text],.modal-body input[type=email],.modal-body input[type=tel],.modal-body select{min-height:46px}
+.modal-body .err{border-color:#E4A79F !important;background:#FFF8F7 !important}
+.err-msg{margin-top:5px;font-size:11.5px;color:var(--bad);font-weight:600}
+.consent{display:flex;gap:11px;align-items:flex-start;margin-top:4px;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#FAFCFB;cursor:pointer}
+.consent.err{border-color:#E4A79F;background:#FFF8F7}
+.consent input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:21px;height:21px;margin:0;border:2px solid #B8CFC7;border-radius:6px;background:#fff;cursor:pointer;position:relative;transition:.15s}
+.consent input:checked{background:var(--accent-dk);border-color:var(--accent-dk)}
+.consent input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}
+.consent span{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.modal-btn{width:100%;min-height:50px;margin-top:16px;border:0;border-radius:13px;background:var(--ink);color:#fff;font-weight:800;font-size:14.5px;box-shadow:0 10px 24px rgba(10,51,44,.2)}
+.modal-btn:hover{filter:brightness(1.12)}
+.modal-btn:disabled{opacity:.6;cursor:wait}
+.modal-fine{margin:13px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;text-align:center}
 .panel{background:#fff;border:1px solid rgba(10,51,44,.09);border-radius:20px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
 .panel h3{margin:0;font-size:15.5px;font-weight:800}
 .panel .sub{font-size:12.5px;color:var(--muted);margin:2px 0 14px}
@@ -282,7 +308,7 @@ footer a{color:var(--accent-dk);font-weight:700}
 /* ---------- one-pager PDF ---------- */
 #onepager{display:none}
 @media print{
-  .topbar,.hero,.wizard,.analise,footer,.tooltip,.ac-list{display:none !important}
+  .topbar,.hero,.wizard,.analise,footer,.tooltip,.ac-list,.modal-bg{display:none !important}
   #onepager{display:block;padding:0;font-size:12px}
   body{background:#fff}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -322,7 +348,7 @@ footer a{color:var(--accent-dk);font-weight:700}
   <a class="brand" href="https://turisaude.com.br" target="_blank" rel="noopener" data-track="lucro/logo-turi" aria-label="Turi Saúde">
     <svg viewBox="0 0 160 25" fill="none"><use href="#turilogo"/></svg>
   </a>
-  <div class="privacy-pill">Cálculo local. Nenhum dado é enviado.</div>
+  <div class="privacy-pill">Os números do seu consultório não saem do navegador.</div>
 </header>
 
 <section class="hero" id="hero">
@@ -442,6 +468,38 @@ footer a{color:var(--accent-dk);font-weight:700}
 
   <div class="panel"><h3 style="margin-bottom:12px">Leitura do consultor</h3><div id="diag"></div></div>
 </section>
+
+<!-- ===================== MODAL DE CADASTRO ===================== -->
+<div class="modal-bg" id="leadModal" hidden role="dialog" aria-modal="true" aria-labelledby="leadTitulo">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-x" id="leadFechar" aria-label="Fechar">✕</button>
+      <h3 id="leadTitulo">Falta um passo para baixar o seu diagnóstico</h3>
+      <p>Preencha os campos abaixo e o PDF é liberado na hora. Os números do seu consultório continuam só no seu navegador: aqui vão apenas os seus dados de contato.</p>
+    </div>
+    <form class="modal-body" id="leadForm" novalidate>
+      <div class="grid-2">
+        <div class="field"><label for="ldNome">Nome</label><input id="ldNome" type="text" autocomplete="given-name" maxlength="40"></div>
+        <div class="field"><label for="ldSobrenome">Sobrenome</label><input id="ldSobrenome" type="text" autocomplete="family-name" maxlength="60"></div>
+      </div>
+      <div class="field"><label for="ldEmail">E-mail</label><input id="ldEmail" type="email" autocomplete="email" inputmode="email" maxlength="80" placeholder="voce@email.com"></div>
+      <div class="field"><label for="ldWhats">WhatsApp</label><input id="ldWhats" type="tel" autocomplete="tel" inputmode="numeric" maxlength="16" placeholder="(11) 91234-5678"></div>
+      <div class="grid-2">
+        <div class="field"><label for="ldEspec">Especialidade</label>
+          <select id="ldEspec"><option value="">Selecione</option></select></div>
+        <div class="field"><label for="ldUF">UF</label>
+          <select id="ldUF"><option value="">Selecione</option></select></div>
+      </div>
+      <label class="consent" id="ldConsentBox">
+        <input type="checkbox" id="ldConsent">
+        <span>Aceito receber contato do time da Turi Saúde sobre soluções de inteligência artificial para clínicas.</span>
+      </label>
+      <div id="leadErro"></div>
+      <button type="submit" class="modal-btn" id="ldEnviar">Liberar meu PDF ⬇</button>
+      <p class="modal-fine">Seus dados ficam com a Turi Saúde e não são vendidos nem compartilhados com terceiros. Você pode pedir a exclusão a qualquer momento pelo nosso WhatsApp.</p>
+    </form>
+  </div>
+</div>
 
 <div class="tooltip" id="tip"></div>
 
@@ -1208,12 +1266,91 @@ $("wtrack").addEventListener("click",e=>{
 });
 $("ctaHero").addEventListener("click",scrollTopo);
 $("btnEditar").addEventListener("click",editar);
-[$("exportar"),$("exportar2")].forEach(b=>b.addEventListener("click",()=>{
+/* ================= CADASTRO ANTES DO PDF ================= */
+const UFS=["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+const LEAD_OK="turi-lucro-lead";
+
+function baixarPDF(){
   const t=document.title;
   document.title="diagnóstico do meu consultório pela Turi Saúde";
   window.addEventListener("afterprint",()=>{document.title=t},{once:true});
   window.print();
-}));
+}
+function abrirModal(){
+  if(localStorage.getItem(LEAD_OK)){baixarPDF();return}
+  $("ldEspec").innerHTML='<option value="">Selecione</option>'+ESPECIALIDADES.map(e=>`<option${e===$("espec").value.trim()?" selected":""}>${e}</option>`).join("");
+  $("ldUF").innerHTML='<option value="">Selecione</option>'+UFS.map(u=>`<option>${u}</option>`).join("");
+  const id=identidade();
+  if(id.nome&&!$("ldNome").value){
+    const p=id.nome.split(" ");
+    $("ldNome").value=p[0];
+    if(p.length>1)$("ldSobrenome").value=p.slice(1).join(" ");
+  }
+  $("leadModal").hidden=false;
+  document.body.style.overflow="hidden";
+  setTimeout(()=>$("ldNome").focus(),60);
+  track("lucro/lead-abriu");
+}
+function fecharModal(){$("leadModal").hidden=true;document.body.style.overflow=""}
+
+$("ldWhats").addEventListener("input",e=>{
+  let v=e.target.value.replace(/\D/g,"").slice(0,11);
+  if(v.length>10)v=`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+  else if(v.length>6)v=`(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`;
+  else if(v.length>2)v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+  else if(v.length)v=`(${v}`;
+  e.target.value=v;
+});
+
+function validarLead(){
+  const erros=[];
+  const campos=[["ldNome","Preencha o seu nome",v=>v.trim().length>=2],
+    ["ldSobrenome","Preencha o seu sobrenome",v=>v.trim().length>=2],
+    ["ldEmail","Digite um e-mail válido",v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())],
+    ["ldWhats","Digite um WhatsApp válido com DDD",v=>v.replace(/\D/g,"").length>=10],
+    ["ldEspec","Escolha a sua especialidade",v=>!!v],
+    ["ldUF","Escolha o seu estado",v=>!!v]];
+  campos.forEach(([id,msg,ok])=>{
+    const el=$(id),bom=ok(el.value);
+    el.classList.toggle("err",!bom);
+    if(!bom)erros.push(msg);
+  });
+  const consent=$("ldConsent").checked;
+  $("ldConsentBox").classList.toggle("err",!consent);
+  if(!consent)erros.push("É preciso aceitar receber contato do time da Turi Saúde");
+  $("leadErro").innerHTML=erros.length?`<div class="err-msg">${erros[0]}</div>`:"";
+  return !erros.length;
+}
+
+$("leadForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!validarLead())return;
+  const btn=$("ldEnviar");
+  btn.disabled=true;btn.textContent="Enviando...";
+  const lead={
+    nome:$("ldNome").value.trim(),
+    sobrenome:$("ldSobrenome").value.trim(),
+    email:$("ldEmail").value.trim().toLowerCase(),
+    whatsapp:$("ldWhats").value.replace(/\D/g,""),
+    especialidade:$("ldEspec").value,
+    uf:$("ldUF").value,
+    consentimento:true,
+    origem:new URLSearchParams(location.search).get("src")||"direto"
+  };
+  try{
+    await fetch(TRACK_URL+"/lead",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(lead)});
+  }catch(err){/* não bloqueia o download se a rede falhar */}
+  localStorage.setItem(LEAD_OK,"1");
+  track("lucro/lead-enviado");
+  btn.disabled=false;btn.textContent="Liberar meu PDF ⬇";
+  fecharModal();
+  setTimeout(baixarPDF,180);
+});
+
+$("leadFechar").addEventListener("click",fecharModal);
+$("leadModal").addEventListener("click",e=>{if(e.target===$("leadModal"))fecharModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("leadModal").hidden)fecharModal()});
+[$("exportar"),$("exportar2")].forEach(b=>b.addEventListener("click",abrirModal));
 
 /* ================= ANALYTICS ================= */
 const TRACK_URL="https://painel-analytics.turi-sa-de.workers.dev";

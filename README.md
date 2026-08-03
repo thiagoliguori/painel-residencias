@@ -16,6 +16,7 @@ Repositório das ferramentas web da Turi Saúde publicadas em `painel.turisaude.
 | `residencias/analytics.html` | `/residencias/analytics.html` | Painel de controle de visitas e cliques (uso interno, não listado) |
 | `residencias/assets/` | — | Logo oficial da Caveo (PNG) |
 | `meu-lucro-no-consultorio/` | `/meu-lucro-no-consultorio/` | Calculadora de lucro para consultórios |
+| `worker/painel-analytics.js` | — | Código do Cloudflare Worker de analytics e captura de leads |
 
 Cada ferramenta é um único `index.html` autocontido (HTML + CSS + JS puro, sem build, sem dependências além das fontes do Google).
 
@@ -86,6 +87,8 @@ Regras de cálculo relevantes:
 
 Cada bloco do formulário tem um "Saiba mais" com a fórmula usada e as premissas assumidas (8 no total).
 
+**Cadastro antes do PDF (02/08/2026):** clicar em qualquer um dos dois botões de salvar em PDF abre um modal pedindo nome, sobrenome, e-mail, WhatsApp, especialidade e UF, mais um aceite obrigatório de contato do time da Turi sobre IA para clínicas. Depois do envio o download é liberado e a liberação fica gravada em `localStorage` (`turi-lucro-lead`), então quem já se cadastrou não preenche de novo. Nome e especialidade vêm pré-preenchidos do passo 1. Se a rede falhar, o PDF é liberado assim mesmo: perder um lead é melhor que travar o usuário. Os dados vão para `POST /lead` no Worker.
+
 O painel de análise abre com um bloco de conversão para o agente de IA no WhatsApp da Turi, que leva para `wa.me/551152380850` com mensagem pré-preenchida (evento `lucro/cta-whatsapp`).
 
 Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como "diagnóstico do meu consultório pela Turi Saúde". A página 1 traz os indicadores, a distribuição de cada R$ 100, a cascata, o ponto de equilíbrio explicado e o gráfico de custos; a página 2 traz o que vai bem, os pontos de atenção e a leitura escrita do consultor com o plano de ação. O cabeçalho usa o nome do médico em destaque.
@@ -101,9 +104,12 @@ Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como
 - **HTTPS:** certificado Let's Encrypt emitido, "Enforce HTTPS" ativo
 - **Analytics:** Cloudflare Worker `painel-analytics` + KV `painel_residencias_analytics`
   - `POST /t` com `{"e":"pv","nv":true}` ou `{"e":"click","id":"rotulo"}`
-  - `GET /stats?days=N` devolve o agregado
+  - `GET /stats?days=N` devolve o agregado, incluindo o total de leads
+  - `POST /lead` grava o cadastro em KV usando o e-mail como chave, o que evita duplicar quem baixa o PDF mais de uma vez
+  - `GET /leads?key=SEGREDO` lê os leads, e com `&format=csv` baixa a planilha. **Nunca deixe essa rota sem chave: são dados pessoais**
   - Eventos da calculadora usam o prefixo `lucro/`
   - Limite do plano gratuito: 1.000 escritas por dia
+  - O código-fonte do Worker vive em `worker/painel-analytics.js` e precisa ser publicado manualmente no dashboard da Cloudflare
 
 Passo a passo completo para novos projetos: `~/Desktop/Claude/playbook-site-github-pages-cloudflare.md`
 
