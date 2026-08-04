@@ -110,8 +110,8 @@ Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como
   - Os ids dos eventos vão limpos, sem prefixo de plataforma: quem separa é o campo `s`
   - Limite do plano gratuito: 1.000 escritas por dia
   - Cada lead novo dispara um aviso no Slack, com botão de chamar a pessoa no WhatsApp em um clique
-  - O código-fonte do Worker vive em `worker/painel-analytics.js` e precisa ser publicado manualmente no dashboard da Cloudflare
-  - **O repositório é público: nenhum segredo pode entrar no código.** As duas variáveis ficam em Configurações > Variáveis do Worker, marcadas como criptografadas: `LEADS_KEY` (protege `GET /leads`) e `SLACK_WEBHOOK` (URL do Incoming Webhook). Sem `LEADS_KEY` definida, a rota de leitura fica fechada por padrão
+  - O código-fonte do Worker vive em `worker/painel-analytics.js`, com a configuração em `worker/wrangler.toml`
+  - **O repositório é público: nenhum segredo pode entrar no código.** As duas variáveis ficam em Configurações > Variáveis do Worker, marcadas como criptografadas: `LEADS_KEY` (protege `GET /leads`) e `SLACK_WEBHOOK` (URL do Incoming Webhook). Sem `LEADS_KEY` definida, a rota de leitura fica fechada por padrão; sem `SLACK_WEBHOOK`, o aviso é ignorado sem erro
 
 Passo a passo completo para novos projetos: `~/Desktop/Claude/playbook-site-github-pages-cloudflare.md`
 
@@ -122,6 +122,22 @@ git add -A && git commit -m "descrição" && git push
 ```
 
 O GitHub Pages publica em 1 a 3 minutos. Se o push for rejeitado, rode `git pull --rebase` antes: o GitHub cria commits automáticos no `CNAME` quando o domínio é reconfigurado.
+
+### Publicar o Worker
+
+O Worker não vai junto com o Pages: ele sobe pela linha de comando, de dentro de `worker/`.
+
+```bash
+cd worker && npx wrangler deploy
+```
+
+Na primeira vez é preciso `npx wrangler login` (OAuth no navegador, na conta **Turi Saúde**). Para gravar um segredo sem passar pelo dashboard:
+
+```bash
+cd worker && npx wrangler secret put LEADS_KEY
+```
+
+O dashboard guarda o histórico de versões, então dá para voltar atrás por lá se um deploy quebrar algo.
 
 ---
 

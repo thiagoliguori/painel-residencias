@@ -142,7 +142,9 @@ export default {
         const bruto = p.slice(antigo ? 2 : 3).join(":");
         const site = antigo ? (bruto.indexOf("lucro") === 0 ? "lucro" : "residencias") : p[1];
         if (!alvos.includes(site)) continue;
-        const id = bruto.replace(/^lucro[:/]/, "");
+        // ids antigos do Meu Lucro vinham como "lucro/passo-2" e o sanitizador
+        // comia a barra, virando "lucropasso-2". O separador pode nem existir.
+        const id = bruto.replace(/^lucro[:/]?/, "");
         const v = await num(k.name);
 
         // até 02/08 a calculadora mandava visita e visitante como clique com a data no

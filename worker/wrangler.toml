@@ -1,0 +1,14 @@
+name = "painel-analytics"
+main = "painel-analytics.js"
+compatibility_date = "2025-01-01"
+account_id = "9b9acc7b802bbf224bcb4a9ceddd5990"
+workers_dev = true
+
+# Namespace "painel_residencias_analytics" da conta Turi Saúde.
+[[kv_namespaces]]
+binding = "TRACK"
+id = "4706eea4bf71471e816c2e2007f81f9e"
+
+# Os segredos NÃO ficam aqui: o repositório é público.
+# LEADS_KEY e SLACK_WEBHOOK entram por `wrangler secret put NOME`
+# ou pelo dashboard, em Configurações > Variáveis, marcados como criptografados.
