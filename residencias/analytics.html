@@ -90,8 +90,8 @@ th{color:var(--muted);font-weight:600;font-size:12px}
 
   <div class="filters">
     <div class="chips" id="siteChips">
-      <button class="chip on" data-site="all">Todas as plataformas</button>
-      <button class="chip" data-site="residencias">Residências</button>
+      <button class="chip" data-site="all">Todas as plataformas</button>
+      <button class="chip on" data-site="residencias">Residências</button>
       <button class="chip" data-site="lucro">Meu Lucro</button>
     </div>
     <div class="chips" id="periodChips">
@@ -118,13 +118,13 @@ th{color:var(--muted);font-weight:600;font-size:12px}
     <div id="barsWrap" style="position:relative"></div>
   </div>
 
-  <p class="note">Coleta via Cloudflare Worker (painel-analytics) + Workers KV, sem cookies e sem dados pessoais. As duas plataformas gravam no mesmo Worker e a separação é feita aqui pelo prefixo do evento. Plano gratuito: até 1.000 registros de eventos por dia.</p>
+  <p class="note">Coleta via Cloudflare Worker (painel-analytics) + Workers KV, sem cookies e sem dados pessoais. As duas plataformas gravam no mesmo Worker, em chaves separadas por plataforma, e o filtro acima é aplicado direto na origem. Plano gratuito: até 1.000 registros de eventos por dia.</p>
 </main>
 <div class="tooltip" id="tip"></div>
 
 <script>
 const API="https://painel-analytics.turi-sa-de.workers.dev";
-let days=30, site="all";
+let days=30, site="residencias";
 const $=id=>document.getElementById(id);
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const fmtD=d=>{const[y,m,dd]=d.split("-");return dd+"/"+m};
@@ -150,24 +150,14 @@ function prettyId(raw){
   return pre+grupo+" · "+id.slice(i+1).replace(/^./,c=>c.toUpperCase());
 }
 
-/* O Worker guarda tudo junto. A separação por plataforma é feita aqui:
-   eventos do Meu Lucro chegam com o prefixo "lucro". */
-function separar(data){
-  const res={days:data.days.map(x=>({d:x.d,pv:x.pv,uv:x.uv})),clicks:{}};
-  const luc={days:data.days.map(x=>({d:x.d,pv:0,uv:0})),clicks:{}};
-  const idx={};luc.days.forEach((x,i)=>idx[x.d]=i);
-  for(const raw in data.clicks){
-    const v=data.clicks[raw];
-    const serie=raw.match(/^lucro:(pv|uv):(\d{4}-\d{2}-\d{2})$/);
-    if(serie){const i=idx[serie[2]];if(i!==undefined)luc.days[i][serie[1]]+=v;continue}
-    if(raw.indexOf("lucro:")===0){const id=raw.slice(6);luc.clicks[id]=(luc.clicks[id]||0)+v;continue}
-    if(raw.indexOf("lucro")===0){const id=raw.slice(5);luc.clicks[id]=(luc.clicks[id]||0)+v;continue}
-    res.clicks[raw]=(res.clicks[raw]||0)+v;
-  }
-  const tudo={days:res.days.map((x,i)=>({d:x.d,pv:x.pv+luc.days[i].pv,uv:x.uv+luc.days[i].uv})),clicks:{}};
-  for(const id in res.clicks)tudo.clicks["residencias/"+id]=res.clicks[id];
-  for(const id in luc.clicks)tudo.clicks["lucro/"+id]=luc.clicks[id];
-  return {residencias:res,lucro:luc,all:tudo};
+/* A separação por plataforma é feita no Worker, via /stats?site=. Aqui só
+   traduzimos o formato da resposta para o que os gráficos esperam. */
+function normalizar(data){
+  return {
+    days:(data.dias||[]).map(x=>({d:x.dia,pv:x.visitas,uv:x.visitantes})),
+    clicks:data.cliques||{},
+    leads:data.totalLeads||0
+  };
 }
 
 async function load(){
@@ -175,13 +165,13 @@ async function load(){
   $("desc").textContent=SITE_DESC[site];
   let data;
   try{
-    const r=await fetch(API+"/stats?days="+days);
+    const r=await fetch(API+"/stats?days="+days+"&site="+site);
     data=await r.json();
   }catch(e){
     $("tiles").innerHTML='<div class="tile"><b>—</b><span>não foi possível carregar os dados</span></div>';
     return;
   }
-  render(separar(data)[site]);
+  render(normalizar(data));
 }
 
 function render(data){
@@ -194,7 +184,8 @@ function render(data){
     <div class="tile"><b>${today.pv}</b><span>visitas hoje</span></div>
     <div class="tile"><b>${totUv}</b><span>visitantes em ${days} dias</span></div>
     <div class="tile"><b>${totPv}</b><span>visitas em ${days} dias</span></div>
-    <div class="tile"><b>${totClicks}</b><span>cliques registrados</span></div>`;
+    <div class="tile"><b>${totClicks}</b><span>cliques registrados</span></div>
+    ${site==="residencias"?"":`<div class="tile"><b>${data.leads}</b><span>cadastros para baixar o PDF</span></div>`}`;
   drawLine(ds);
   drawBars(data.clicks);
   $("daysTable").innerHTML="<table><tr><th>Dia</th><th>Visitas</th><th>Visitantes</th></tr>"+

@@ -103,8 +103,8 @@ Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como
 - **DNS:** CNAME `painel` → `thiagoliguori.github.io` na Cloudflare, conta **Turi Saúde** (`9b9acc7b802bbf224bcb4a9ceddd5990`), proxy desativado (nuvem cinza, necessário para o certificado)
 - **HTTPS:** certificado Let's Encrypt emitido, "Enforce HTTPS" ativo
 - **Analytics:** Cloudflare Worker `painel-analytics` + KV `painel_residencias_analytics`
-  - `POST /t` com `{"e":"pv","nv":true}` ou `{"e":"click","id":"rotulo"}`
-  - `GET /stats?days=N` devolve o agregado, incluindo o total de leads
+  - `POST /t` com `{"e":"pv","s":"residencias","nv":true}` ou `{"e":"click","s":"lucro","id":"rotulo"}`. **O campo `s` separa as plataformas já na gravação**, em chaves `pv:<site>:<data>`, `uv:<site>:<data>` e `ck:<site>:<data>:<id>`
+  - `GET /stats?days=N&site=residencias|lucro|all` devolve o agregado de uma plataforma só. Chaves antigas, gravadas antes de 02/08 sem o campo `s`, são atribuídas na leitura: pageviews viram residências e cliques vão pelo prefixo do id, então o histórico não se perde
   - `POST /lead` grava o cadastro em KV usando o e-mail como chave, o que evita duplicar quem baixa o PDF mais de uma vez
   - `GET /leads?key=SEGREDO` lê os leads, e com `&format=csv` baixa a planilha. **Nunca deixe essa rota sem chave: são dados pessoais**
   - Eventos da calculadora usam o prefixo `lucro/`
