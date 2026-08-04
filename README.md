@@ -107,7 +107,7 @@ Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como
   - `GET /stats?days=N&site=residencias|lucro|all` devolve o agregado de uma plataforma só. Chaves antigas, gravadas antes de 02/08 sem o campo `s`, são atribuídas na leitura: pageviews viram residências e cliques vão pelo prefixo do id, então o histórico não se perde
   - `POST /lead` grava o cadastro em KV usando o e-mail como chave, o que evita duplicar quem baixa o PDF mais de uma vez
   - `GET /leads?key=SEGREDO` lê os leads, e com `&format=csv` baixa a planilha. **Nunca deixe essa rota sem chave: são dados pessoais**
-  - Eventos da calculadora usam o prefixo `lucro/`
+  - Os ids dos eventos vão limpos, sem prefixo de plataforma: quem separa é o campo `s`
   - Limite do plano gratuito: 1.000 escritas por dia
   - Cada lead novo dispara um aviso no Slack, com botão de chamar a pessoa no WhatsApp em um clique
   - O código-fonte do Worker vive em `worker/painel-analytics.js` e precisa ser publicado manualmente no dashboard da Cloudflare
