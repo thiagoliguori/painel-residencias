@@ -109,7 +109,9 @@ Saída: painel de análise na tela + relatório em PDF de 2 páginas, salvo como
   - `GET /leads?key=SEGREDO` lê os leads, e com `&format=csv` baixa a planilha. **Nunca deixe essa rota sem chave: são dados pessoais**
   - Eventos da calculadora usam o prefixo `lucro/`
   - Limite do plano gratuito: 1.000 escritas por dia
+  - Cada lead novo dispara um aviso no Slack, com botão de chamar a pessoa no WhatsApp em um clique
   - O código-fonte do Worker vive em `worker/painel-analytics.js` e precisa ser publicado manualmente no dashboard da Cloudflare
+  - **O repositório é público: nenhum segredo pode entrar no código.** As duas variáveis ficam em Configurações > Variáveis do Worker, marcadas como criptografadas: `LEADS_KEY` (protege `GET /leads`) e `SLACK_WEBHOOK` (URL do Incoming Webhook). Sem `LEADS_KEY` definida, a rota de leitura fica fechada por padrão
 
 Passo a passo completo para novos projetos: `~/Desktop/Claude/playbook-site-github-pages-cloudflare.md`
 
