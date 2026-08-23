@@ -100,9 +100,11 @@ export default {
       } else if (b.e === "click" && b.id) {
         keys.push(`ck:${site}:${d}:${String(b.id).slice(0, 60)}`);
       }
+      /* O contador vai tambem no metadata: assim o /stats soma os totais direto do
+         list() do KV, sem precisar de um get por chave. */
       for (const k of keys) {
         const atual = parseInt((await env.TRACK.get(k)) || "0", 10);
-        await env.TRACK.put(k, String(atual + 1));
+        await env.TRACK.put(k, String(atual + 1), { metadata: { c: atual + 1 } });
       }
       return json({ ok: true });
     }
@@ -114,38 +116,84 @@ export default {
       const legado = alvos.includes("residencias");
 
       const num = async (k) => parseInt((await env.TRACK.get(k)) || "0", 10);
+
+      /* Cada leitura do KV é uma viagem de rede. Em série, algumas centenas de
+         chaves passavam de 30s e o dashboard ficava preso em "carregando".
+         Os lotes limitam a concorrência sem voltar a serializar. */
+      const emLotes = async (itens, fn, tamanho = 100) => {
+        const saida = [];
+        for (let i = 0; i < itens.length; i += tamanho) {
+          saida.push(...(await Promise.all(itens.slice(i, i + tamanho).map(fn))));
+        }
+        return saida;
+      };
+
+      const base = new Date();
+      const datas = [];
+      for (let i = days - 1; i >= 0; i--) {
+        datas.push(new Date(base.getTime() - i * 86400000).toISOString().slice(0, 10));
+      }
+      const naJanela = new Set(datas);
+
+      const chavesDia = [];
+      for (const dt of datas) {
+        for (const s of alvos) chavesDia.push(`pv:${s}:${dt}`, `uv:${s}:${dt}`);
+        if (legado) chavesDia.push(`pv:${dt}`, `uv:${dt}`);
+      }
+      const valoresDia = await emLotes(chavesDia, num);
+      const conta = {};
+      chavesDia.forEach((k, i) => { conta[k] = valoresDia[i]; });
+
       const dias = [];
       const porDia = {};
-      const base = new Date();
-      for (let i = days - 1; i >= 0; i--) {
-        const dt = new Date(base.getTime() - i * 86400000).toISOString().slice(0, 10);
+      for (const dt of datas) {
         let visitas = 0, visitantes = 0;
         for (const s of alvos) {
-          visitas += await num(`pv:${s}:${dt}`);
-          visitantes += await num(`uv:${s}:${dt}`);
+          visitas += conta[`pv:${s}:${dt}`] || 0;
+          visitantes += conta[`uv:${s}:${dt}`] || 0;
         }
         if (legado) {
-          visitas += await num(`pv:${dt}`);
-          visitantes += await num(`uv:${dt}`);
+          visitas += conta[`pv:${dt}`] || 0;
+          visitantes += conta[`uv:${dt}`] || 0;
         }
         const linha = { dia: dt, visitas, visitantes };
         porDia[dt] = linha;
         dias.push(linha);
       }
 
+      /* list() devolve no máximo 1000 chaves por página: sem seguir o cursor os
+         dias mais antigos sumiriam sem aviso quando a base crescer. */
+      const chavesCk = [];
+      let cursor;
+      do {
+        const pagina = await env.TRACK.list({ prefix: "ck:", cursor });
+        chavesCk.push(...pagina.keys);
+        cursor = pagina.list_complete ? null : pagina.cursor;
+      } while (cursor);
+
+      /* O que está fora da janela nem é lido, e quem já tem o contador no
+         metadata dispensa o get. */
+      const dataDaChave = (nome) => {
+        const p = nome.split(":");
+        return ehData(p[1]) ? p[1] : p[2];
+      };
+      const relevantes = chavesCk.filter((k) => naJanela.has(dataDaChave(k.name)));
+      const valores = await emLotes(relevantes, (k) =>
+        k.metadata && typeof k.metadata.c === "number" ? k.metadata.c : num(k.name)
+      );
+
       const cliques = {};
       const soma = (id, v) => { cliques[id] = (cliques[id] || 0) + v; };
-      const lista = await env.TRACK.list({ prefix: "ck:" });
-      for (const k of lista.keys) {
+      relevantes.forEach((k, i) => {
         const p = k.name.split(":");
         const antigo = ehData(p[1]);
         const bruto = p.slice(antigo ? 2 : 3).join(":");
         const site = antigo ? (bruto.indexOf("lucro") === 0 ? "lucro" : "residencias") : p[1];
-        if (!alvos.includes(site)) continue;
+        if (!alvos.includes(site)) return;
         // ids antigos do Meu Lucro vinham como "lucro/passo-2" e o sanitizador
         // comia a barra, virando "lucropasso-2". O separador pode nem existir.
         const id = bruto.replace(/^lucro[:/]?/, "");
-        const v = await num(k.name);
+        const v = valores[i];
 
         // até 02/08 a calculadora mandava visita e visitante como clique com a data no
         // nome, porque o Worker não separava pageview por plataforma. Recupera como série.
@@ -153,10 +201,10 @@ export default {
         if (serie) {
           const linha = porDia[serie[2]];
           if (linha) linha[serie[1] === "pv" ? "visitas" : "visitantes"] += v;
-          continue;
+          return;
         }
         soma(pedido === "all" ? `${site}/${id}` : id, v);
-      }
+      });
 
       const leads = await env.TRACK.list({ prefix: "lead:" });
       return json({ site: pedido, dias, cliques, totalLeads: leads.keys.length });
