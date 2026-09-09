@@ -281,7 +281,7 @@ const CHECKLIST = ["Ler edital","Realizar inscrição","Efetuar pagamento","Atua
 
 const PROGRAMAS = [
 {id:"enare",sigla:"ENARE",nome:"Exame Nacional de Residência",orgao:"EBSERH / FGV (nota ENAMED)",uf:"BR",regiao:"Nacional",cidades:"Capitais de todo o Brasil",
- inscIni:"2026-06-15",inscFim:"2026-07-05",taxa:330,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ inscIni:"2026-06-15",inscFim:"2026-07-05",taxa:330,prova:"2026-09-13",provaPrev:null,edital:"publicado",grupoProva:"enamed",
  vagas:"≈ 8.200 vagas · 240+ instituições",fases:["objetiva"],
  obs:"Inscrições de acesso direto encerradas em 05/07 (prorrogadas); pré-requisito até 15/07. A nota da prova ENAMED de 13/09 será usada na classificação. Maior processo seletivo do país.",
  link:"https://enare.ebserh.gov.br"},
@@ -376,7 +376,7 @@ const PROGRAMAS = [
  obs:"Edital 2026/2027 ainda não publicado. Referência: prova entre novembro e dezembro em Salvador.",
  link:"https://www.saude.ba.gov.br"},
 {id:"cesupa",sigla:"CESUPA",nome:"Centro Universitário do Estado do Pará",orgao:"CESUPA",uf:"PA",regiao:"Norte",cidades:"Belém",
- inscIni:"2026-07-10",inscFim:"2026-09-30",taxa:500,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ inscIni:"2026-07-10",inscFim:"2026-09-30",taxa:500,prova:"2026-09-13",provaPrev:null,edital:"publicado",grupoProva:"enamed",
  vagas:"38 vagas",fases:["objetiva","curricular","pratica"],
  obs:"Inscrições abertas de 10/07 a 30/09, com taxa de R$ 500. O acesso direto usa a nota do ENAMED de 13/09/2026 (não é uma prova extra); pré-requisito tem prova em 08/11/2026. Terceira etapa de habilidades clínicas em estações simuladas em 24/01/2027. Destaques: 10 vagas de Clínica Médica e 10 de Medicina de Família. Início em março/2027.",
  link:"https://www.cesupa.br"},
@@ -411,17 +411,22 @@ const PROGRAMAS = [
  obs:"Edital 2026/2027 publicado; cronograma detalhado, vagas e taxa ainda em divulgação. Consulte o site oficial.",
  link:"https://dasa.com.br"},
 {id:"unimar",sigla:"UNIMAR",nome:"Universidade de Marília",orgao:"UNIMAR",uf:"SP",regiao:"Sudeste",cidades:"Marília",
- inscIni:"2026-06-17",inscFim:"2026-12-08",taxa:null,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ inscIni:"2026-06-17",inscFim:"2026-12-08",taxa:null,prova:"2026-09-13",provaPrev:null,edital:"publicado",grupoProva:"enamed",
  vagas:"28 vagas",fases:["objetiva","curricular"],
  obs:"Usa a nota do ENAMED de 13/09/2026 como prova (não é uma prova extra). Inscrições abertas até 12h de 08/12/2026, o que permite se inscrever depois de saber sua nota.",
  link:"https://www.unimar.br"},
+{id:"fmj",sigla:"FMJ",nome:"Faculdade de Medicina de Jundiaí",orgao:"Vunesp",uf:"SP",regiao:"Sudeste",cidades:"Jundiaí",
+ inscIni:"2026-09-08",inscFim:"2026-10-08",taxa:650,prova:"2026-11-28",provaPrev:null,edital:"publicado",
+ vagas:"90 vagas (75 acesso direto + 15 pré-requisito)",fases:["objetiva","pratica","curricular"],
+ obs:"Edital 035/2026 publicado em 24/08 e retificado em 02/09: a prova objetiva saiu de 20/11 e passou para 28/11/2026, no período da tarde, em Jundiaí. Inscrições de 08/09 (10h) a 08/10 (23h59) pela Vunesp, com taxa de R$ 650. Prova prática de caso clínico em 02/12/2026 e resultado final em 11/02/2027.",
+ link:"https://fmj.br/residencia/processos-seletivos/"},
 {id:"uerj",sigla:"UERJ",nome:"Universidade do Estado do Rio de Janeiro",orgao:"CEPUERJ",uf:"RJ",regiao:"Sudeste",cidades:"Rio de Janeiro",
  inscIni:null,inscFim:null,taxa:null,prova:null,provaPrev:"2026-11",edital:"previsto",editalPrev:"Edital previsto para agosto/2026",
  vagas:"A definir (ref.: 221 vagas)",fases:["objetiva","curricular"],
  obs:"Referência do ciclo anterior: edital em agosto e prova no início de novembro. Parte dos programas da UERJ também oferece vagas pelo ENARE; confira o edital de cada via.",
  link:"https://www.uerj.br"},
 {id:"ufrj",sigla:"UFRJ",nome:"Universidade Federal do Rio de Janeiro",orgao:"UFRJ / ENARE",uf:"RJ",regiao:"Sudeste",cidades:"Rio de Janeiro",
- inscIni:"2026-06-15",inscFim:"2026-07-05",taxa:330,prova:"2026-09-13",provaPrev:null,edital:"publicado",enamed:true,
+ inscIni:"2026-06-15",inscFim:"2026-07-05",taxa:330,prova:"2026-09-13",provaPrev:null,edital:"publicado",grupoProva:"enamed",
  vagas:"Vagas ofertadas pelo ENARE",fases:["objetiva"],
  obs:"Aderiu ao ENARE 2026/2027: as vagas da UFRJ são disputadas pela nota do ENAMED de 13/09, com inscrições feitas pelo próprio ENARE (encerradas em 05/07).",
  link:"https://ufrj.br"},
@@ -456,10 +461,15 @@ const PROGRAMAS = [
  obs:"Edital 2026/2027 ainda não publicado e sem data confirmada. Um dos processos mais concorridos do Sul.",
  link:"https://www.hcpa.edu.br"},
 {id:"ufcspa",sigla:"UFCSPA",nome:"Universidade Federal de Ciências da Saúde de Porto Alegre",orgao:"UFCSPA / ISCMPA",uf:"RS",regiao:"Sul",cidades:"Porto Alegre",
- inscIni:null,inscFim:null,taxa:null,prova:"2026-11-01",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para agosto ou setembro/2026",
+ inscIni:null,inscFim:null,taxa:null,prova:"2026-11-01",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para agosto ou setembro/2026",grupoProva:"ufcspa-hmv",
  vagas:"A definir",fases:["objetiva","curricular"],
- obs:"Prova prevista para 01/11/2026, mesma data da AMP (PR). Programas ligados à Santa Casa de Porto Alegre.",
+ obs:"Prova em 01/11/2026. É a MESMA prova objetiva do Hospital Moinhos de Vento: quem se inscreve nos dois faz um único exame e a nota vale para os dois processos, com inscrições e pagamentos separados. Atenção: mesma data da AMP (PR), que é uma prova diferente. Programas ligados à Santa Casa de Porto Alegre.",
  link:"https://www.ufcspa.edu.br"},
+{id:"hmv",sigla:"HMV",nome:"Hospital Moinhos de Vento",orgao:"FundMed",uf:"RS",regiao:"Sul",cidades:"Porto Alegre e São Paulo",
+ inscIni:"2026-09-04",inscFim:"2026-09-30",taxa:850,prova:"2026-11-01",provaPrev:null,edital:"publicado",grupoProva:"ufcspa-hmv",
+ vagas:"45 vagas",fases:["objetiva","curricular"],
+ obs:"Inscrições abertas de 04/09 a 30/09, com taxa de R$ 850. Prova em 01/11/2026 às 14h, aplicada ao mesmo tempo em Porto Alegre e em São Paulo. Usa a MESMA prova objetiva da UFCSPA: quem se inscreve nos dois processos faz um único exame e a nota vale para os dois, mas a inscrição e o pagamento são separados. Atenção: mesma data da AMP (PR), que é uma prova diferente. Duas fases: objetiva e análise curricular.",
+ link:"https://fundmed.org.br/evento/residencia-medica-hmv-2027/"},
 {id:"amp",sigla:"AMP",nome:"Associação Médica do Paraná (seleção unificada)",orgao:"AMP",uf:"PR",regiao:"Sul",cidades:"Curitiba e polos",
  inscIni:null,inscFim:null,taxa:null,prova:"2026-11-01",provaPrev:null,edital:"previsto",editalPrev:"Edital previsto para agosto/2026",
  vagas:"A definir",fases:["objetiva","curricular"],
@@ -556,13 +566,16 @@ const STATUS_META={
   wait:{cls:"b-wait",lbl:"Edital previsto"}
 };
 
-/* conflitos: mesma data de prova (programas que usam a nota do ENAMED compartilham a mesma prova e não conflitam entre si) */
+/* Conflitos: mesma data de prova. Programas do mesmo grupoProva aplicam o MESMO
+   exame (ENAMED; UFCSPA e HMV), então dividir a data entre eles não é conflito. */
 const conflicts={};
 PROGRAMAS.forEach(p=>{if(p.prova){(conflicts[p.prova]=conflicts[p.prova]||[]).push(p)}});
-const conflictDates=Object.entries(conflicts).filter(([,l])=>l.length>1&&!l.every(x=>x.enamed));
+const mesmaProva=(a,b)=>!!a.grupoProva&&a.grupoProva===b.grupoProva;
+const conflictDates=Object.entries(conflicts)
+  .filter(([,l])=>l.some(a=>l.some(b=>a.id!==b.id&&!mesmaProva(a,b))));
 function conflictOf(p){
   if(!p.prova||!conflicts[p.prova]||conflicts[p.prova].length<2)return null;
-  const others=conflicts[p.prova].filter(o=>o.id!==p.id&&!(p.enamed&&o.enamed));
+  const others=conflicts[p.prova].filter(o=>o.id!==p.id&&!mesmaProva(p,o));
   return others.length?others:null;
 }
 
